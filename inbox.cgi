@@ -5,7 +5,7 @@ require "dvmail.rb"
 m = Dvmail.new
 
 
-if m.user[:groups].include?("admin")
+if m.user[:groups].include?("Administrator")
 	m << <<MAIL
 <div>
 <table>
@@ -19,7 +19,7 @@ if m.user[:groups].include?("admin")
 <td colspan='2'>
 <p>Dear Colleagues</p>
 <p>Please do not forget our local administrator password which is valid<br />
-for all our Windows client computers: »Start123«</p>
+for all our Windows client computers: "Start123"</p>
 <p>Best, Peter</p>
 </td>
 </tr>

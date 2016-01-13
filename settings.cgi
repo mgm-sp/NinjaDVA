@@ -30,11 +30,11 @@ u = $session['username']
 <input type='hidden' name='user' value='#{$session['username']}' />
 <table>
 	<tr>
-		<td>Name:</td><td><input type='text' name='name' value='#{CGI.escapeHTML(dvm.user[:name])}' size='50' /></td>
+		<td>Name:</td><td><input type='text' name='name' value=\"#{CGI.escapeHTML(dvm.user[:name])}\" size='50' /></td>
 	</tr><tr>
-    <td>Message:</td><td><input type='text' name='message' value='#{CGI.escapeHTML(dvm.user[:message])}' size='50' /></td>
+    <td>Message:</td><td><input type='text' name='message' value=\"#{CGI.escapeHTML(dvm.user[:message])}\" size='50' /></td>
 	</tr><tr>
-    <td>Groups:</td><td><input type='text' name='groups' #{admin ? "" : "disabled='disabled'"} value='#{CGI.escapeHTML(dvm.user[:groups].join(', '))}' size='50'/></td>
+    <td>Groups:</td><td><input type='text' name='groups' #{admin ? "" : "disabled='disabled'"} value=\"#{CGI.escapeHTML(dvm.user[:groups].join(', '))}\" size='50'/></td>
 	</tr><tr>
     <td></td><td><input type='submit' name='edit_user' /></td>
 	</tr>
