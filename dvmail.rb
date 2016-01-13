@@ -28,7 +28,7 @@ class Dvmail
 
 			@user = YAML::load(File.open("users/#{@username}.yaml"))
 
-			@menu = ["Inbox", "Addressbook","Settings","Logout"]
+			@menu = ["Inbox", "Addressbook","Edit vCard","Logout"]
 			@html << "<div id='tabs'>"
 			@html << "<div style='padding-left:2em' >"
 			@html << "Welcome #{@username}"
@@ -42,7 +42,7 @@ class Dvmail
 				else
 					@html << "<li class='nonactive_tab'>"
 				end
-				@html << "<a href='#{item.downcase}.cgi'>#{item}</a></li>"
+				@html << "<a href='#{item.downcase.gsub(" ","_")}.cgi'>#{item}</a></li>"
 			}
 			@html << "</ul>"
 		end
