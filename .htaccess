@@ -1,0 +1,25 @@
+<Files ".ht*">
+Order Deny,Allow
+Deny From All
+</Files>
+<Files "*.yaml">
+Order Deny,Allow
+Deny From All
+</Files>
+<Files "dvmail.css">
+	Order Allow,Deny
+	Allow From All
+</Files>
+
+Order Allow,Deny
+Allow From All
+
+#AuthType Digest
+#AuthName "Pisif8qu"
+#AuthUserFile /var/www/dvr/.htdigest
+#Require valid-user
+
+Options +ExecCGI
+AddHandler cgi-script .cgi
+DirectoryIndex login.cgi
+

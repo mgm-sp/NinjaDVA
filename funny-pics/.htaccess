@@ -1,0 +1,4 @@
+<Files "*.csv">
+Order Deny,Allow
+Deny From All
+</Files>
