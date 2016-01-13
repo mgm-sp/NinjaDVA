@@ -22,15 +22,16 @@ class Dvmail
 		end
 
 		@html << "<div id='head'>Your friendly Webmailer</div>"
-		if username
-			raise username.inspect unless username =~ /^[A-Za-z0-9]*$/
+		@username = username
+		if @username
+			raise @username.inspect unless @username =~ /^[A-Za-z0-9]*$/
 
-			@user = YAML::load(File.open("users/#{username}.yaml"))
+			@user = YAML::load(File.open("users/#{@username}.yaml"))
 
 			@menu = ["Inbox", "Addressbook","Settings","Logout"]
 			@html << "<div id='tabs'>"
 			@html << "<div style='padding-left:2em' >"
-			@html << "Welcome #{$session['username']}"
+			@html << "Welcome #{@username}"
 			@html << "</div>"
 
 			@html << "<ul>"
@@ -52,7 +53,7 @@ class Dvmail
 		@html << "<div id='content'>"
 	end
 	def save
-		File.open("users/#{$session['username']}.yaml","w"){|f|
+		File.open("users/#{@username}.yaml","w"){|f|
 			f << @user.to_yaml
 		}
 	end

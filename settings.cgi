@@ -7,7 +7,14 @@ dvm = Dvmail.new
 errormsg = ""
 
 admin = ($session['username'] == 'admin' || dvm.user[:groups].include?("Administrator"))
-if $cgi.include?("edit_user") && $session['username'] == $cgi['user']
+if $cgi.include?("edit_user")
+	if $session['username'] != $cgi['user']
+		if admin
+			dvm = Dvmail.new($cgi['user'])
+		else
+			errormsg = "<div class='red'>You are not allowed to change other users Properties!</div>"
+		end
+	end
 	[:name, :message].each{|item|
 		dvm.user[item] = $cgi[item.to_s]
 	}
