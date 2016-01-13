@@ -30,7 +30,7 @@ class Dvmail
 
 			@menu = ["Inbox", "Addressbook","Edit vCard","Logout"]
 			@html << "<div id='tabs'>"
-			@html << "<div style='padding-left:2em' >"
+			@html << "<div style='padding-left:2em' class='green'>"
 			@html << "Welcome #{@username}"
 			@html << "</div>"
 

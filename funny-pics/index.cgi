@@ -30,14 +30,34 @@ if $cgi.include?("pic_url")
 		f.puts "\"#{$session.session_id}\",\"#{$cgi["pic_url"].gsub("\"","")}\""
 	}
 end
+if $cgi.include?("delete")
+	File.open('delete.csv', 'a') { |f|
+		f.puts "\"#{$session.session_id}\",\"#{$cgi["delete"].gsub("\"","")}\""
+	}
+end
 
 h << "<div style='margin:10px'>"
 pics = CSV.read("pics.csv",{headers: true, col_sep: ","})
+del = CSV.read("delete.csv",{headers: true, col_sep: ","}).to_a
 
 pics.reverse_each{|l|
-	if (!(l["url"] =~ /^https?:\/\/dvmail.*\.mgm-sp\.com\//)) || l["sid"] == $session.session_id || $cgi.include?("all_pics")
-		h << "<img src='#{l["url"].gsub("'","")}' height='200' />"
-	end
+		unless del.include?([l["sid"],l["url"]])
+			if (!(l["url"] =~ /^https?:\/\/mail.*\.mgm-sp\.com\//)) ||
+					l["sid"] == $session.session_id ||
+					$cgi.include?("all_pics")
+
+				h << "<div>"
+				if l["sid"] == $session.session_id
+					h << "<div style='position: absolute;'>"
+					h << "<form method='POST'>"
+					h << "<input type='submit' value='Delete' />"
+					h << "<input type='hidden' name='delete' value=\"#{CGI.escapeHTML(l["url"])}\" />"
+					h << "</form></div>"
+				end
+				h << "<img src='#{l["url"].gsub("'","")}' width='500' />"
+				h << "</div>"
+			end
+		end
 }
 h << "</div>"
 
