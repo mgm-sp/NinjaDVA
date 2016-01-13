@@ -6,6 +6,10 @@ Deny From All
 Order Deny,Allow
 Deny From All
 </Files>
+<Files "*.conf">
+Order Deny,Allow
+Deny From All
+</Files>
 <Files "dvmail.css">
 	Order Allow,Deny
 	Allow From All
