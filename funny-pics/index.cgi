@@ -9,6 +9,11 @@ $session = CGI::Session.new($cgi)
 
 h = HTML.new("Funny Pics")
 
+if $cgi.include?("refresh")
+	time = $cgi["refresh"].to_i == 0 ? 60 : $cgi["refresh"].to_i
+	h.add_html_head("<meta http-equiv='refresh' content='#{time}'>")
+end
+
 h << <<CONTENT
 <div>
 <form method="POST">
