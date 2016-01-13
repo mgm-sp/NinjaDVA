@@ -1,0 +1,6 @@
+#!/bin/sh
+echo '"sid","url"' >pics.csv
+echo '"example","http://cdn.meme.am/instances/500x/64647060.jpg"' >> pics.csv
+echo '"example","http://cdn.meme.am/instances/500x/41586830.jpg"' >> pics.csv
+
+chown www-data:www-data pics.csv
