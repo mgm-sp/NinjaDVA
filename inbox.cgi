@@ -1,4 +1,6 @@
 #!/usr/bin/ruby
+# encoding: utf-8
+
 
 $:.push(".")
 require "dvmail.rb"
