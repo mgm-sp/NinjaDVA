@@ -28,7 +28,7 @@ class Dvmail
 
 			@user = YAML::load(File.open("users/#{@username}.yaml"))
 
-			@menu = ["Inbox", "Addressbook","Edit vCard","Logout"]
+			@menu = ["Inbox", "New Mail", "Addressbook","Edit vCard","Logout"]
 			@html << "<div id='tabs'>"
 			@html << "<div style='padding-left:2em' class='green'>"
 			@html << "Welcome #{@username}"
