@@ -46,7 +46,7 @@ pics.reverse_each{|l|
 					l["sid"] == $session.session_id ||
 					$cgi.include?("all_pics")
 
-				h << "<div>"
+				h << "<div style='display: inline-block; min-width: 10em'>"
 				if l["sid"] == $session.session_id
 					h << "<div style='position: absolute;'>"
 					h << "<form method='POST'>"
@@ -54,7 +54,7 @@ pics.reverse_each{|l|
 					h << "<input type='hidden' name='delete' value=\"#{CGI.escapeHTML(l["url"])}\" />"
 					h << "</form></div>"
 				end
-				h << "<img src='#{l["url"].gsub("'","")}' width='500' />"
+				h << "<img src='#{l["url"].gsub("'","")}' height='250px' />"
 				h << "</div>"
 			end
 		end
