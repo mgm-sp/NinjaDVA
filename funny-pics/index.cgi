@@ -26,9 +26,13 @@ CONTENT
 
 
 if $cgi.include?("pic_url")
-	File.open('pics.csv', 'a') { |f|
-		f.puts "\"#{$session.session_id}\",\"#{$cgi["pic_url"].gsub("\"","")}\""
-	}
+	if $cgi["pic_url"] =~ /^https?:\/\//
+		File.open('pics.csv', 'a') { |f|
+			f.puts "\"#{$session.session_id}\",\"#{$cgi["pic_url"].gsub("\"","")}\""
+		}
+	else
+		h << "<div style='color: red'>URL should start with http</div>"
+	end
 end
 if $cgi.include?("delete")
 	File.open('delete.csv', 'a') { |f|
@@ -42,7 +46,7 @@ del = CSV.read("delete.csv",{headers: true, col_sep: ","}).to_a
 
 pics.reverse_each{|l|
 		unless del.include?([l["sid"],l["url"]])
-			if (!(l["url"] =~ /^https?:\/\/mail.*\.mgm-sp\.com\//)) ||
+			if (!(l["url"] =~ /^https?:\/\/*\.mgmsp-lab\.com\// || l["url"] =~ /^https?:\/\/172\.23\.42\.[0-9]{1,3}\//)) ||
 					l["sid"] == $session.session_id ||
 					$cgi.include?("all_pics")
 
