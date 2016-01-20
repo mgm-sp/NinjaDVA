@@ -11,9 +11,7 @@ var time = args[5];
 var page = require('webpage').create();
 page.settings.resourceTimeout = 1000;
 
-
 page.open('http://'+servername+'/login.cgi', function(status) {
-	console.log(JSON.stringify(phantom.cookies));
 
 	page.open('http://'+servername+'/login.cgi', 'POST', 'username='+user+'&password='+pass, function(status) {
 
