@@ -8,7 +8,7 @@ $cgi = CGI.new
 $session = CGI::Session.new($cgi)
 
 h = HTML.new("Supportchat")
-unless $session.session_id =~ /^[a-f0-9]+/
+unless $session.session_id =~ /\A[a-f0-9]+\Z/
 	$session.delete
 	h.header["status"] = "REDIRECT"
 	h.header["Cache-Control"] = "no-cache"

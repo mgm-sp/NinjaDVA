@@ -24,7 +24,7 @@ class Dvmail
 		@html << "<div id='head'>Your friendly Webmailer</div>"
 		@username = username
 		if @username
-			raise @username.inspect unless @username =~ /^[A-Za-z0-9]*$/
+			raise @username.inspect unless @username =~ /\A[A-Za-z0-9]+\z/
 
 			@user = YAML::load(File.open("users/#{@username}.yaml"))
 

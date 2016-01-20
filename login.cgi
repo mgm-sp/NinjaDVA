@@ -7,7 +7,7 @@ require "yaml"
 m = Dvmail.new
 if $cgi.include?("username") && 
 		File.exists?("users/#{$cgi["username"]}.yaml") && 
-		$cgi["username"] =~ /^[a-zA-Z0-9]*$/ &&
+		$cgi["username"] =~ /\A[a-zA-Z0-9]+\z$/ &&
 		YAML::load(File.open("users/#{$cgi["username"]}.yaml"))[:password] == $cgi["password"]
 
 	$session["username"] = $cgi["username"]
