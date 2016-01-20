@@ -1,27 +1,25 @@
-<Files ".ht*">
-Order Deny,Allow
-Deny From All
+<Files ~ "^(users/.*|.*.ht.*|.*yaml|.*conf)$">
+	deny from all
+	satisfy all
+	ErrorDocument 403 "Access to these files is forbidden!"
 </Files>
-<Files "*.yaml">
-Order Deny,Allow
-Deny From All
-</Files>
-<Files "*.conf">
-Order Deny,Allow
-Deny From All
-</Files>
+
 <Files "dvmail.css">
 	Order Allow,Deny
 	Allow From All
 </Files>
 
+#FIXME (phantomjs)
+#<Files "/admin/*">
+	#AuthType Digest
+	#AuthName "Admin Area"
+	#AuthUserFile /var/www/dvmail/admin/.htdigest
+	#Require valid-user
+# admin:ahke4Opi
+#</Files>
+
 Order Allow,Deny
 Allow From All
-
-#AuthType Digest
-#AuthName "Pisif8qu"
-#AuthUserFile /var/www/dvr/.htdigest
-#Require valid-user
 
 Options +ExecCGI
 AddHandler cgi-script .cgi

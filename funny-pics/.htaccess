@@ -1,8 +1,9 @@
-<Files "*.csv">
-Order Deny,Allow
-Deny From All
+<Files ~ "^(.*csv|setup)$">
+	deny from all
+	satisfy all
+	ErrorDocument 403 "Access to these files is forbidden!"
 </Files>
-<Files "setup">
-Order Deny,Allow
-Deny From All
-</Files>
+
+Options +ExecCGI
+AddHandler cgi-script .cgi
+DirectoryIndex index.cgi

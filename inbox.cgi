@@ -51,6 +51,26 @@ elsif $session['username'] == 'siggi'
 	</table>
 </div>
 MAIL
+elsif $session['username'] == 'xaver'
+	m << <<MAIL
+<div>
+	<table>
+		<tr>
+			<td class='header'>From:</td><td>Siggi Sorglos</td>
+		</tr><tr>
+			<td class='header'>To:</td><td>Xaver Sebastian Schmidt</td>
+		</tr><tr>
+			<td class='header'>Subject:</td><td>Grillen</td>
+		</tr><tr>
+			<td colspan='2'>
+				<p>Hallo Xaver,</p>
+				<p>bleibts beim grillen heute Abend?</p>
+				<p>Ciao, Siggi</p>
+			</td>
+		</tr>
+	</table>
+</div>
+MAIL
 else
 	m << "<div>Your INBOX is empty!</div>"
 end

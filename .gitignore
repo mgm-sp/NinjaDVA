@@ -1,3 +1,4 @@
 users/*.yaml
 funny-pics/*.csv
 .htdigest
+chat/

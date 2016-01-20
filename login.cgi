@@ -28,6 +28,7 @@ m << <<CONTENT
 	<tr><td>Password:</td><td><input type='password' name='password' /></td></tr>
 	<tr><td></td><td><input type='submit' /></td></tr>
 	<tr><td></td><td><a href='register.cgi' >Register new Account</a></td></tr>
+	<tr><td></td><td><a target="_blank" href="chat.cgi">Open supportchat</a></td></tr>
 	</table>
 </form>
 </div>

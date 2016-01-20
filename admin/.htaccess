@@ -1,0 +1,13 @@
+
+AuthType Digest
+AuthName "Admin Area"
+AuthUserFile /var/www/dvmail/admin/.htdigest
+Require valid-user
+# admin:ahke4Opi
+
+Options +ExecCGI
+AddHandler cgi-script .cgi
+DirectoryIndex chat.cgi
+Order Deny,Allow
+deny from all
+satisfy any
