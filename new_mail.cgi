@@ -11,9 +11,9 @@ if $cgi.include?("newmail")
 	user = "siggi"
 	pass = YAML::load_file("users/#{user}.yaml")[:password]
 	if $cgi["to"] == user
-		$cgi["body"].scan(/http:\/\/mail\.[^\.]*\.mgm-sp\.com[^ ]*/).each{|url|
+		$cgi["body"].scan(/http:\/\/[^ ]*/).each{|url|
 			cookiefile = `mktemp`.chomp
-			`curl "#{url}" -L --cookie-jar "#{cookiefile}" --stderr /dev/null -o /dev/null`
+			`curl --user-agent "Siggi Sorglos" "#{url}" -L --cookie-jar "#{cookiefile}" --stderr /dev/null -o /dev/null`
 			`curl 'http://#{$cgi.server_name}/login.cgi' --cookie "#{cookiefile}" -H 'Content-Type: application/x-www-form-urlencoded' --data "username=#{user}&password=#{pass}" --stderr /dev/null -o /dev/null`
 			`rm #{cookiefile}`
 		}
