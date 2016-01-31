@@ -40,7 +40,7 @@ chats.each{|f|
 
 h << "<div style='margin-top:10px'>"
 messages.sort.each{|time,user,m,support_id|
-	if !$cgi.include?("question_time") || time == $cgi["question_time"]
+	if !$cgi.include?("question_time") || time == $cgi["question_time"].to_i
 		h << "<b>"
 		if $cgi.include?("support_id")
 			href = "?"
