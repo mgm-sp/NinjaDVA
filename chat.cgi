@@ -14,31 +14,39 @@ unless $session.session_id =~ /\A[a-f0-9]+\Z/
 	h.header["Cache-Control"] = "no-cache"
 	h.header["Location"] = "/login.cgi"
 else
+	unless File.exist?("chat/#{$session.session_id}")
+		File.open("chat/#{$session.session_id}","w"){|f|
+			f << ["user","time","message"].to_csv
+		}
+	end
 
 	if $cgi.include?("message") && $cgi["message"] != ""
 		t = Time.new.to_i
 		File.open("chat/#{$session.session_id}","a"){|f|
-			f << "#{t},#{$cgi["message"]}\n"
+		# 997 -> größte Primzahl < 1000
+		# Algorithmus ist nicht kollisionsresistent -> Studenten können user faken!
+			f << ["User #{$session.session_id.to_i(16) % 997}",t,$cgi["message"]].to_csv
 		}
-require "yaml"
+		require "yaml"
 		user = "xaver"
 		pass = YAML::load_file("users/#{user}.yaml")[:password]
 		`./admin/chat.js #{$cgi.server_name} #{user} #{pass} #{$session.session_id} #{t}`
 	end
 
 h << <<CONTENT
-<form method='POST'>
-<input type="text" name="message" placeholder="Message" size="30" />
-<input type="submit" name="Send" value="Send message"/>
+<div>
+<form id='chat' method='POST'>
+<input type="submit" id='send' name="Send" value="Send" style='width: 5%'/>
+<input type="text" id='message' name="message" placeholder="Message" style='width: 90%' />
 </form>
+</div>
 CONTENT
 
-if File.exist?("chat/#{$session.session_id}")
-	File.open("chat/#{$session.session_id}").each_line{|l|
-		message = l.scan(/^[0-9]+,(.*)/).flatten[0]
-		h << "<div><b>User:</b> #{message}"
-	}
-end
+h << "<div style='margin-top:10px'>"
+CSV.read("chat/#{$session.session_id}",{headers:true}).reverse_each{|chat|
+	h << "<b>#{chat["user"]}:</b> #{chat["message"]}</br>"
+}
+h << "</div>"
 
 
 end
