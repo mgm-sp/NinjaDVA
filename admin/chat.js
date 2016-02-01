@@ -19,7 +19,9 @@ page.open('http://'+servername+'/login.cgi', function(status) {
 			if (status !== 'success') {
 				console.log('Unable to access network');
 			}
-			phantom.exit();
+			setTimeout(function(){
+				phantom.exit()
+			}, 2000); // 2 Sekunden warten -> Studenten executen JavaScript was manchmal noch etwas Zeit zur Ausführung braucht!
 		});
 	});
 });
