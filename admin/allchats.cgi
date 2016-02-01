@@ -48,7 +48,14 @@ messages.sort.each{|time,user,m,support_id|
 			href = "?support_id=#{support_id}"
 		end
 		h << "<a href='#{href}'>#{user}</a>"
-		h << "(<a href='?support_id=#{support_id}&question_time=#{time}'>#{Time.at(time).strftime("%H:%M")}</a>):</b>"
+		href = "?support_id=#{support_id}"
+		if $cgi.include?("question_time")
+			href = "?support_id=#{support_id}"
+		else
+			href = "?support_id=#{support_id}&question_time=#{time}"
+		end
+
+		h << "(<a href='#{href}'>#{Time.at(time).strftime("%H:%M")}</a>):</b>"
 		h << " #{$cgi.include?("insecure") ? m : CGI.escapeHTML(m)}<br />"
 	end
 }
