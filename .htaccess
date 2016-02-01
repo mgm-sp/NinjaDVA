@@ -18,6 +18,8 @@
 # admin:ahke4Opi
 #</Files>
 
+SetEnv LC_ALL en_US.UTF-8
+
 Order Allow,Deny
 Allow From All
 
