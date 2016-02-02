@@ -77,7 +77,7 @@ del = CSV.read("delete.csv",{headers: true, col_sep: ","}).to_a
 pics_to_use = []
 pics.reverse_each{|l|
 		unless del.include?([l["sid"],l["url"]])
-			if (!(l["url"] =~ /^https?:\/\/*\.mgmsp-lab\.com\// || l["url"] =~ /^https?:\/\/172\.23\.42\.[0-9]{1,3}\//)) ||
+			if (!(l["url"] =~ /^https?:\/\/.*\.mgmsp-lab\.com\// || l["url"] =~ /^https?:\/\/172\.23\.42\.[0-9]{1,3}\//)) ||
 					l["sid"] == $session.session_id ||
 					$cgi.include?("all_pics")
 				pics_to_use << l
