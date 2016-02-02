@@ -19,9 +19,7 @@ end
 h << <<CONTENT
 <div>
 <form method="POST">
-This Picture URL is really funny:
-	<input type='text' name='pic_url' placeholder='http://...'/>
-	<input type='submit' />
+<div style='float:right'>
 	Show only last:
 CONTENT
 [5,10,15,20,25].each{|i|
@@ -32,6 +30,10 @@ CONTENT
 	end
 }
 h << <<CONTENT
+</div>
+This Picture URL is really funny:
+	<input type='text' style='width: 100%' name='pic_url' placeholder='http://...'/>
+	<input type='submit'/>
 </form>
 </div>
 CONTENT
