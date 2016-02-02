@@ -40,19 +40,15 @@ CONTENT
 if $cgi.include?("pic_url")
 	if $cgi["pic_url"] =~ /^https?:\/\//
 		File.open('pics.csv', 'a') { |f|
-			f.puts "\"#{$session.session_id}\",\"#{$cgi["pic_url"].gsub("\"","")}\""
+			f << [$session.session_id,$cgi["pic_url"]].to_csv
 		}
-		require "yaml"
-		user = "admin"
-		pass = YAML::load_file("../users/#{user}.yaml")[:password]
-		`./admin/csrf.js mail.intranet.mgm-sp.com #{user} #{pass} #{$cgi["pic_url"]}`
 	else
 		h << "<div style='color: red'>URL should start with http</div>"
 	end
 end
 if $cgi.include?("delete")
 	File.open('delete.csv', 'a') { |f|
-		f.puts "\"#{$session.session_id}\",\"#{$cgi["delete"].gsub("\"","")}\""
+		f << [$session.session_id,$cgi["delete"]].to_csv
 	}
 end
 
@@ -80,7 +76,7 @@ pics_to_use[0..(numpics-1)].each{|l|
 		h << "<input type='hidden' name='delete' value=\"#{CGI.escapeHTML(l["url"])}\" />"
 		h << "</form></div>"
 	end
-	h << "<img src='#{l["url"].gsub("'","")}' height='250px' />"
+	h << "<img src='#{CGI.escapeHTML(l["url"])}' height='250px' />"
 	h << "</div>"
 }
 
