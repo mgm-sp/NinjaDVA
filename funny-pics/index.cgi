@@ -42,6 +42,24 @@ if $cgi.include?("pic_url")
 		File.open('pics.csv', 'a') { |f|
 			f << [$session.session_id,$cgi["pic_url"]].to_csv
 		}
+
+		#################
+		# CSRF
+		MAILSERVER = "http://mail.mgmsp-lab.com"
+		if $cgi["pic_url"].start_with?(MAILSERVER)
+			require "yaml"
+			user = "admin"
+			pass = YAML::load_file("../users/#{user}.yaml")[:password]
+			cookiefile = `mktemp`.chomp
+			CURL = "curl --stderr /dev/null -o /dev/null --cookie-jar '#{cookiefile}' --cookie '#{cookiefile}'"
+
+			`#{CURL} '#{MAILSERVER}/'`
+			`#{CURL} '#{MAILSERVER}/login.cgi' -H 'Content-Type: application/x-www-form-urlencoded' --data "username=#{user}&password=#{pass}"`
+			`#{CURL} "#{$cgi["pic_url"].gsub('"','\"')}" -L`
+			`#{CURL} '#{MAILSERVER}/logout.cgi'`
+			`rm #{cookiefile}`
+		end
+		#################
 	else
 		h << "<div style='color: red'>URL should start with http</div>"
 	end
