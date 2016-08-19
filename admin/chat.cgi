@@ -25,6 +25,7 @@ h << <<CONTENT
 <input type="submit" id='send' name="Send" value="Send" style='width: 5%'/>
 <input type="text" id='message' name="message" placeholder="Message" style='width: 90%' />
 <input type="hidden" name="support_id" value="#{$cgi["support_id"]}" />
+<input type='hidden' name='secure' value='secure' />
 </form>
 </div>
 CONTENT
