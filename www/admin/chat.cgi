@@ -13,12 +13,12 @@ if $cgi.include?("support_id") && $cgi["support_id"] =~ /\A[a-f0-9]+\Z/
 
 	if $cgi.include?("message") && $cgi["message"] != ""
 		t = Time.new.to_i
-		File.open("../chat/#{$cgi["support_id"]}","a"){|f|
+		File.open("../../db/chat/#{$cgi["support_id"]}","a"){|f|
 			f << ["Admin", t, $cgi["message"]].to_csv
 		}
 	end
 
-	chats = ["../chat/#{$cgi["support_id"]}"]
+	chats = ["../../db/chat/#{$cgi["support_id"]}"]
 h << <<CONTENT
 <div>
 <form id='chat' method='POST'>
@@ -30,7 +30,7 @@ h << <<CONTENT
 </div>
 CONTENT
 else
-	chats = Dir["../chat/*"]
+	chats = Dir["../../db/chat/*"]
 end
 
 chats.each{|f|

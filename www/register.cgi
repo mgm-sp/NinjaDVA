@@ -7,7 +7,7 @@ require "yaml"
 m = Dvmail.new
 if $cgi.include?("username")
 	if $cgi["username"] =~ /\A[a-zA-Z0-9]+\z/
-		unless File.exists?("users/#{$cgi["username"]}.yaml")
+		unless File.exists?("#{USERS}/#{$cgi["username"]}.yaml")
 			if $cgi["password"] == $cgi["password2"]
 				user = {
 					:name => "",
@@ -15,7 +15,7 @@ if $cgi.include?("username")
 					:message => "",
 					:groups => ["Newbie"]
 				}
-				File.open("users/#{$cgi["username"]}.yaml","w"){|f|
+				File.open("#{USERS}/#{$cgi["username"]}.yaml","w"){|f|
 					f << user.to_yaml
 				}
 				m.html.header["status"] = "REDIRECT"

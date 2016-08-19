@@ -5,9 +5,9 @@ require "dvmail.rb"
 dvm = Dvmail.new
 
 dvm << "<div style='width: 30em'>"
-users = Dir['users/*.yaml'].collect{|f| File.basename(f,".yaml")}.sort
+users = Dir["#{USERS}/*.yaml"].collect{|f| File.basename(f,".yaml")}.sort
 users.each{|u|
-	user = YAML::load_file("users/#{u}.yaml")
+	user = YAML::load_file("#{USERS}/#{u}.yaml")
 	dvm << "<fieldset><legend>vCard user #{u}</legend>
 <table>
 	<tr>

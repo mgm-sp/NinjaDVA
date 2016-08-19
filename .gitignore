@@ -1,4 +1,2 @@
-users/*.yaml
-funny-pics/*.csv
+db/
 .htdigest
-chat/

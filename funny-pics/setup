@@ -1,7 +1,10 @@
 #!/bin/sh
-echo '"sid","url"' >pics.csv
-echo '"example","http://cdn.meme.am/instances/500x/64647060.jpg"' >> pics.csv
-echo '"example","http://cdn.meme.am/instances/500x/41586830.jpg"' >> pics.csv
-echo '"sid","url"' >delete.csv
+PICS=../db/funny-pics/pics.csv
+DELETE=../db/funny-pics/delete.csv
 
-chown www-data:www-data *.csv
+echo '"sid","url"' >$PICS
+echo '"example","http://cdn.meme.am/instances/500x/64647060.jpg"' >> $PICS
+echo '"example","http://cdn.meme.am/instances/500x/41586830.jpg"' >> $PICS
+echo '"sid","url"' >$DELETE
+
+chown www-data:www-data $PICS $DELETE

@@ -2,6 +2,8 @@ require "cgi"
 require 'cgi/session'
 $cgi = CGI.new
 $session = CGI::Session.new($cgi)
+USERS = "../db/users/"
+
 require_relative "html"
 require "yaml"
 require "pp"
@@ -26,7 +28,7 @@ class Dvmail
 		if @username
 			raise @username.inspect unless @username =~ /\A[A-Za-z0-9]+\z/
 
-			@user = YAML::load(File.open("users/#{@username}.yaml"))
+			@user = YAML::load(File.open("#{USERS}/#{@username}.yaml"))
 
 			@menu = ["Inbox", "New Mail", "Addressbook","Edit vCard","Logout"]
 			@html << "<div id='tabs'>"
@@ -53,7 +55,7 @@ class Dvmail
 		@html << "<div id='content'>"
 	end
 	def save
-		File.open("users/#{@username}.yaml","w"){|f|
+		File.open("#{USERS}/#{@username}.yaml","w"){|f|
 			f << @user.to_yaml
 		}
 	end

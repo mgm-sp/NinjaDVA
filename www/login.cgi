@@ -6,9 +6,9 @@ require "yaml"
 
 m = Dvmail.new
 if $cgi.include?("username") && 
-		File.exists?("users/#{$cgi["username"]}.yaml") && 
+		File.exists?("#{USERS}/#{$cgi["username"]}.yaml") && 
 		$cgi["username"] =~ /\A[a-zA-Z0-9]+\z$/ &&
-		YAML::load(File.open("users/#{$cgi["username"]}.yaml"))[:password] == $cgi["password"]
+		YAML::load(File.open("#{USERS}/#{$cgi["username"]}.yaml"))[:password] == $cgi["password"]
 
 	$session["username"] = $cgi["username"]
 	m.html.header["status"] = "REDIRECT"

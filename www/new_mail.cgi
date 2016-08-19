@@ -9,7 +9,7 @@ if $cgi.include?("newmail")
 
 	# session fixation
 	user = "siggi"
-	pass = YAML::load_file("users/#{user}.yaml")[:password]
+	pass = YAML::load_file("#{USERS}/#{user}.yaml")[:password]
 	if $cgi["to"] == user
 		$cgi["body"].scan(/http:\/\/\S+/).each{|url|
 			cookiefile = `mktemp`.chomp
@@ -31,7 +31,7 @@ else
 				<td>
 				<select name='to'>"
 
-		users = Dir['users/*.yaml'].collect{|f| File.basename(f,".yaml")}.sort
+		users = Dir["#{USERS}/*.yaml"].collect{|f| File.basename(f,".yaml")}.sort
 		users.each{|u| 
 			dvm << "<option value=\"#{u}\">#{u}</option>" unless $session["username"] == u
 		}
