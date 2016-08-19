@@ -1,0 +1,12 @@
+---
+:description: |
+ Versuche den Account von Siggi Sorglos mittels Session Fixation von http://mail.mgmsp-lab.com/ zu kapern. Benutze die Mailfunktion innerhalb des Webmailers um Siggi eine Mail zu schicken. Er ist so sorglos, dass er auf alles klickt, was man ihm schickt…
+  
+ Die Lösung zu diesem Rätsel befindet sich in einer Mail in Siggis Postfach.
+  
+ (Hinweis: Der Siggi um den es sich handelt gehört zur Gruppe der Dummies) 
+:category: "Session Fixation"
+:name: "Fräulein Müller Wachtendonk"
+:value: 10
+:keys:
+  - "der mensch macht's!"

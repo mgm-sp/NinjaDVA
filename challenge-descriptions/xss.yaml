@@ -1,0 +1,11 @@
+---
+:description: |
+ Verschaffe dir mittels Cross-Site Scripting Zugang zum Mailaccount (http://mail.mgmsp-lab.com) von Herrn Schmidt. Die Lösung des Rätsels sind die zwei Vornamen von Herrn Schmidt.
+
+ Hinweis: Herr Schmidt ist Supportmitarbeiter und liest den Chat für die Mailsoftware.
+:category: "XSS"
+:name: "Steal the Session ID"
+:value: 10
+:keys:
+  - "xaver sebastian"
+  - "xaver sebastian schmidt"
