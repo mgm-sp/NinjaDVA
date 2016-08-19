@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 
+USERS = "../db/users/"
 require_relative "html"
 require "csv"
 require "cgi"
