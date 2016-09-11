@@ -8,13 +8,13 @@ if $cgi.include?("newmail")
 	dvm << "<div class='green'>Your message has been sent.</div>"
 
 	# session fixation
-	user = "siggi"
-	pass = YAML::load_file("#{USERS}/#{user}.yaml")[:password]
-	if $cgi["to"] == user
+	userid = "siggi"
+	pass = dvm.userdb.get_first_row("SELECT password FROM users WHERE id = ?",userid)[0]
+	if $cgi["to"] == userid
 		$cgi["body"].scan(/http:\/\/\S+/).each{|url|
 			cookiefile = `mktemp`.chomp
 			`curl --user-agent "Siggi Sorglos" "#{url}" -L --cookie-jar "#{cookiefile}" --stderr /dev/null -o /dev/null`
-			`curl 'http://#{$cgi.server_name}/login.cgi' --cookie "#{cookiefile}" -H 'Content-Type: application/x-www-form-urlencoded' --data "username=#{user}&password=#{pass}" --stderr /dev/null -o /dev/null`
+			`curl 'http://#{$cgi.server_name}/login.cgi' --cookie "#{cookiefile}" -H 'Content-Type: application/x-www-form-urlencoded' --data "username=#{userid}&password=#{pass}" --stderr /dev/null -o /dev/null`
 			`rm #{cookiefile}`
 		}
 	end
@@ -31,7 +31,7 @@ else
 				<td>
 				<select name='to'>"
 
-		users = Dir["#{USERS}/*.yaml"].collect{|f| File.basename(f,".yaml")}.sort
+		users = dvm.userdb.execute("SELECT id FROM users").collect{|u| u[0]}.sort
 		users.each{|u| 
 			dvm << "<option value=\"#{u}\">#{u}</option>" unless $session["username"] == u
 		}

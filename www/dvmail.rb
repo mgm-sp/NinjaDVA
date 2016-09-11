@@ -2,16 +2,17 @@ require "cgi"
 require 'cgi/session'
 $cgi = CGI.new
 $session = CGI::Session.new($cgi)
-USERS = "../db/users/"
+USERDB = "../db/users.db"
 
 require_relative "html"
-require "yaml"
+require "sqlite3"
 require "pp"
 
 class Dvmail
-	attr_accessor :user, :html
+	attr_accessor :user, :html, :userdb
 	def initialize(username = $session['username'])
 		@html = HTML.new("Dvmail")
+		@userdb = SQLite3::Database.new(USERDB)
 		@html << "<body>"
 		unless (File.basename($0) == "login.cgi" || File.basename($0) == "register.cgi" || $session['username'])
 			# stop if unauthorized
@@ -28,7 +29,13 @@ class Dvmail
 		if @username
 			raise @username.inspect unless @username =~ /\A[A-Za-z0-9]+\z/
 
-			@user = YAML::load(File.open("#{USERS}/#{@username}.yaml"))
+			user_ary = @userdb.get_first_row("SELECT name,message,groups FROM users WHERE id = ?",@username)
+			@user = {
+				:name => user_ary[0],
+				:message => user_ary[1],
+				:groups => user_ary[2].split(", ")
+			}
+
 
 			@menu = ["Inbox", "New Mail", "Addressbook","Edit vCard","Logout"]
 			@html << "<div id='tabs'>"
@@ -54,10 +61,17 @@ class Dvmail
 		@html.add_css("dvmail.css")
 		@html << "<div id='content'>"
 	end
+	def createuser(id,password)
+		@userdb.execute("INSERT INTO users (id, name, password, message, groups)
+										VALUES ( ?, ?, ?, ?, ? )", [id,"",password,"","Newbie"])
+	end
 	def save
-		File.open("#{USERS}/#{@username}.yaml","w"){|f|
-			f << @user.to_yaml
-		}
+		statement = @userdb.prepare("UPDATE users SET name=?,message=?,groups=? WHERE id = ?")
+    statement.bind_param 1, @user[:name]
+    statement.bind_param 2, @user[:message]
+    statement.bind_param 3, @user[:groups].join(", ")
+    statement.bind_param 4, @username
+    statement.execute
 	end
 	def <<(htmlbodytext)
 		@html << htmlbodytext

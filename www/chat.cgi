@@ -28,9 +28,11 @@ else
 		# Algorithmus ist nicht kollisionsresistent -> Studenten können user faken!
 			f << ["User #{$session.session_id.to_i(16) % 997}",t,$cgi["message"]].to_csv
 		}
-		require "yaml"
+		require "sqlite3"
+		USERDB = "../db/users.db"
+		userdb = SQLite3::Database.new(USERDB)
 		user = "xaver"
-		pass = YAML::load_file("#{USERS}/#{user}.yaml")[:password]
+		pass = userdb.get_first_row("SELECT password FROM users WHERE id = ?",user)[0]
 		`./admin/chat.js #{$cgi.server_name} #{user} #{pass} #{$session.session_id} #{t}`
 	end
 

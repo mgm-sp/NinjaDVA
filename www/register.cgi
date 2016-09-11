@@ -1,23 +1,13 @@
 #!/usr/bin/ruby
 
 require_relative "dvmail"
-require "yaml"
-
 
 m = Dvmail.new
 if $cgi.include?("username")
 	if $cgi["username"] =~ /\A[a-zA-Z0-9]+\z/
-		unless File.exists?("#{USERS}/#{$cgi["username"]}.yaml")
+		unless m.userdb.get_first_row("SELECT password FROM users WHERE id = ?",$cgi["username"])
 			if $cgi["password"] == $cgi["password2"]
-				user = {
-					:name => "",
-					:password => $cgi["password"],
-					:message => "",
-					:groups => ["Newbie"]
-				}
-				File.open("#{USERS}/#{$cgi["username"]}.yaml","w"){|f|
-					f << user.to_yaml
-				}
+				m.createuser($cgi["username"],$cgi["password"])
 				m.html.header["status"] = "REDIRECT"
 				m.html.header["Cache-Control"] = "no-cache"
 				m.html.header["Location"] = "/login.cgi?register_redirect"

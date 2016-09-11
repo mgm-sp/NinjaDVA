@@ -5,21 +5,23 @@ require "dvmail.rb"
 dvm = Dvmail.new
 
 dvm << "<div style='width: 30em'>"
-users = Dir["#{USERS}/*.yaml"].collect{|f| File.basename(f,".yaml")}.sort
-users.each{|u|
-	user = YAML::load_file("#{USERS}/#{u}.yaml")
-	dvm << "<fieldset><legend>vCard user #{u}</legend>
+begin
+	dvm.userdb.execute( "select id,name,message,groups from users" ){|userrow|
+		dvm << "<fieldset><legend>vCard user #{userrow[0]}</legend>
 <table>
 	<tr>
-   	<td>Name:   </td><td>#{CGI.escapeHTML(user[:name] == "" ? "<<not set yet>>" : user[:name])}</td>
+		<td>Name:   </td><td>#{CGI.escapeHTML(userrow[1] == nil ? "<<not set yet>>" : userrow[1])}</td>
 	</tr><tr>
-   	<td>Message:</td><td>#{CGI.escapeHTML(user[:message] == "" ? "<<not set yet>>" : user[:message])}</td>
+		<td>Message:</td><td>#{CGI.escapeHTML(userrow[2] == nil ? "<<not set yet>>" : userrow[2])}</td>
 	</tr><tr>
-   	<td>Groups: </td><td>#{CGI.escapeHTML(user[:groups].join(', '))}</td>
+		<td>Groups: </td><td>#{CGI.escapeHTML(userrow[3])}</td>
 	</tr>
 </table>
-  </fieldset>
-	"
-}
+	</fieldset>
+		"
+	}
+rescue SQLite3::Exception => e
+	dvm << "<div class='error'>Error: #{e}</div>"
+end
 dvm << "</div>"
 dvm.out
