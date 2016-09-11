@@ -3,6 +3,11 @@
 require_relative "dvmail"
 
 m = Dvmail.new
+if $session["username"]
+	m.html.header["status"] = "REDIRECT"
+	m.html.header["Cache-Control"] = "no-cache"
+	m.html.header["Location"] = "/inbox.cgi"
+end
 if $cgi.include?("username")
 	pw = m.userdb.get_first_row("SELECT password FROM users WHERE id = ?",$cgi["username"])
 	if pw && pw[0] == $cgi["password"]
