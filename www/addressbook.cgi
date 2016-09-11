@@ -6,7 +6,7 @@ dvm = Dvmail.new
 
 dvm << "<div style='width: 30em'>"
 begin
-	dvm.userdb.execute( "select id,name,message,groups from users" ){|userrow|
+	dvm.userdb.execute( "SELECT id,name,message,groups FROM users" ){|userrow|
 		dvm << "<fieldset><legend>vCard user #{userrow[0]}</legend>
 <table>
 	<tr>
