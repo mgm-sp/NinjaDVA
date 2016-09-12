@@ -99,35 +99,6 @@ SCRIPT
 	end
 
 	def out(cgi)
-		#FIXME: quick and dirty fix for encoding problem
-		{ 
-			"ö" => "&ouml;",
-			"ü" => "&uuml;",
-			"ä" => "&auml;",
-			"Ö" => "&Ouml;",
-			"Ü" => "&Uuml;",
-			"Ä" => "&Auml;",
-			"ß" => "&szlig;",
-			"–" => "&#8211;",
-			"„" => "&#8222;",
-			"“" => "&#8220;",
-			"”" => "&#8221;",
-			"✔" => "&#10004;",
-			"✘" => "&#10008;",
-			"◀" => "&#9664;",
-			"▶" => "&#9654;",
-			"✍" => "&#9997;",
-			"✖" => "&#10006;",
-			"•" => "&#8226;",
-			"▾" => "&#9662;",
-			"▴" => "&#9652;"
-		}.each{|from,to|
-			@body.gsub!(from,to)
-		}
-#		@body.gsub!(/./){|char|
-#			 code = char[0]
-#			 code > 127 ? "&##{code};" : char
-#		}
 		cgi.out(@header){
 			<<HEAD
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"

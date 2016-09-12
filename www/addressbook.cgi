@@ -3,10 +3,31 @@
 $:.push(".")
 require "dvmail.rb"
 dvm = Dvmail.new
+groups = dvm.userdb.execute("SELECT groups FROM users").collect{|g| g[0].split(", ") }.flatten.uniq
+
+show = $cgi["group"]
 
 dvm << "<div style='width: 30em'>"
+dvm << <<FORM
+<form method='GET' id='mail' action=''>
+Gruppe:
+<select name='group'>
+	<option value=''>Alle</option>
+FORM
+groups.each{|g|
+	unless g == "Hidden"
+		dvm << "<option value='#{CGI.escapeHTML(g)}'"
+		dvm << " selected='selected' " if g == show
+		dvm << ">#{CGI.escapeHTML(g)}</option>"
+	end
+}
+dvm << <<FORM
+</select>
+<input type='submit' value='Zeigen' />
+</form>
+FORM
 begin
-	dvm.userdb.execute( "SELECT id,name,message,groups FROM users" ){|userrow|
+	dvm.userdb.execute("SELECT id,name,message,groups FROM users WHERE groups LIKE '%#{show}%' AND groups NOT LIKE '%Hidden%'"){|userrow|
 		dvm << "<fieldset><legend>vCard user #{userrow[0]}</legend>
 <table>
 	<tr>
