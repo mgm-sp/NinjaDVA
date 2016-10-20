@@ -9,7 +9,7 @@ require "sqlite3"
 require "pp"
 
 class Dvmail
-	attr_accessor :user, :html, :userdb
+	attr_accessor :user, :html, :userdb, :username
 	def initialize(username = $session['username'])
 		@html = HTML.new("Dvmail")
 		@userdb = SQLite3::Database.new(USERDB)

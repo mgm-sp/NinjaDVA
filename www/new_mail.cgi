@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+MAILDB = "../db/mail.db"
 
 $:.push(".")
 require "dvmail.rb"
@@ -6,6 +7,9 @@ dvm = Dvmail.new
 
 if $cgi.include?("newmail")
 	dvm << "<div class='green'>Your message has been sent.</div>"
+	maildb = SQLite3::Database.new(MAILDB);
+	user = dvm.user[:name] || $session["username"];
+	maildb.query("INSERT INTO 'mail'('sender','recipient','subject','body') VALUES (?,?,?,?)", user,$cgi["to"],$cgi["subject"],$cgi["body"]);
 
 	# session fixation
 	userid = "siggi"
@@ -19,7 +23,7 @@ if $cgi.include?("newmail")
 		}
 	end
 
-else
+else # show compose-form
 	dvm << "
 <div>
 	<form method='POST' id='mail'>
