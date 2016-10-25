@@ -1,0 +1,10 @@
+.widget {
+	width : 26%;
+	margin: 1%;
+	padding: 2%;
+	display: inline-block;
+	font-size: 14px;
+	border-style: solid;
+	border-width: thin;
+	vertical-align: top;
+}
