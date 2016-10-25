@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+
+DB = "../db/myhomepage/"
+
+require_relative "html"
+require "cgi"
+$cgi = CGI.new
+h = HTML.new("My Homepage")
+
+
+if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/
+	url = $cgi["url"]
+	if File.exists?("#{DB}/#{url}.yaml")
+		h.header["status"] = "REDIRECT"
+		h.header["Cache-Control"] = "no-cache"
+		h.header["Location"] = "/?error=#{CGI.escape("This Homepage already exists.")}"
+	else
+		require "yaml"
+		chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a 
+		pw = Array.new(12){chars[rand(chars.size)]}.join
+		html = HTML.new("My Homepage -- #{url}")
+		html.add_head_script("jquery-2.2.3.min.js")
+		html << "<h1>Welcome</h1>"
+		html << "<img style='width:10em;' src='construction.svg' />"
+		homepage = {
+			:html => html,
+			:password => pw
+		}
+		File.open("#{DB}/#{url}.yaml","w"){|f|
+			f << homepage.to_yaml
+		}
+		h.header["status"] = "REDIRECT"
+		h.header["Cache-Control"] = "no-cache"
+		h.header["Location"] = "/edit.cgi?url=#{$cgi["url"]}&password=#{pw}"
+	end
+else
+	h.header["status"] = "REDIRECT"
+	h.header["Cache-Control"] = "no-cache"
+	h.header["Location"] = "/?error=#{CGI.escape("URL may only contain letters, numbers, and dashes.")}"
+end
+
+h.out($cgi)
