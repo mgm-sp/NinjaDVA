@@ -53,8 +53,16 @@ messages.sort.each{|time,user,m,support_id|
 		href += "&question_time=#{time}" unless $cgi.include?("question_time")
 
 		h << "(<a href='#{href}'>#{Time.at(time).strftime("%H:%M")}</a>):</b>"
-		h << " #{$cgi.include?("secure") ? CGI.escapeHTML(m) : m}<br />"
+		if $cgi.include?("secure")
+		h << "<pre style='display:inline-flex; margin:1px'><code style='padding:0'>#{CGI.escapeHTML(m)}</code></pre>"
+		else
+			h << m
+		end
+		h << "<br />"
 	end
 }
 h << "</div>"
+h.add_css("default.css")
+h.add_script_file("highlight.pack.js")
+h.add_script("hljs.initHighlightingOnLoad();")
 h.out($cgi)
