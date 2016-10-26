@@ -19,7 +19,7 @@
 ############################################################################
 
 class HTML
-	attr_accessor :body, :header
+	attr_accessor :body, :header, :title
 	attr_reader :relative_dir
 	def initialize(title, relative_dir = "")
 		@title = title

@@ -13,13 +13,13 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{DB}/
 	require "yaml"
 	homepage = YAML::load_file("#{DB}/#{$cgi["url"]}.yaml")
 	if homepage[:password] == $cgi["password"]
-		h << "The link to your <a href='#{$cgi["url"]}'>homepage</a>: <input value='http://#{$cgi.server_name}/#{$cgi["url"]}' type='text' readonly='readonly'>"
+		h << "The link to your <a href='#{$cgi["url"]}'>homepage</a>: <input value='http://#{$cgi.server_name}/#{$cgi["url"]}' type='text' readonly='readonly' style='width: 50%'>"
 
 		h << <<EDIT
 <form style='height: 100%' method='POST' action='store.cgi'>
 <input type='hidden' name='url' value='#{$cgi["url"]}' />
 <input type='hidden' name='password' value='#{$cgi["password"]}' />
-<textarea name='body' style='width: 90%; height:100%'>
+<textarea name='body' style='width: 100%; height:100%'>
 #{homepage[:html].body}
 </textarea>
 <input type='submit' />
