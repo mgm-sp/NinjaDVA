@@ -45,12 +45,15 @@ h << loremwidget
 
 
 h.add_head_script("jquery-2.2.3.min.js")
-h.add_script_file("mail.js")
 
 h << <<MAILWIDGET
 
 
 <!-- BEGIN MAIL WIDGET -->
+MAILWIDGET
+h.add_script_file("mail.js")
+
+h << <<MAILWIDGET
 <div class='widget'>
 <h1>New Mail</h1>
 <div id='inbox'>No new Mail</div>
