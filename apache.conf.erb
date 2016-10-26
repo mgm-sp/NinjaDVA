@@ -1,10 +1,11 @@
+<%# encoding: UTF-8 %>
+<% require_relative "config_defaults" %>
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
-	DocumentRoot /var/www/dvmail/www
-	ServerName csrf.local
-	ServerAlias dvmail.intranet
+	DocumentRoot <%=$conf.installdir%>/www
+	ServerName dvmail.<%=$conf.domain%>
 
-	<Directory "/var/www/dvmail/www">
+<Directory "<%=$conf.installdir%>/www">
 		AllowOverride All
 	</Directory>
 
@@ -14,10 +15,10 @@
 
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
-	DocumentRoot /var/www/dvmail/funny-pics
-	ServerName funny-pics.example.org
+	DocumentRoot <%=$conf.installdir%>/funny-pics
+	ServerName funny-pics.<%=$conf.domain%>
 
-	<Directory "/var/www/dvmail/funny-pics">
+	<Directory "<%=$conf.installdir%>/funny-pics">
 		AllowOverride All
 	</Directory>
 
@@ -27,11 +28,10 @@
 
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
-	DocumentRoot /var/www/dvmail/dashboard
-	ServerName dashboard.intranet
-	ServerAlias dashboard.mgmsp-lab.com
+	DocumentRoot <%=$conf.installdir%>/dashboard
+	ServerName dashboard.<%=$conf.domain%>
 
-	<Directory "/var/www/dvmail/dashboard">
+	<Directory "<%=$conf.installdir%>/dashboard">
 		AllowOverride All
 	</Directory>
 
@@ -41,11 +41,10 @@
 
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
-	DocumentRoot /var/www/dvmail/myhomepage
-	ServerName myhomepage.example.org
-	ServerAlias myhomepage.mgmsp-lab.com
+	DocumentRoot <%=$conf.installdir%>/myhomepage
+	ServerName myhomepage.<%=$conf.domain%>
 
-	<Directory "/var/www/dvmail/myhomepage/">
+	<Directory "<%=$conf.installdir%>/myhomepage/">
 		AllowOverride All
 	</Directory>
 
