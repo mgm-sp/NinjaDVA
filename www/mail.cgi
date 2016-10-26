@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 # encoding: utf-8
-MAILDB = "../db/mail.db"
+require_relative "../config_defaults"
 $:.push(".")
 require "pp"
 require "json"
@@ -8,7 +8,7 @@ require "dvmail.rb"
 m = Dvmail.new
 
 ret = []
-maildb = SQLite3::Database.new(MAILDB)
+maildb = SQLite3::Database.new($conf.maildb)
 maildb.query("SELECT * FROM mail WHERE recipient = ?" + " OR recipient = ?"*m.user[:groups].size,
 						 [m.username] + m.user[:groups].collect{|g| "group:#{g}"}){|result|
 	result.reverse_each{|mail|

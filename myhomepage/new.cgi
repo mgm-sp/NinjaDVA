@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 
-DB = "../db/myhomepage/"
-
+require_relative "../config_defaults"
 require_relative "html"
 require "cgi"
 $cgi = CGI.new
@@ -10,7 +9,7 @@ h = HTML.new("My Homepage")
 
 if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/
 	url = $cgi["url"]
-	if File.exists?("#{DB}/#{url}.yaml")
+	if File.exists?("#{$conf.myhomepagedb}/#{url}.yaml")
 		h.header["status"] = "REDIRECT"
 		h.header["Cache-Control"] = "no-cache"
 		h.header["Location"] = "/?error=#{CGI.escape("This Homepage already exists.")}"
@@ -26,7 +25,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/
 			:html => html,
 			:password => pw
 		}
-		File.open("#{DB}/#{url}.yaml","w"){|f|
+		File.open("#{$conf.myhomepagedb}/#{url}.yaml","w"){|f|
 			f << homepage.to_yaml
 		}
 		h.header["status"] = "REDIRECT"

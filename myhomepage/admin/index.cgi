@@ -1,8 +1,8 @@
 #!/usr/bin/ruby
 
-DB="../../db/myhomepage/"
 
 require "yaml"
+require_relative "../../config_defaults"
 require_relative "../html"
 require "cgi"
 $cgi = CGI.new

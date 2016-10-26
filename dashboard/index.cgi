@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 require_relative "html"
+require_relative "../config_defaults"
 require "csv"
 require "cgi"
 require 'cgi/session'
@@ -59,7 +60,7 @@ h << <<MAILWIDGET
 <div id='inbox'>No new Mail</div>
 </div>
 MAILWIDGET
-h.add_script_file("http://mail.intranet/mail.cgi?jsonp=updateMail")
+h.add_script_file("http://mail.#{$conf.domain}/mail.cgi?jsonp=updateMail")
 
 h << "<!-- END MAIL WIDGET -->"
 

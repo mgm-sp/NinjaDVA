@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
-MAILDB = "../db/mail.db"
+#
+require_relative "../config_defaults"
 
 $:.push(".")
 require "dvmail.rb"
@@ -7,7 +8,7 @@ dvm = Dvmail.new
 
 if $cgi.include?("newmail")
 	dvm << "<div class='green'>Your message has been sent.</div>"
-	maildb = SQLite3::Database.new(MAILDB);
+	maildb = SQLite3::Database.new($conf.maildb);
 	user = dvm.user[:name] || $session["username"];
 	maildb.query("INSERT INTO 'mail'('sender','recipient','subject','body') VALUES (?,?,?,?)", user,$cgi["to"],$cgi["subject"],$cgi["body"]);
 

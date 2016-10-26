@@ -1,9 +1,8 @@
 #!/usr/bin/ruby
 
-PICS="../db/funny-pics/pics.csv"
-DELETE="../db/funny-pics/delete.csv"
 
 require_relative "html"
+require_relative "../config_defaults"
 require "csv"
 require "cgi"
 require 'cgi/session'
@@ -44,7 +43,7 @@ CONTENT
 
 if $cgi.include?("pic_url")
 	if $cgi["pic_url"] =~ /^https?:\/\//
-		File.open(PICS, 'a') { |f|
+		File.open($conf.funnypicscsv, 'a') { |f|
 			f << [$session.session_id,$cgi["pic_url"]].to_csv
 		}
 
@@ -72,14 +71,14 @@ if $cgi.include?("pic_url")
 	end
 end
 if $cgi.include?("delete")
-	File.open(DELETE, 'a') { |f|
+	File.open($conf.funnypicsdeletecsv, 'a') { |f|
 		f << [$session.session_id,$cgi["delete"]].to_csv
 	}
 end
 
 h << "<div style='margin:10px'>"
-pics = CSV.read(PICS,{headers: true, col_sep: ","})
-del = CSV.read(DELETE,{headers: true, col_sep: ","}).to_a
+pics = CSV.read($conf.funnypicscsv,{headers: true, col_sep: ","})
+del = CSV.read($conf.funnypicsdeletecsv,{headers: true, col_sep: ","}).to_a
 
 pics_to_use = []
 pics.reverse_each{|l|

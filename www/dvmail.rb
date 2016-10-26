@@ -2,8 +2,9 @@ require "cgi"
 require 'cgi/session'
 $cgi = CGI.new
 $session = CGI::Session.new($cgi)
-USERDB = "../db/users.db"
 
+
+require_relative "../config_defaults"
 require_relative "html"
 require "sqlite3"
 require "pp"
@@ -12,7 +13,7 @@ class Dvmail
 	attr_accessor :user, :html, :userdb, :username
 	def initialize(username = $session['username'])
 		@html = HTML.new("Dvmail")
-		@userdb = SQLite3::Database.new(USERDB)
+		@userdb = SQLite3::Database.new($conf.userdb)
 		@html << "<body>"
 		unless (File.basename($0) == "login.cgi" || File.basename($0) == "register.cgi" || $session['username'])
 			# stop if unauthorized

@@ -1,24 +1,31 @@
 #!/usr/bin/ruby
 
-DB = "../db/myhomepage/"
-
+require_relative "../config_defaults"
 require_relative "html"
 require "cgi"
 $cgi = CGI.new
 h = HTML.new("My Homepage")
 
-if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{DB}/#{$cgi["url"]}.yaml")
+if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml")
 
 	require "yaml"
-	homepage = YAML::load_file("#{DB}/#{$cgi["url"]}.yaml")
+	homepage = YAML::load_file("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml")
 	if homepage[:password] == $cgi["password"]
 		homepage[:html].body = $cgi["body"]
-		File.open("#{DB}/#{$cgi["url"]}.yaml","w"){|f|
+		File.open("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml","w"){|f|
 			f << homepage.to_yaml
 		}
 		h.header["status"] = "REDIRECT"
 		h.header["Cache-Control"] = "no-cache"
 		h.header["Location"] = "/edit.cgi?url=#{$cgi["url"]}&password=#{$cgi["password"]}"
+
+
+		require "sqlite3"
+		userdb = SQLite3::Database.new($conf.userdb)
+		user = "susi"
+		pass = userdb.get_first_row("SELECT password FROM users WHERE id = ?",user)[0]
+		`./admin/myhomepage.js #{$cgi.server_name} #{user} #{pass}`
+
 	else # wrong PW
 		h.header["status"] = "REDIRECT"
 		h.header["Cache-Control"] = "no-cache"
