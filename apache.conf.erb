@@ -3,9 +3,9 @@
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
 	DocumentRoot <%=$conf.installdir%>/www
-	ServerName dvmail.<%=$conf.domain%>
+	ServerName mail.<%=$conf.domain%>
 
-<Directory "<%=$conf.installdir%>/www">
+	<Directory "<%=$conf.installdir%>/www">
 		AllowOverride All
 	</Directory>
 
