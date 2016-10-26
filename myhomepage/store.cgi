@@ -24,7 +24,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$con
 		userdb = SQLite3::Database.new($conf.userdb)
 		user = "susi"
 		pass = userdb.get_first_row("SELECT password FROM users WHERE id = ?",user)[0]
-		`./admin/myhomepage.js #{$cgi.server_name} #{user} #{pass}`
+		`./admin/myhomepage.js #{$conf.domain} #{user} #{pass} #{$cgi["url"]}`
 
 	else # wrong PW
 		h.header["status"] = "REDIRECT"

@@ -9,7 +9,7 @@ $cgi = CGI.new
 
 h = HTML.new("My Homepage -- admin")
 
-Dir.glob("#{DB}/*.yaml") {|f|
+Dir.glob("#{$conf.myhomepagedb}/*.yaml") {|f|
 	hp = YAML::load_file(f)
 	h << "<h1>#{File.basename(f).gsub(/.yaml$/,"")}</h1>"
 	h << "<pre><code>#{CGI.escapeHTML(hp[:html].body)}</code></pre>"

