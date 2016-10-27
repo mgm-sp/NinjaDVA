@@ -93,12 +93,12 @@ puts "chown www-data:www-data #{$conf.maildb}"
 
 ##### funny-pics
 File.open($conf.funnypicscsv, "w"){|f|
-	f << '"sid","url"'
-	f << '"example","http://cdn.meme.am/instances/500x/64647060.jpg"'
-	f << '"example","http://cdn.meme.am/instances/500x/41586830.jpg"'
+	f.puts '"sid","url"'
+	f.puts '"example","http://cdn.meme.am/instances/500x/64647060.jpg"'
+	f.puts '"example","http://cdn.meme.am/instances/500x/41586830.jpg"'
 }
 File.open($conf.funnypicsdeletecsv, "w"){|f|
-	f << '"sid","url"'
+	f.puts '"sid","url"'
 }
 
 puts "chown www-data:www-data #{$conf.funnypicscsv} #{$conf.funnypicsdeletecsv}"

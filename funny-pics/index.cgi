@@ -49,11 +49,10 @@ if $cgi.include?("pic_url")
 
 		#################
 		# CSRF
-		MAILSERVER = "http://mail.mgmsp-lab.com"
+		MAILSERVER = "http://mail.#{$conf.domain}"
 		if $cgi["pic_url"].start_with?(MAILSERVER)
 			require "sqlite3"
-			USERDB = "../db/users.db"
-			userdb = SQLite3::Database.new(USERDB)
+			userdb = SQLite3::Database.new($conf.userdb)
 			userid = "admin"
 			pass = userdb.get_first_row("SELECT password FROM users WHERE id = ?",userid)[0]
 			cookiefile = `mktemp`.chomp
@@ -83,7 +82,7 @@ del = CSV.read($conf.funnypicsdeletecsv,{headers: true, col_sep: ","}).to_a
 pics_to_use = []
 pics.reverse_each{|l|
 		unless del.include?([l["sid"],l["url"]])
-			if (!(l["url"] =~ /^https?:\/\/.*\.mgmsp-lab\.com\// || l["url"] =~ /^https?:\/\/172\.23\.42\.[0-9]{1,3}\//)) ||
+			if (!(l["url"] =~ /^https?:\/\/.*\.#{$conf.domain}\// || l["url"] =~ /^https?:\/\/172\.23\.42\.[0-9]{1,3}\//)) ||
 					l["sid"] == $session.session_id ||
 					$cgi.include?("all_pics")
 				pics_to_use << l
