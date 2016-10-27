@@ -1,13 +1,12 @@
 ---
 :description: |
-  Setze eine Webseite auf, welche die E-Mails von eingeloggten Nutzern liest. Benutze dazu die Schwachstelle im Webservices, welcher auch im Dashboard verwendet wird.
-  Die Homepage kann auf myhomepage aufgesetzt werden, es gibt neugierige User, die sich alle dort existierenden Homepages anschauen.
-  Die Lösung ist der Absender oder der Betreff einer Mail des neugierigen Users.
-:category: "Webservice"
+  Setze eine Webseite auf, welche die E-Mails von in mail.mgmsp-lab.com eingeloggten Nutzern liest. Benutze dazu die Schwachstelle im Webservices, welcher auch im Dashboard (dashboard.mgmsp-lab.com) verwendet wird.
+  Die Homepage kann auf myhomepage.mgmsp-lab.com aufgesetzt werden, es gibt neugierige User, die sich alle dort existierenden Homepages anschauen.
+  Die Lösung ist der Betreff einer Mail des Users.
+:category: "Webservices"
 :name: "Read others mail"
 :value: 10
 :keys:
-  - "Fön"
   - "Küss mich, ich bin ein verzauberter Königssohn!"
 :solution: |
   <script>

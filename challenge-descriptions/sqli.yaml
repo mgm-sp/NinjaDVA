@@ -1,0 +1,12 @@
+---
+:description: |
+  Finde die SQL Injection in der Adressbuchfunktion von http://mail.mgmsp-lab.com. Benutze diese um Heidi Heimlich zu finden. Sie gehört der Gruppe „Hidden“ an, welche vom Interface nicht angezeigt werden.
+
+  Welche Nachricht hat Heidi in ihrer vCard hinterlassen?
+:category: "SQLi"
+:name: "Versteckte Nutzer"
+:value: 10
+:keys:
+  - "Bitte keine Werbung."
+:solution:
+  - "' OR groups LIKE '%Hidden%' -- "
