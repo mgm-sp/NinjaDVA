@@ -2,11 +2,21 @@
 require "sqlite3"
 require_relative "config_defaults"
 
+
+[
+	File.dirname($conf.userdb),
+	$conf.chatdb,
+	File.dirname($conf.funnypicscsv),
+	$conf.myhomepagedb
+].each{|dir|
+	Dir.mkdir(dir) unless Dir.exists?(dir)
+}
+
 # Open a database
-db = SQLite3::Database.new $conf.userdb
+userdb = SQLite3::Database.new $conf.userdb
 
 # Create a table
-db.execute <<-SQL
+userdb.execute <<-SQL
   create table users (
   	id TEXT,
     name TEXT,
@@ -24,16 +34,16 @@ SQL
 "heidi" => ["Heidi Heimlich", "3AkdTJBm1", "Bitte keine Werbung.", "Support, Hidden"],
 "xaver" => ["Xaver Schmidt", "3AkdTJBm1", "Ask me, I will give you support!", "Support"]
 }.each do |name,data|
-  db.execute "insert into users VALUES ( ?, ?, ?, ?, ? )", [name] + data
+  userdb.execute "insert into users VALUES ( ?, ?, ?, ?, ? )", [name] + data
 end
 puts "chown www-data:www-data #{$conf.userdb}"
 
 
 
-db = SQLite3::Database.new $conf.maildb
+maildb = SQLite3::Database.new $conf.maildb
 
 # Create a table
-db.execute <<-SQL
+maildb.execute <<-SQL
   create table mail (
   	sender TEXT,
     recipient TEXT,
@@ -73,8 +83,22 @@ Müller-Wachtendonk"
 …und ich liebe dein goldenes Haar…"]
 
 ].each do |data|
-  db.execute "insert into users VALUES ( ?, ?, ?, ? )", data
+  maildb.execute "insert into mail VALUES ( ?, ?, ?, ? )", data
 end
 
 
 puts "chown www-data:www-data #{$conf.maildb}"
+
+
+
+##### funny-pics
+File.open($conf.funnypicscsv, "w"){|f|
+	f << '"sid","url"'
+	f << '"example","http://cdn.meme.am/instances/500x/64647060.jpg"'
+	f << '"example","http://cdn.meme.am/instances/500x/41586830.jpg"'
+}
+File.open($conf.funnypicsdeletecsv, "w"){|f|
+	f << '"sid","url"'
+}
+
+puts "chown www-data:www-data #{$conf.funnypicscsv} #{$conf.funnypicsdeletecsv}"
