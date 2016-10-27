@@ -1,54 +1,19 @@
 <%# encoding: UTF-8 %>
-<% require_relative "config_defaults" %>
+<%
+	require_relative "config_defaults"
+["mail","funny-pics","dashboard","myhomepage"].each{|server|
+%>
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
-	DocumentRoot <%=$conf.installdir%>/www
-	ServerName mail.<%=$conf.domain%>
+	DocumentRoot <%=$conf.installdir%>/<%=server%>
+	ServerName <%=server%>.<%=$conf.domain%>
 
-	<Directory "<%=$conf.installdir%>/www">
+	<Directory "<%=$conf.installdir%>/<%=server%>">
 		AllowOverride All
 	</Directory>
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
-
-<VirtualHost *:80>
-	ServerAdmin webmaster@localhost
-	DocumentRoot <%=$conf.installdir%>/funny-pics
-	ServerName funny-pics.<%=$conf.domain%>
-
-	<Directory "<%=$conf.installdir%>/funny-pics">
-		AllowOverride All
-	</Directory>
-
-	ErrorLog ${APACHE_LOG_DIR}/error.log
-	CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-
-<VirtualHost *:80>
-	ServerAdmin webmaster@localhost
-	DocumentRoot <%=$conf.installdir%>/dashboard
-	ServerName dashboard.<%=$conf.domain%>
-
-	<Directory "<%=$conf.installdir%>/dashboard">
-		AllowOverride All
-	</Directory>
-
-	ErrorLog ${APACHE_LOG_DIR}/error.log
-	CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-
-<VirtualHost *:80>
-	ServerAdmin webmaster@localhost
-	DocumentRoot <%=$conf.installdir%>/myhomepage
-	ServerName myhomepage.<%=$conf.domain%>
-
-	<Directory "<%=$conf.installdir%>/myhomepage/">
-		AllowOverride All
-	</Directory>
-
-	ErrorLog ${APACHE_LOG_DIR}/error.log
-	CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
+<%}%>
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
