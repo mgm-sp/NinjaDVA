@@ -51,15 +51,11 @@ if $cgi.include?("pic_url")
 		# CSRF
 		MAILSERVER = "http://mail.#{$conf.domain}"
 		if $cgi["pic_url"].start_with?(MAILSERVER)
-			require "sqlite3"
-			userdb = SQLite3::Database.new($conf.userdb)
-			userid = "admin"
-			pass = userdb.get_first_row("SELECT password FROM users WHERE id = ?",userid)[0]
 			cookiefile = `mktemp`.chomp
 			CURL = "curl --stderr /dev/null -o /dev/null --cookie-jar '#{cookiefile}' --cookie '#{cookiefile}'"
 
 			`#{CURL} '#{MAILSERVER}/'`
-			`#{CURL} '#{MAILSERVER}/login.cgi' -H 'Content-Type: application/x-www-form-urlencoded' --data "username=#{userid}&password=#{pass}"`
+			`#{CURL} '#{MAILSERVER}/login.cgi' -H 'Content-Type: application/x-www-form-urlencoded' --data "username=admin&password=#{$conf.default_userpw}"`
 			`#{CURL} "#{$cgi["pic_url"].gsub('"','\"')}" -L`
 			`#{CURL} '#{MAILSERVER}/logout.cgi'`
 			`rm #{cookiefile}`

@@ -2,6 +2,7 @@
 require "sqlite3"
 require_relative "config_defaults"
 
+chown = []
 
 [
 	File.dirname($conf.userdb),
@@ -10,6 +11,7 @@ require_relative "config_defaults"
 	$conf.myhomepagedb
 ].each{|dir|
 	Dir.mkdir(dir) unless Dir.exists?(dir)
+	chown << dir
 }
 
 # Open a database
@@ -26,17 +28,23 @@ userdb.execute <<-SQL
   );
 SQL
 
+require "argon2"
+def argon(pw)
+	return Argon2::Password.new(secret: $conf.pepper).create(pw)
+end
 # Execute a few inserts
 {
-"admin" => ["Andi Admin", "3AkdTJBm1", "Leave me alone if you don't want to have trouble.", "Administrator, Checker"],
-"siggi" => ["Siggi Sorglos", "3AkdTJBm1", "Die Welt ist schön!", "Dummies"],
-"susi" => ["Susi Sorglos", "3AkdTJBm1", "❤ Otto ❤", "Dummies"],
-"heidi" => ["Heidi Heimlich", "3AkdTJBm1", "Bitte keine Werbung.", "Support, Hidden"],
-"xaver" => ["Xaver Schmidt", "3AkdTJBm1", "Ask me, I will give you support!", "Support"]
+"alice" => ["Alice Wonder",   Digest::MD5.hexdigest("Password1"), "Follow the white Rabbit", "Newbies"],
+"bob"   => ["Bob Builder",    Digest::MD5.hexdigest("Password1"), "Yes we can", "Newbies"],
+"admin" => ["Andi Admin",     argon($conf.default_userpw), "Leave me alone if you don't want to have trouble.", "Administrator, Checker"],
+"siggi" => ["Siggi Sorglos",  argon($conf.default_userpw), "Die Welt ist schön!", "Dummies"],
+"susi"  => ["Susi Sorglos",   argon($conf.default_userpw), "❤ Otto ❤", "Dummies"],
+"heidi" => ["Heidi Heimlich", argon($conf.default_userpw), "Bitte keine Werbung.", "Support, Hidden"],
+"xaver" => ["Xaver Schmidt",  argon($conf.default_userpw), "Ask me, I will give you support!", "Support"]
 }.each do |name,data|
   userdb.execute "insert into users VALUES ( ?, ?, ?, ?, ? )", [name] + data
 end
-puts "chown www-data:www-data #{$conf.userdb}"
+chown << $conf.userdb
 
 
 
@@ -86,8 +94,7 @@ Müller-Wachtendonk"
   maildb.execute "insert into mail VALUES ( ?, ?, ?, ? )", data
 end
 
-
-puts "chown www-data:www-data #{$conf.maildb}"
+chown << $conf.maildb
 
 
 
@@ -101,4 +108,7 @@ File.open($conf.funnypicsdeletecsv, "w"){|f|
 	f.puts '"sid","url"'
 }
 
-puts "chown www-data:www-data #{$conf.funnypicscsv} #{$conf.funnypicsdeletecsv}"
+chown << $conf.funnypicscsv
+chown << $conf.funnypicsdeletecsv
+
+puts "chown www-data:www-data #{chown.join(" ")}"

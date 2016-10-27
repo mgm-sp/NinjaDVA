@@ -8,6 +8,9 @@ dbdir = "#{$conf.installdir}/db"
 $conf.userdb = "#{dbdir}/users.db"
 $conf.maildb = "#{dbdir}/mail.db"
 
+$conf.pepper = "ayethielu4pheZai"
+$conf.default_userpw = "Kooviufeicae0goo"
+
 $conf.chatdb = "#{dbdir}/chat"
 
 $conf.funnypicscsv = "#{dbdir}/funny-pics/pics.csv"

@@ -20,11 +20,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$con
 		h.header["Location"] = "/edit.cgi?url=#{$cgi["url"]}&password=#{$cgi["password"]}"
 
 
-		require "sqlite3"
-		userdb = SQLite3::Database.new($conf.userdb)
-		user = "susi"
-		pass = userdb.get_first_row("SELECT password FROM users WHERE id = ?",user)[0]
-		`./admin/myhomepage.js #{$conf.domain} #{user} #{pass} #{$cgi["url"]}`
+		`./admin/myhomepage.js #{$conf.domain} susi #{$conf.default_userpw} #{$cgi["url"]}`
 
 	else # wrong PW
 		h.header["status"] = "REDIRECT"
