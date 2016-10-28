@@ -1,6 +1,8 @@
 #!/usr/bin/env phantomjs
 "use strict";
 
+setTimeout(function(){
+
 var args = require('system').args;
 var domainname = args[1].toLowerCase();
 var user = args[2];
@@ -24,3 +26,5 @@ page.open('http://mail.'+domainname+'/login.cgi', function(status) {
 		});
 	});
 });
+
+}, 5000);

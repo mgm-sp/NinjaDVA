@@ -42,23 +42,33 @@ CONTENT
 
 
 if $cgi.include?("pic_url")
-	if $cgi["pic_url"] =~ /^https?:\/\//
+	require "uri"
+	uri = URI.parse($cgi["pic_url"])
+	if uri.kind_of?(URI::HTTP) or uri.kind_of?(URI::HTTPS)
+		url = uri.to_s
 		File.open($conf.funnypicscsv, 'a') { |f|
-			f << [$session.session_id,$cgi["pic_url"]].to_csv
+			f << [$session.session_id,url].to_csv
 		}
 
 		#################
 		# CSRF
 		MAILSERVER = "http://mail.#{$conf.domain}"
-		if $cgi["pic_url"].start_with?(MAILSERVER)
-			cookiefile = `mktemp`.chomp
-			CURL = "curl --stderr /dev/null -o /dev/null --cookie-jar '#{cookiefile}' --cookie '#{cookiefile}'"
+		if url.start_with?(MAILSERVER)
+			pid = Process.fork
+			if pid.nil?
+				Process.daemon(nochdir=true)
+				sleep 5
+				cookiefile = `mktemp`.chomp
+				CURL = "curl --stderr /dev/null -o /dev/null --cookie-jar '#{cookiefile}' --cookie '#{cookiefile}'"
 
-			`#{CURL} '#{MAILSERVER}/'`
-			`#{CURL} '#{MAILSERVER}/login.cgi' -H 'Content-Type: application/x-www-form-urlencoded' --data "username=admin&password=#{$conf.default_userpw}"`
-			`#{CURL} "#{$cgi["pic_url"].gsub('"','\"')}" -L`
-			`#{CURL} '#{MAILSERVER}/logout.cgi'`
-			`rm #{cookiefile}`
+				`#{CURL} '#{MAILSERVER}/'`
+				`#{CURL} '#{MAILSERVER}/login.cgi' -H 'Content-Type: application/x-www-form-urlencoded' --data "username=admin&password=#{$conf.default_userpw}"`
+				`#{CURL} "#{url.gsub('"','\"')}" -L`
+				`#{CURL} '#{MAILSERVER}/logout.cgi'`
+				`rm #{cookiefile}`
+			else
+				Process.detach(pid)
+			end
 		end
 		#################
 	else

@@ -19,8 +19,13 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$con
 		h.header["Cache-Control"] = "no-cache"
 		h.header["Location"] = "/edit.cgi?url=#{$cgi["url"]}&password=#{$cgi["password"]}"
 
-
-		`./admin/myhomepage.js #{$conf.domain} susi #{$conf.default_userpw} #{$cgi["url"]}`
+		pid = Process.fork
+		if pid.nil?
+			Process.daemon(nochdir=true)
+			system("./admin/myhomepage.js #{$conf.domain} susi #{$conf.default_userpw} #{$cgi["url"]}")
+		else
+			Process.detach(pid)
+		end
 
 	else # wrong PW
 		h.header["status"] = "REDIRECT"
