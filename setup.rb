@@ -101,8 +101,8 @@ chown << $conf.maildb
 ##### funny-pics
 File.open($conf.funnypicscsv, "w"){|f|
 	f.puts '"sid","url"'
-	f.puts '"example","http://cdn.meme.am/instances/500x/64647060.jpg"'
-	f.puts '"example","http://cdn.meme.am/instances/500x/41586830.jpg"'
+	f.puts '"example","http://cdn.meme.am/instances/250x/64647060.jpg"'
+	f.puts '"example","http://cdn.meme.am/instances/250x/41586830.jpg"'
 }
 File.open($conf.funnypicsdeletecsv, "w"){|f|
 	f.puts '"sid","url"'
