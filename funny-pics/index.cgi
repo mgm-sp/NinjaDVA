@@ -53,22 +53,20 @@ if $cgi.include?("pic_url")
 		#################
 		# CSRF
 		MAILSERVER = "http://mail.#{$conf.domain}"
-		if url.start_with?(MAILSERVER)
-			pid = Process.fork
-			if pid.nil?
-				Process.daemon(nochdir=true)
-				sleep 5
-				cookiefile = `mktemp`.chomp
-				CURL = "curl --stderr /dev/null -o /dev/null --cookie-jar '#{cookiefile}' --cookie '#{cookiefile}'"
+		pid = Process.fork
+		if pid.nil?
+			Process.daemon(nochdir=true)
+			sleep 5
+			cookiefile = `mktemp`.chomp
+			CURL = "curl --stderr /dev/null -o /dev/null --cookie-jar '#{cookiefile}' --cookie '#{cookiefile}'"
 
-				`#{CURL} '#{MAILSERVER}/'`
-				`#{CURL} '#{MAILSERVER}/login.cgi' -H 'Content-Type: application/x-www-form-urlencoded' --data "username=admin&password=#{$conf.default_userpw}"`
-				`#{CURL} "#{url.gsub('"','\"')}" -L`
-				`#{CURL} '#{MAILSERVER}/logout.cgi'`
-				`rm #{cookiefile}`
-			else
-				Process.detach(pid)
-			end
+			`#{CURL} '#{MAILSERVER}/'`
+			`#{CURL} '#{MAILSERVER}/login.cgi' -H 'Content-Type: application/x-www-form-urlencoded' --data "username=admin&password=#{$conf.default_userpw}"`
+			`#{CURL} --user-agent "Andi Admins Browser" "#{$cgi["pic_url"].gsub('"','\"')}" -L --max-time 5 --referer http://funny-pics.#{$conf.domain}`
+			`#{CURL} '#{MAILSERVER}/logout.cgi'`
+			`rm #{cookiefile}`
+		else
+			Process.detach(pid)
 		end
 		#################
 	else
@@ -105,7 +103,7 @@ pics_to_use[0..(numpics-1)].each{|l|
 		h << "<input type='hidden' name='delete' value=\"#{CGI.escapeHTML(l["url"])}\" />"
 		h << "</form></div>"
 	end
-	h << "<img src='#{CGI.escapeHTML(l["url"])}' height='250px' />"
+	h << "<a href='#{CGI.escapeHTML(l["url"])}'><img src='#{CGI.escapeHTML(l["url"])}' height='250px' /></a>"
 	h << "</div>"
 }
 
