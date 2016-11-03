@@ -8,5 +8,5 @@
 :value: 10
 :keys:
   - "Bitte keine Werbung."
-:solution:
+:solutions:
   - "' OR groups LIKE '%Hidden%' -- "
