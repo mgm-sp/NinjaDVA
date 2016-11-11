@@ -36,6 +36,7 @@ end
 {
 "alice" => ["Alice Wonder",   Digest::MD5.hexdigest("Password1"), "Follow the white Rabbit", "Newbies"],
 "bob"   => ["Bob Builder",    Digest::MD5.hexdigest("Password1"), "Yes we can", "Newbies"],
+"wolle" => ["W. S.",          Digest::MD5.hexdigest("Gewinner"), "Das muss alles sicherer werden!", "Sicherheitsverantwortlich"],
 "admin" => ["Andi Admin",     argon($conf.default_userpw), "Leave me alone if you don't want to have trouble.", "Administrator, Checker"],
 "siggi" => ["Siggi Sorglos",  argon($conf.default_userpw), "Die Welt ist schön!", "Dummies"],
 "susi"  => ["Susi Sorglos",   argon($conf.default_userpw), "❤ Otto ❤", "Dummies"],
