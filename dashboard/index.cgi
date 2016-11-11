@@ -17,7 +17,17 @@ end
 
 h.add_css("dashboard.css")
 
-loremwidget = <<CONTENT
+h << <<HEAD
+<div id="head">
+<img src='mgm-sp-logo.png' id="logo"></img>
+<span style="padding-left:2em" class="green">
+Dashboard
+</span>
+</div>
+HEAD
+
+
+timewidget = <<CONTENT
 <div class='widget'>
 <h1>Current Time</h1>
 <div id="txt"></div>
@@ -42,7 +52,7 @@ function checkTime(i) {
 $(document).ready(startTime);
 TIMEWIDGET
 
-h << loremwidget
+h << timewidget
 
 
 h.add_head_script("jquery-2.2.3.min.js")
@@ -83,6 +93,8 @@ $(document).ready(function() {
     unit: 'c',
     success: function(weather) {
       html = '<h2><i class="icon-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h2>';
+      html = '<h2><i class="icon-'+weather.code+'"></i>'+weather.temp+'&deg;'+weather.units.temp+'<img style="vertical-align:middle; display:inline-block; height:3em; margin-left: 0.3em" src="'+weather.forecast[0].image+'"></img></h2>';
+
       html += '<ul><li>'+weather.city+', '+weather.region+'</li>';
       html += '<li class="currently">'+weather.currently+'</li>';
       html += '<li>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</li></ul>';
