@@ -70,7 +70,7 @@ h << <<MAILWIDGET
 <div id='inbox'>No new Mail</div>
 </div>
 MAILWIDGET
-h.add_script_file("http://mail.#{$conf.domain}/api/mail.cgi?jsonp=updateMail")
+#h.add_script_file("http://mail.#{$conf.domain}/api/mail.cgi?jsonp=updateMail")
 
 h << "<!-- END MAIL WIDGET -->"
 
