@@ -18,6 +18,7 @@ $conf.funnypicsdeletecsv = "#{dbdir}/funny-pics/delete.csv"
 
 $conf.myhomepagedb = "#{dbdir}/myhomepage/"
 
+$conf.location = "Dresden, Germany"
 
 if File.exists?("#{$conf.installdir}/config.rb")
 	load "#{$conf.installdir}/config.rb"

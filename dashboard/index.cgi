@@ -76,11 +76,10 @@ h << "<!-- END MAIL WIDGET -->"
 
 h << "\n"*3
 
-location="Dresden, Germany"
 h << <<WEATHERWIDGET
 <!-- BEGIN WEATHER WIDGET -->
 <div class='widget'>
-<h1>Weather for #{location}</h1>
+<h1>Weather for #{$conf.location}</h1>
 <div id='weather' />
 </div>
 WEATHERWIDGET
@@ -88,7 +87,7 @@ h.add_script_file("jquery.simpleWeather.min.js")
 h.add_script <<JS
 $(document).ready(function() {
   $.simpleWeather({
-    location: 'Dresden, Germany',
+    location: '#{$conf.location}',
     woeid: '',
     unit: 'c',
     success: function(weather) {
