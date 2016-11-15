@@ -20,7 +20,7 @@ function updateMail(mail_ary){
 }
 
 // Thanks to CORS, the old JSONP Interface
-// api/mail.cgi?jsonp=updateMail is obsolete now
+// api/mail.cgi?jsonp=<mycallbackfunction> is obsolete now
 $(document).ready(function () {
 	var domain = window.location.host.match(/^dashboard\.(.*)$/)[1];
 	$.ajax({
