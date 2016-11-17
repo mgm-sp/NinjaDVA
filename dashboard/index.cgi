@@ -80,7 +80,7 @@ h << <<WEATHERWIDGET
 <!-- BEGIN WEATHER WIDGET -->
 <div class='widget'>
 <h1>Weather for #{$conf.location}</h1>
-<div id='weather' />
+<div id='weather'></div>
 </div>
 WEATHERWIDGET
 h.add_script_file("jquery.simpleWeather.min.js")
@@ -108,5 +108,42 @@ $(document).ready(function() {
 JS
 h << "<!-- END WEATHER WIDGET -->"
 
+
+h << <<TIMEWIDGET
+
+
+<!-- BEGIN TIME WIDGET -->
+TIMEWIDGET
+
+h << <<TIMEWIDGET
+<div class='widget'>
+<h1>Today's Schedule</h1>
+<div id='calendar'></div>
+</div>
+TIMEWIDGET
+h.add_css("fullcalendar/fullcalendar.min.css")
+h.add_script_file("fullcalendar/moment.min.js")
+h.add_script_file("fullcalendar/fullcalendar.min.js")
+h.add_script_file("fullcalendar/locale/de.js")
+h.add_script <<JS
+$(document).ready(function() {
+	$('#calendar').fullCalendar({
+		header: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'agendaWeek,agendaDay,listWeek'
+		},
+		defaultView: 'agendaDay',
+		navLinks: false, // can click day/week names to navigate views
+		editable: false,
+		eventLimit: true, // allow "more" link when too many events
+		nowIndicator: true,
+		slotDuration: '00:30:00',
+		events: "events.json"
+	});
+});
+JS
+
+h << "<!-- END TIME WIDGET -->"
 
 h.out($cgi)
