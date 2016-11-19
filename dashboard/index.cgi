@@ -24,6 +24,7 @@ h << <<HEAD
 Dashboard
 </span>
 </div>
+<div class='gridster'>
 HEAD
 
 
@@ -194,6 +195,7 @@ h << <<LINK
 LINK
 
 
+h << "</div>"
 h.add_css("jquery.gridster.min.css")
 
 h.add_head_script("jquery-2.2.3.min.js")
@@ -202,7 +204,7 @@ h.add_head_script("jquery.gridster.min.js")
 h.add_script <<GRID
 $(function(){ //DOM Ready
 
-        $(".gridster ul").gridster({
+        $("div.gridster").gridster({
             widget_base_dimensions: [220, 150],
             widget_margins: [75, 75],
 						widget_selector: "div.widget",
