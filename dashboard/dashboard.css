@@ -2,16 +2,12 @@ body{
 	background-color:  #b3b3b3;
 	font: 1em Verdana, Geneva, sans-serif;
 }
-
-.widget {
-	width : 26%;
-	margin: 1%;
-	padding: 2%;
-	display: inline-block;
+div.gridster {
+	margin: auto;
+}
+div.widget {
 	font-size: 14px;
-/*	border-style: solid;
-	border-width: thin;*/
-	vertical-align: top;
+	padding: 3ex;
 
 	background: #f9f9f9;
 	border: hidden;
@@ -19,21 +15,77 @@ body{
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.39);
 }
 
+#clock
+{ 
+  display: inline-block;
+  height:4.5em;
+  width: 14em;
+	background: #333;
+}
+ 
+#clk_bg, #txt
+{
+  font: 2.5em 'Segment7Standard', sans-serif;
+  position: absolute;
+  padding: 1ex;
+
+}
+
+#clk_bg
+{
+  color:#136e11;
+  text-shadow: 0px 0px 10px rgba(36, 221, 34, 0.6);
+  border: hidden;
+  border-radius: 4px;
+}
+ 
+#txt
+{
+  color:rgba(36, 221, 34, 0.7);
+  text-shadow: 0 0 0.25em  rgba(36, 221, 34, 0.3), 0 0 0.15em #24dd22;
+}
+
+
 h1 {
-color:#1d70b8;
+	color:#1d70b8;
 }
 
-.widget tr:first-child{
-font-size: 1.05em;
-font-weight: bold;
+#inbox th{
+	text-align: left;
+	font-size: 1.05em;
+	font-weight: bold;
 }
 
-.widget tr:hover{
-background: #f0f0f0;
+#inbox tr:hover{
+	background: #f0f0f0;
 }
 
-.widget td:last-child{
-padding: 0 0 0 1em;
+a:link {
+	text-decoration: none;
+	color: black;
+}
+
+a:visited {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	text-decoration: underline;
+	color: black;
+}
+
+a:active {
+	text-decoration: underline;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0px 8px ;
+}
+
+li {
+	padding: 2px 0;
 }
 
 #logo {
@@ -64,3 +116,36 @@ padding: 0 0 0 1em;
 
 }
 
+#weather_background {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-repeat: no-repeat;
+	border-radius: 10px;
+    background-position: center;
+    background-size: cover;
+}
+#weather{
+	position: absolute;
+	display: block;
+	top:  6em;
+	right: 2em; 
+	width: 25em;
+	background-color: rgba(200,200,200,0.8);
+	border-radius: 10px;
+	text-align: center;
+}
+#weather>h2{
+	display: inline;
+	float:right;
+}
+#weather>ul{
+	margin-top: 10px;
+}
+#fav>li{
+    position: static;
+}

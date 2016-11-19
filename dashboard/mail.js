@@ -1,8 +1,8 @@
 function updateMail(mail_ary){
 	var mailtable = $("<table />");
 	mailtable.append($("<tr />")
-			.append($("<td />").text('From'))
-			.append($("<td />").text('Subject'))
+			.append($("<th />").text('From'))
+			.append($("<th />").text('Subject'))
 			);
 	$(mail_ary).each(function(i,e){
 		mailtable.append($("<tr />")
@@ -14,7 +14,6 @@ function updateMail(mail_ary){
 	});
 	if (mail_ary.length > 0) {
 		$("#inbox").text("");
-		console.log($("#inbox"));
 		$("#inbox").append(mailtable);
 	};
 }
@@ -22,16 +21,60 @@ function updateMail(mail_ary){
 // Thanks to CORS, the old JSONP Interface
 // api/mail.cgi?jsonp=<mycallbackfunction> is obsolete now
 $(document).ready(function () {
-	var domain = window.location.host.match(/^dashboard\.(.*)$/)[1];
+	var mailhost = "http://mail." + window.location.host.match(/^[^\.]*\.(.*)$/)[1];
 	$.ajax({
-		url: "http://mail."+domain+"/api/mail.cgi",
+		url: mailhost+"/api/mail.cgi",
 		xhrFields: {
 			withCredentials: true
 		},
 
 		type: "get",
 		success: updateMail,
-		error: function (error){ console.log(error) }
+		error: function (error){
+			if (error.status === 401) {
+				$("#inbox").text("You need to sign in to your mail account first!");
+				var logintable = $("<table />");
+				logintable.append($("<tr />")
+						.append($("<td />",{
+							"class" : "description"
+						}).text('Username:'))
+						.append($("<td />",{
+								"class" : "content"
+							}).append($("<input />",{
+							"type":"text",
+							"name":"username"
+						}))
+						)
+					);
+				logintable.append($("<tr />")
+						.append($("<td />",{
+							"class" : "description"
+						}).text('Password:'))
+						.append($("<td />",{
+							"class" : "content"
+						}).append($("<input />",{
+							"type":"password",
+							"name":"password"
+						}))
+						)
+					);
+				logintable.append($("<tr />")
+						.append($("<td />",{
+							"class" : "description"
+						}))
+						.append($("<td />",{
+							"class" : "content"
+						}).append($("<input />",{"type":"submit"}))
+						)
+					);
+				$("#inbox").append($("<form />",{
+					"method" : "POST",
+					"action" : mailhost
+				}).append(logintable));
+			} else {
+				console.log(error);
+			}
+		}
 	});
 });
 

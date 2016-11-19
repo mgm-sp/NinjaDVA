@@ -28,11 +28,15 @@ HEAD
 
 
 timewidget = <<CONTENT
-<div class='widget'>
+<div class='widget' data-row="1" data-col="1" data-sizex="1" data-sizey="1">
 <h1>Current Time</h1>
-<div id="txt"></div>
+<div id="clock">
+      <div id="clk_bg">88:88:88</div>
+      <div id="txt">10:11:59</div>
+</div>
 </div>
 CONTENT
+h.add_css("https://fontlibrary.org/face/segment7")
 h.add_script <<TIMEWIDGET
 function startTime() {
     var today = new Date();
@@ -41,8 +45,13 @@ function startTime() {
     var s = today.getSeconds();
     m = checkTime(m);
     s = checkTime(s);
-    document.getElementById('txt').innerHTML =
-    h + ":" + m + ":" + s;
+    if ( h >= 10 ) {
+	    document.getElementById('txt').innerHTML =
+        h + ":" + m + ":" + s;
+    } else {
+        document.getElementById('txt').innerHTML =
+        '&nbsp'+h + ":" + m + ":" + s;
+	}
     var t = setTimeout(startTime, 500);
 }
 function checkTime(i) {
@@ -55,7 +64,6 @@ TIMEWIDGET
 h << timewidget
 
 
-h.add_head_script("jquery-2.2.3.min.js")
 
 h << <<MAILWIDGET
 
@@ -65,9 +73,9 @@ MAILWIDGET
 h.add_script_file("mail.js")
 
 h << <<MAILWIDGET
-<div class='widget'>
+<div class='widget' data-row="3" data-col="1" data-sizex="1" data-sizey="2">
 <h1>New Mail</h1>
-<div id='inbox'>No new Mail</div>
+<div id='inbox'>Fetching new mail...</div>
 </div>
 MAILWIDGET
 #h.add_script_file("http://mail.#{$conf.domain}/api/mail.cgi?jsonp=updateMail")
@@ -78,11 +86,17 @@ h << "\n"*3
 
 h << <<WEATHERWIDGET
 <!-- BEGIN WEATHER WIDGET -->
-<div class='widget'>
+<div class='widget' data-row="1" data-col="2" data-sizex="2" data-sizey="1">
 <h1>Weather for #{$conf.location}</h1>
-<div id='weather'></div>
-</div>
 WEATHERWIDGET
+if File.exists?("#{$conf.location}.jpg")
+	h << "<div id='weather_background' style=\"background-image: url('#{$conf.location}.jpg');\">"
+end
+h << "<div id='weather'></div>"
+if File.exists?("#{$conf.location}.jpg")
+	h << "</div>"
+end
+h << "</div>"
 h.add_script_file("jquery.simpleWeather.min.js")
 h.add_script <<JS
 $(document).ready(function() {
@@ -97,7 +111,7 @@ $(document).ready(function() {
       html += '<ul><li>'+weather.city+', '+weather.region+'</li>';
       html += '<li class="currently">'+weather.currently+'</li>';
       html += '<li>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</li></ul>';
-  
+
       $("#weather").html(html);
     },
     error: function(error) {
@@ -109,18 +123,18 @@ JS
 h << "<!-- END WEATHER WIDGET -->"
 
 
-h << <<TIMEWIDGET
+h << <<CALENDARWIDGET
 
 
-<!-- BEGIN TIME WIDGET -->
-TIMEWIDGET
+<!-- BEGIN CALENDAR WIDGET -->
+CALENDARWIDGET
 
-h << <<TIMEWIDGET
-<div class='widget'>
+h << <<CALENDARWIDGET
+<div class='widget' data-row="3" data-col="2" data-sizex="2" data-sizey="3">
 <h1>Today's Schedule</h1>
 <div id='calendar'></div>
 </div>
-TIMEWIDGET
+CALENDARWIDGET
 h.add_css("fullcalendar/fullcalendar.min.css")
 h.add_script_file("fullcalendar/moment.min.js")
 h.add_script_file("fullcalendar/fullcalendar.min.js")
@@ -133,6 +147,7 @@ $(document).ready(function() {
 			center: 'title',
 			right: 'agendaWeek,agendaDay,listWeek'
 		},
+		height: 500,
 		defaultView: 'agendaDay',
 		navLinks: false, // can click day/week names to navigate views
 		editable: false,
@@ -144,6 +159,62 @@ $(document).ready(function() {
 });
 JS
 
-h << "<!-- END TIME WIDGET -->"
+h << "<!-- END CALENDAR WIDGET -->"
+
+
+if $conf.current_slide
+h << <<SLIDES
+
+<!-- BEGIN SLIDES WIDGET -->
+<div class='widget' data-row="1" data-col="3" data-sizex="3" data-sizey="4">
+<h1>Lecture Material</h1>
+<div style='text-align: center;height: 100%'><object type="application/pdf" data="#{$conf.current_slide}" style="width:90%;height:80%"> </object></div>
+</div>
+<!-- END SLIDES WIDGET -->
+SLIDES
+end
+
+
+h << <<LINK
+
+<!-- BEGIN LINK WIDGET -->
+<div class='widget' data-row="4" data-col="1" data-sizex="1" data-sizey="1">
+<h1>Favourites</h1>
+<ul id='fav' style='position: inline'>
+LINK
+
+$conf.links.each{|l|
+	h << "<li><a href='#{l[:href]}'>#{l[:name]}</a></li>"
+}
+h << "</ul>"
+
+h << <<LINK
+</div>
+<!-- END LINK WIDGET -->
+LINK
+
+
+h.add_css("jquery.gridster.min.css")
+
+h.add_head_script("jquery-2.2.3.min.js")
+h.add_head_script("jquery.gridster.min.js")
+
+h.add_script <<GRID
+$(function(){ //DOM Ready
+
+        $(".gridster ul").gridster({
+            widget_base_dimensions: [220, 150],
+            widget_margins: [75, 75],
+						widget_selector: "div.widget",
+            helper: 'clone',
+            resize: {
+                enabled: true
+            }
+        }).data('gridster');
+
+
+});
+GRID
+
 
 h.out($cgi)
