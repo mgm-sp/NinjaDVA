@@ -1,0 +1,59 @@
+body{
+	    font-family: "Trebuchet MS", Helvetica, sans-serif;
+		color: #444444;
+}
+
+form#newpic{
+	border: solid 2px rgba(255, 173, 51, 1);
+	border-radius: 5px;
+	padding: 5px;
+	box-shadow: 0 3px 8px 0 rgba(255, 173, 51, 0.2), 0 5px 20px 0 rgba(255, 173, 51, 0.19);
+}
+form#newpic input[type=text] {
+	width: 100%
+}
+input{
+	margin: 5px 0;
+}
+
+input[type=submit]{
+	background: linear-gradient(to bottom right, rgba(255, 215, 0, 1), rgba(255, 173, 51, 1));
+	color: #444444;
+	font-weight: bolder;
+	border-radius: 2px;
+	padding: 0.33em;
+	border: transparent;
+	margin-top: 5px;
+}
+
+input[type=submit]:hover{	
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+}
+div.pic {
+	display: inline-block;
+	min-width: 10em;
+}
+img{
+	margin: 10px; 
+	box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+a{
+	text-decoration: none;
+	color: black;
+}
+
+a:hover{
+	text-decoration: underline;
+}
+
+div.delete {
+	position: absolute;
+	margin: 5px 10px;
+}
+div#last{
+float:right;
+}
+div#content{
+	margin:10px;
+}

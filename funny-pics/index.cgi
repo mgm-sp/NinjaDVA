@@ -12,6 +12,7 @@ $session = CGI::Session.new($cgi)
 numpics = $cgi.include?("num") ? $cgi["num"].to_i : 10
 
 h = HTML.new("Funny Pics")
+h.add_css("funny_pics.css")
 
 if $cgi.include?("refresh")
 	time = $cgi["refresh"].to_i == 0 ? 60 : $cgi["refresh"].to_i
@@ -20,8 +21,8 @@ end
 
 h << <<CONTENT
 <div>
-<form method="POST">
-<div style='float:right'>
+<form id='newpic' method="POST">
+<div id='last'>
 	Show only last:
 CONTENT
 [5,10,15,20,25].each{|i|
@@ -34,8 +35,8 @@ CONTENT
 h << <<CONTENT
 </div>
 This Picture URL is really funny:
-	<input type='text' style='width: 100%' name='pic_url' placeholder='http://...'/>
-	<input type='submit'/>
+	<input type='text' name='pic_url' placeholder='http://...'/>
+	<input class='button' type='submit'/>
 </form>
 </div>
 CONTENT
@@ -79,7 +80,7 @@ if $cgi.include?("delete")
 	}
 end
 
-h << "<div style='margin:10px'>"
+h << "<div class='content'>"
 pics = CSV.read($conf.funnypicscsv,{headers: true, col_sep: ","})
 del = CSV.read($conf.funnypicsdeletecsv,{headers: true, col_sep: ","}).to_a
 
@@ -95,9 +96,9 @@ pics.reverse_each{|l|
 }
 
 pics_to_use[0..(numpics-1)].each{|l|
-	h << "<div style='display: inline-block; min-width: 10em'>"
+	h << "<div class='pic'>"
 	if l["sid"] == $session.session_id
-		h << "<div style='position: absolute;'>"
+		h << "<div class='delete'>"
 		h << "<form method='POST'>"
 		h << "<input type='submit' value='Delete' />"
 		h << "<input type='hidden' name='delete' value=\"#{CGI.escapeHTML(l["url"])}\" />"
