@@ -1,11 +1,116 @@
-.widget {
-	width : 30%;
-	display: inline-block;
-	font-size: 14px;
-	border-style: solid;
-	border-width: thin;
-	vertical-align: top;
+body{
+	    font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 html, body {
 	height : 80%
 }
+
+#head{
+	background: #dddddd;
+	text-align: left;
+	padding: 0.5em 21%;
+	margin: -10px;
+	border-bottom: solid 2px #cccccc;
+}
+
+
+#head h1{
+	color: rgba(0,128,128,1);
+	font-variant: small-caps;
+}
+
+#head h2{
+	color: rgba(32,178,170,1);
+	margin: 0 0 1.5em 2em;
+}
+
+h2 span{
+	font-variant: small-caps;
+}
+
+#content{
+	background: #ffffff;
+	border-radius:5px;
+	border: 1px transparent;
+	box-shadow: 0 0 3px rgba(0,0,0,0.25);
+	max-width: 900px;
+	margin: auto;
+	margin-top: -20px;
+	padding: 0.8em;
+}
+
+#create{
+	margin: 0 0 40px 0;
+	padding: 0 0 20px 0;
+	position: relative;
+	background: #ffffff;  
+	box-shadow: 0px 5px 8px -8px #888;
+
+}
+
+
+table{
+width:100%;
+}
+
+td{
+	padding-top: 30px;
+}
+
+td img{
+	width: 350px;
+	display:inline-block;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+td img:hover{
+	position: absolute;
+	margin-top: -100px;
+	margin-left: -3%;
+	width: 50%;
+}
+
+h1{
+	color: rgba(0,128,128,1);
+	text-shadow: 0 -1px 1px #FFFFFF, 0 1px 1px #666666;
+}
+
+h3{
+	color: rgba(0,128,128,1);
+	margin: 3px 0;
+}
+
+.button{
+	background: linear-gradient(to bottom right, rgba(32,178,170,1), rgba(0,128,128,1));
+	color: #ffffff;
+	border-radius: 2px;
+	padding: 0.3em;
+	border: transparent;
+	font-weight: bolder;
+	margin-top: 5px;
+}
+
+.button:hover{	
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+a:link{
+	text-decoration: none;
+	color: rgba(32,178,170,1);
+}
+
+a:visited{
+	text-decoration: none;
+	color: rgba(32,178,170,1);
+}
+
+a:hover{
+	text-decoration: underline;
+	color: rgba(32,178,170,1);
+}
+
+a:active{
+	text-decoration: none;
+	color: rgba(32,178,170,1);
+}
+
