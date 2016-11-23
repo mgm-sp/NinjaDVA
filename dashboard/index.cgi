@@ -155,7 +155,7 @@ $(document).ready(function() {
 		eventLimit: true, // allow "more" link when too many events
 		nowIndicator: true,
 		slotDuration: '00:30:00',
-		events: "events.json"
+		events: "events.cgi"
 	});
 });
 JS
