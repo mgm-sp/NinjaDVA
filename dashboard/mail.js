@@ -21,7 +21,9 @@ function updateMail(mail_ary){
 // Thanks to CORS, the old JSONP Interface
 // api/mail.cgi?jsonp=<mycallbackfunction> is obsolete now
 $(document).ready(function () {
-	var mailhost = "http://mail." + window.location.host.match(/^[^\.]*\.(.*)$/)[1];
+	var mailhost, host;
+	domain = window.location.host.match(/^[^\.]*\.(.*)$/)[1];
+	mailhost = "http://mail." + domain
 	$.ajax({
 		url: mailhost+"/api/mail.cgi",
 		xhrFields: {
@@ -70,7 +72,13 @@ $(document).ready(function () {
 				$("#inbox").append($("<form />",{
 					"method" : "POST",
 					"action" : mailhost
-				}).append(logintable));
+				}).append(logintable).append(
+						$("<input />",{
+							"type":"hidden",
+							"name":"return_url",
+							"value": "http://dashboard." + domain
+						})
+					));
 			} else {
 				console.log(error);
 			}
