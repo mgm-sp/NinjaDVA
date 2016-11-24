@@ -23,7 +23,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$con
 <textarea id='codeeditor' name='body' style='width: 100%; height:100%'>
 #{CGI.escapeHTML(homepage[:html].body)}
 </textarea>
-<input type='submit' />
+<input type='submit' value='Save' />
 </form>
 EDIT
 h.add_script_file("codemirror/codemirror.js")

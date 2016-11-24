@@ -77,7 +77,7 @@ h3{
 	margin: 3px 0;
 }
 
-.button{
+input[type=submit]{
 	background: linear-gradient(to bottom right, rgba(32,178,170,1), rgba(0,128,128,1));
 	color: #ffffff;
 	border-radius: 2px;
@@ -87,7 +87,7 @@ h3{
 	margin-top: 5px;
 }
 
-.button:hover{	
+input[type=submit]:hover{
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.1);
 }
 
