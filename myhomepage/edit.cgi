@@ -21,7 +21,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$con
 <input type='hidden' name='url' value='#{$cgi["url"]}' />
 <input type='hidden' name='password' value='#{$cgi["password"]}' />
 <textarea id='codeeditor' name='body' style='width: 100%; height:100%'>
-#{homepage[:html].body}
+#{CGI.escapeHTML(homepage[:html].body)}
 </textarea>
 <input type='submit' />
 </form>
