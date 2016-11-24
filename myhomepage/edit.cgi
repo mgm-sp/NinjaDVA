@@ -34,6 +34,13 @@ h.add_script_file("codemirror/xml.js")
 h.add_script_file("codemirror/htmlmixed.js")
 h.add_script <<JS
   var editor = CodeMirror.fromTextArea(document.getElementById("codeeditor"), {
+		mode:  {
+			name: "htmlmixed",
+			scriptTypes: [
+				{matches: /\\/x-handlebars-template|\\/x-mustache/i, mode: null},
+        {matches: /(text|application)\\/(x-)?vb(a|script)/i, mode: "vbscript"}
+      ]
+    },
     lineNumbers: true,
   });
 JS
