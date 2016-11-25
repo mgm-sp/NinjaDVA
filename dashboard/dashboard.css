@@ -149,3 +149,6 @@ li {
 #fav>li{
     position: static;
 }
+table td.content, table td.content input {
+	width: 100%;
+}
