@@ -4,7 +4,7 @@
 ["mail","funny-pics","dashboard","myhomepage"].each_with_index{|server,i|
 %>
 auto eth0:<%=i%>
-iface eth0:0 inet dhcp
+iface eth0:<%=i%> inet dhcp
         client <%=server%>
         hostname <%=server%>
 
