@@ -24,8 +24,13 @@ function updateMail(mail_ary){
 // api/mail.cgi?jsonp=<mycallbackfunction> is obsolete now
 $(document).ready(function () {
 	var mailhost, host;
-	domain = window.location.host.match(/^[^\.]*\.(.*)$/)[1];
-	mailhost = "http://mail." + domain
+	domain = window.location.host.match(/^[^\.]*(\..*)$/);
+	if (domain) {
+		domain = domain[1];
+	} else {
+		domain = "";
+	}
+	mailhost = "http://mail" + domain
 	$.ajax({
 		url: mailhost+"/api/mail.cgi",
 		xhrFields: {
@@ -78,7 +83,7 @@ $(document).ready(function () {
 						$("<input />",{
 							"type":"hidden",
 							"name":"return_url",
-							"value": "http://dashboard." + domain
+							"value": "http://dashboard" + domain
 						})
 					));
 			} else {

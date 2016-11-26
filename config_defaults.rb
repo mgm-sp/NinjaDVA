@@ -1,7 +1,7 @@
 require "ostruct"
 $conf = OpenStruct.new
 
-$conf.domain = "mgmsp-lab.com"
+$conf.domain = ".mgmsp-lab.com"
 $conf.installdir = "/var/www/dvmail/"
 
 dbdir = "#{$conf.installdir}/db"
@@ -21,10 +21,10 @@ $conf.myhomepagedb = "#{dbdir}/myhomepage/"
 $conf.location = "Dresden, Germany"
 
 $conf.links = [
-	{ :href => "http://myhomepage.#{$conf.domain}", :name =>"My Homepage" },
-	{ :href => "http://funny-pics.#{$conf.domain}", :name => "Funny Pictures" },
-	{ :href => "http://scoreboard.#{$conf.domain}", :name => "Scoreboard" },
-	{ :href => "http://mail.#{$conf.domain}",       :name => "mgm-sp Mail" }
+	{ :href => "http://myhomepage#{$conf.domain}", :name =>"My Homepage" },
+	{ :href => "http://funny-pics#{$conf.domain}", :name => "Funny Pictures" },
+	{ :href => "http://scoreboard#{$conf.domain}", :name => "Scoreboard" },
+	{ :href => "http://mail#{$conf.domain}",       :name => "mgm-sp Mail" }
 ]
 
 if File.exists?("#{$conf.installdir}/config.rb")

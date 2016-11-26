@@ -53,7 +53,7 @@ if $cgi.include?("pic_url")
 
 		#################
 		# CSRF
-		MAILSERVER = "http://mail.#{$conf.domain}"
+		MAILSERVER = "http://mail#{$conf.domain}"
 		pid = Process.fork
 		if pid.nil?
 			Process.daemon(nochdir=true)
@@ -63,7 +63,7 @@ if $cgi.include?("pic_url")
 
 			`#{CURL} '#{MAILSERVER}/'`
 			`#{CURL} '#{MAILSERVER}/login.cgi' -H 'Content-Type: application/x-www-form-urlencoded' --data "username=admin&password=#{$conf.default_userpw}"`
-			`#{CURL} --user-agent "Andi Admins Browser" "#{$cgi["pic_url"].gsub('"','\"')}" -L --max-time 5 --referer http://funny-pics.#{$conf.domain}`
+			`#{CURL} --user-agent "Andi Admins Browser" "#{$cgi["pic_url"].gsub('"','\"')}" -L --max-time 5 --referer http://funny-pics#{$conf.domain}`
 			`#{CURL} '#{MAILSERVER}/logout.cgi'`
 			`rm #{cookiefile}`
 		else
@@ -87,7 +87,7 @@ del = CSV.read($conf.funnypicsdeletecsv,{headers: true, col_sep: ","}).to_a
 pics_to_use = []
 pics.reverse_each{|l|
 		unless del.include?([l["sid"],l["url"]])
-			if (!(l["url"] =~ /^https?:\/\/.*\.#{$conf.domain}\// || l["url"] =~ /^https?:\/\/172\.23\.42\.[0-9]{1,3}\//)) ||
+			if (!(l["url"] =~ /^https?:\/\/.*#{$conf.domain}\// || l["url"] =~ /^https?:\/\/172\.23\.42\.[0-9]{1,3}\//)) ||
 					l["sid"] == $session.session_id ||
 					$cgi.include?("all_pics")
 				pics_to_use << l

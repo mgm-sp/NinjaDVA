@@ -12,11 +12,11 @@ var attackerurl = args[4];
 var page = require('webpage').create();
 page.settings.resourceTimeout = 1000;
 
-page.open('http://mail.'+domainname+'/login.cgi', function(status) {
+page.open('http://mail'+domainname+'/login.cgi', function(status) {
 
-	page.open('http://mail.'+domainname+'/login.cgi', 'POST', 'username='+user+'&password='+pass, function(status) {
+	page.open('http://mail'+domainname+'/login.cgi', 'POST', 'username='+user+'&password='+pass, function(status) {
 
-		page.open('http://myhomepage.'+domainname+'/'+attackerurl, function (status) {
+		page.open('http://myhomepage'+domainname+'/'+attackerurl, function (status) {
 			if (status !== 'success') {
 				console.log('Unable to access network');
 			}
