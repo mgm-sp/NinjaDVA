@@ -15,6 +15,8 @@ function updateMail(mail_ary){
 	if (mail_ary.length > 0) {
 		$("#inbox").text("");
 		$("#inbox").append(mailtable);
+	} else {
+		$("#inbox").text("No new mail...");
 	};
 }
 
