@@ -1,0 +1,4 @@
+Options +ExecCGI -Indexes
+AddHandler cgi-script .cgi
+DirectoryIndex login.cgi
+ErrorDocument 404 /404.html

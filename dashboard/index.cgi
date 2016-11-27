@@ -37,7 +37,7 @@ timewidget = <<CONTENT
 </div>
 </div>
 CONTENT
-h.add_css("https://fontlibrary.org/face/segment7")
+#h.add_css("https://fontlibrary.org/face/segment7")
 h.add_script <<TIMEWIDGET
 function startTime() {
     var today = new Date();
@@ -164,12 +164,13 @@ h << "<!-- END CALENDAR WIDGET -->"
 
 
 if $conf.current_slide
+h.add_script_file("slides.js")
 h << <<SLIDES
 
 <!-- BEGIN SLIDES WIDGET -->
-<div class='widget' data-row="1" data-col="3" data-sizex="3" data-sizey="4">
-<h1>Lecture Material</h1>
-<div style='text-align: center;height: 100%'><object type="application/pdf" data="#{$conf.current_slide}" style="width:90%;height:80%"> </object></div>
+<div id='slides' class='widget' data-row="1" data-col="3" data-sizex="3" data-sizey="4">
+<h1 style='height:5%; margin:0; padding:0'>Lecture Material</h1>
+<iframe style='border: none;width:100%; height:95%' src='http://clonecloud#{$conf.domain}/view.cgi'></iframe>
 </div>
 <!-- END SLIDES WIDGET -->
 SLIDES

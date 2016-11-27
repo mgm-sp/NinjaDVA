@@ -152,3 +152,7 @@ li {
 table td.content, table td.content input {
 	width: 100%;
 }
+#slides object {
+	width:90%;
+	height:80%;
+}

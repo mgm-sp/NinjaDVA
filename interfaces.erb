@@ -1,7 +1,8 @@
 <%# encoding: UTF-8 %>
 <%
 	require_relative "config_defaults"
-["mail","funny-pics","dashboard","myhomepage"].each_with_index{|server,i|
+# no need to config mail, this is default hostname
+["funny-pics","dashboard","myhomepage", "clonecloud"].each_with_index{|server,i|
 %>
 auto eth0:<%=i%>
 iface eth0:<%=i%> inet dhcp

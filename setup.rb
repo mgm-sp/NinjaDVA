@@ -2,19 +2,50 @@
 require "sqlite3"
 require_relative "config_defaults"
 
+require "argon2"
+def argon(pw)
+	return Argon2::Password.new(secret: $conf.pepper).create(pw)
+end
+
 chown = []
 
 [
 	File.dirname($conf.userdb),
 	$conf.chatdb,
 	File.dirname($conf.funnypicscsv),
-	$conf.myhomepagedb
+	$conf.myhomepagedb,
+	$conf.clouduserfiles
 ].each{|dir|
 	Dir.mkdir(dir) unless Dir.exists?(dir)
 	chown << dir
 }
 
-# Open a database
+##########################
+# Clone Cloud users
+clouduserdb = SQLite3::Database.new $conf.clouduserdb
+
+# Create a table
+clouduserdb.execute <<-SQL
+  create table users (
+    id TEXT,
+    password TEXT
+  );
+SQL
+
+# Execute a few inserts
+{
+	"susi" => [argon($conf.default_userpw)]
+}.each do |name,data|
+  clouduserdb.execute "insert into users VALUES ( ?, ? )", [name] + data
+end
+chown << $conf.clouduserdb
+
+File.open($conf.clouduserfiles+"/Wichtig-unbedingt-lesen-README","w") {|f|
+	f << "Diese Cloud hat keinen Virenschutz!"
+}
+
+##############################
+# Mail users
 userdb = SQLite3::Database.new $conf.userdb
 
 # Create a table
@@ -37,11 +68,11 @@ end
 "alice" => ["Alice Wonder",   Digest::MD5.hexdigest("Password1"), "Follow the white Rabbit", "Newbies"],
 "bob"   => ["Bob Builder",    Digest::MD5.hexdigest("Password1"), "Yes we can", "Newbies"],
 "wolle" => ["W. S.",          Digest::MD5.hexdigest("Gewinner"), "Das muss alles sicherer werden!", "Sicherheitsverantwortlich"],
-"admin" => ["Andi Admin",     argon($conf.default_userpw), "Leave me alone if you don't want to have trouble.", "Administrator, Checker"],
-"siggi" => ["Siggi Sorglos",  argon($conf.default_userpw), "Die Welt ist schön!", "Dummies"],
-"susi"  => ["Susi Sorglos",   argon($conf.default_userpw), "❤ Otto ❤", "Dummies"],
-"heidi" => ["Heidi Heimlich", argon($conf.default_userpw), "Bitte keine Werbung.", "Support, Hidden"],
-"xaver" => ["Xaver Schmidt",  argon($conf.default_userpw), "Ask me, I will give you support!", "Support"]
+"admin" => ["Andi Admin",     Digest::MD5.hexdigest($conf.default_userpw), "Leave me alone if you don't want to have trouble.", "Administrator, Checker"],
+"siggi" => ["Siggi Sorglos",  Digest::MD5.hexdigest($conf.default_userpw), "Die Welt ist schön!", "Dummies"],
+"susi"  => ["Susi Sorglos",   Digest::MD5.hexdigest($conf.default_userpw), "❤ Otto ❤", "Dummies"],
+"heidi" => ["Heidi Heimlich", Digest::MD5.hexdigest($conf.default_userpw), "Bitte keine Werbung.", "Support, Hidden"],
+"xaver" => ["Xaver Schmidt",  Digest::MD5.hexdigest($conf.default_userpw), "Ask me, I will give you support!", "Support"]
 }.each do |name,data|
   userdb.execute "insert into users VALUES ( ?, ?, ?, ?, ? )", [name] + data
 end

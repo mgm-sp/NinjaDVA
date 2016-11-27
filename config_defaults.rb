@@ -8,6 +8,9 @@ dbdir = "#{$conf.installdir}/db"
 $conf.userdb = "#{dbdir}/users.db"
 $conf.maildb = "#{dbdir}/mail.db"
 
+$conf.clouduserdb = "#{dbdir}/cloudusers.db"
+$conf.clouduserfiles = "#{$conf.installdir}/clonecloud/files"
+
 $conf.pepper = "ayethielu4pheZai"
 $conf.default_userpw = "Kooviufeicae0goo"
 

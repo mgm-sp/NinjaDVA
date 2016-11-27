@@ -1,0 +1,78 @@
+html {
+  background: url(cloud_city.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+#loginmasq, #head img {
+	display: block;
+	margin: auto;
+}
+#loginmasq {
+	width: 250px;
+}
+#login {
+	margin-top: 3ex;
+}
+#top, #bottom {
+	margin: 0px;
+}
+#top input {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-color: #ddd;
+  border-width: 0px;
+  border-bottom-width:1px;
+	margin-bottom: 0px;
+	height: 27px;
+}
+#bottom input[type=password] {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-color: rgb(85, 85, 85);
+  border-top-width: 1px;
+	border: none;
+	height: 27px;
+}
+#top input, #bottom input[type=password] {
+	padding: 10px;
+	width: 230px;
+	font-size: 20px;
+	font-weight: 300;
+}
+#bottom {
+	position: relative;
+}
+#bottom input[type=submit]{
+	color: #ddd;
+	cursor: pointer;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	background-image: url(confirm.svg);
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	background-color: rgba(0, 0, 0, 0);
+	border: none;
+	padding: 23px;
+	height: 27px;
+
+}
+#footer {
+    bottom: 3ex;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
+
+#footer, #footer a{
+  text-decoration: none;	
+	color:white; 
+	font-family: Sans;
+	font-weight: bold;
+}
