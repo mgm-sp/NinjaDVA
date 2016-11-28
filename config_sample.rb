@@ -21,7 +21,8 @@ $conf.events = [
 	{
 		:title => "Session 1",
 		:start => "2016-11-18T09:00:00",
-		:end   => "2016-11-18T11:10:00"
+		:end   => "2016-11-18T11:10:00",
+		:url => 'javascript:chooseMaterial("01-basics-handout.pdf")'
 	},
 	{
 		:title => "Bäcker",
@@ -32,7 +33,8 @@ $conf.events = [
 	{
 		:title => "Session 2",
 		:start => "2016-11-18T11:30:00",
-		:end   => "2016-11-18T13:15:00"
+		:end   => "2016-11-18T13:15:00",
+		:url => 'javascript:chooseMaterial("02-security_management-handout.pdf")'
 	},
 	{
 		:title => "Mittagessen",
@@ -43,12 +45,13 @@ $conf.events = [
 	{
 		:title => "Session 3",
 		:start => "2016-11-18T14:00:00",
-		:end   => "2016-11-18T15:30:00"
-
+		:end   => "2016-11-18T15:30:00",
+		:url => 'javascript:chooseMaterial("03-Bedrohungen-handout.pdf")'
 	},
 	{
 		:title => "Session 4",
 		:start => "2016-11-18T15:45:00",
-		:end   => "2016-11-18T17:15:00"
+		:end   => "2016-11-18T17:15:00",
+		:url => 'javascript:chooseMaterial("04-Maßnahmen-handout.pdf")'
 	}
 ]
