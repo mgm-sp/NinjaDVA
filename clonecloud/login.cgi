@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
-
+# coding: utf-8
+#
 require_relative "clonecloud.rb"
 require "argon2"
 
