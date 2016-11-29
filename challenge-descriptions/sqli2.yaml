@@ -1,0 +1,10 @@
+---
+:description: |
+  Finde die SQL Injection in der Adressbuchfunktion von http://mail.#PENTESTLAB-DOMAIN#. Benutze diese um das Passwort von Wolfgang S. herauszufinden.
+:category: "SQLi"
+:name: "The winner takes it all!"
+:value: 20
+:keys:
+  - "Gewinner"
+:solutions:
+  - "' UNION SELECT id, name, groups, password FROM users -- "
