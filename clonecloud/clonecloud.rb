@@ -30,14 +30,17 @@ class CloneCloud
 		if @username
 			raise @username.inspect unless @username =~ /\A[A-Za-z0-9]+\z/
 
+			@html << "<div id='header'>"
+			@html << '<img src="/clone.png" id="clone_s" />'
+			@html << "<div id='clone'>cloneCloud</div>"
 			welcomemessage = "Welcome #{@username}"
 
 			@menu = ["Logout"]
 		else
 			@menu = []
+			@html << "<div>"
 			welcomemessage = "&nbsp;"
 		end
-		@html << "<div id='top'>"
 		@html << "<div id='tabs'>"
 		@html << "<div id='welcome'>"
 		@html << welcomemessage 
