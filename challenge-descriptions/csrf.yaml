@@ -1,10 +1,10 @@
 ---
 :description: |
-  Starte auf http://mail.mgmsp-lab.com/ und registriere dir dort einen Account.
+  Starte auf http://mail.#PENTESTLAB-DOMAIN# und registriere dir dort einen Account.
   Benutze CSRF um diesen Account zur Gruppe der Administratoren hinzuzufügen.
-  Hinweis: Admins lieben diese coole Seite: http://funny-pics.mgmsp-lab.com/
+  Hinweis: Admins lieben diese coole Seite: http://funny-pics.#PENTESTLAB-DOMAIN#
 
-  Die Antwort auf diese Challenge ist das geheime Passwort welches die Admins per Mail ausgetauscht haben.
+  Die Antwort auf diese Challenge ist das geheime Passwort, welches die Admins per Mail ausgetauscht haben.
 :category: "CSRF"
 :name: "Funny Pictures"
 :value: 10

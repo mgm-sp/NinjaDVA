@@ -1,6 +1,6 @@
 ---
 :description: |
- Versuche den Account von Siggi Sorglos mittels Session Fixation von http://mail.mgmsp-lab.com/ zu kapern. Benutze die Mailfunktion innerhalb des Webmailers um Siggi eine Mail zu schicken. Er ist so sorglos, dass er auf alles klickt, was man ihm schickt…
+ Versuche den Account von Siggi Sorglos mittels Session Fixation von http://mail.#PENTESTLAB-DOMAIN#/ zu kapern. Benutze die Mailfunktion innerhalb des Webmailers um Siggi eine Mail zu schicken. Er ist so sorglos, dass er auf alles klickt, was man ihm schickt…
   
  Die Lösung zu diesem Rätsel befindet sich in einer Mail in Siggis Postfach.
   

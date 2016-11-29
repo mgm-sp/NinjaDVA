@@ -1,6 +1,6 @@
 ---
 :description: |
-  Finde die SQL Injection in der Adressbuchfunktion von http://mail.mgmsp-lab.com. Benutze diese um Heidi Heimlich zu finden. Sie gehört der Gruppe „Hidden“ an, welche vom Interface nicht angezeigt werden.
+  Finde die SQL Injection in der Adressbuchfunktion von http://mail.#PENTESTLAB-DOMAIN#. Benutze diese um Heidi Heimlich zu finden. Sie gehört der Gruppe „Hidden“ an, welche vom Interface nicht angezeigt wird.
 
   Welche Nachricht hat Heidi in ihrer vCard hinterlassen?
 :category: "SQLi"
