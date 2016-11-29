@@ -32,14 +32,14 @@ h << <<NEW
 			<div><p>
 			<h3>Step 1:</h3>
 			Choose a name and create your own homepage
-			</p></div>
+			</div>
 		</td>
 		<td>
 			<img src="2.png" />
 			<div><p>
 			<h3>Step 2:</h3>
-			Edit the source code of your homepage and save it</p>
-			</p></div>
+			Edit the source code of your homepage and save it
+			</div>
 		</td>
 	</tr>
 	<tr>
@@ -48,18 +48,18 @@ h << <<NEW
 			<div><p>
 				<h3>Step 3:</h3>
 				Click to view your homepage
-			</p></div>
+			</div>
 		</td>
 		<td>
 			<img src="4.png" />
 			<div><p>
 			<h3>Step 4:</h3>
 			Admire your creation
-			</p></div>
+			</div>
 		</td>
 	</tr>
 </table>
-</div></div>
+</div>
 NEW
 
 h.out($cgi)
