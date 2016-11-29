@@ -67,7 +67,7 @@ end
 {
 "alice" => ["Alice Wonder",   Digest::MD5.hexdigest("Password1"), "Follow the white Rabbit", "Newbies"],
 "bob"   => ["Bob Builder",    Digest::MD5.hexdigest("Password1"), "Yes we can", "Newbies"],
-"wolle" => ["W. S.",          Digest::MD5.hexdigest("Gewinner"), "Das muss alles sicherer werden!", "Sicherheitsverantwortlich"],
+"wolle" => ["Wolfgang S.",          Digest::MD5.hexdigest("Gewinner"), "Das muss alles sicherer werden!", "Sicherheitsverantwortlich"],
 "admin" => ["Andi Admin",     Digest::MD5.hexdigest($conf.default_userpw), "Leave me alone if you don't want to have trouble.", "Administrator, Checker"],
 "siggi" => ["Siggi Sorglos",  Digest::MD5.hexdigest($conf.default_userpw), "Die Welt ist schön!", "Dummies"],
 "susi"  => ["Susi Sorglos",   Digest::MD5.hexdigest($conf.default_userpw), "❤ Otto ❤", "Dummies"],
@@ -134,7 +134,7 @@ chown << $conf.maildb
 File.open($conf.funnypicscsv, "w"){|f|
 	f.puts '"sid","url"'
 	f.puts '"example","https://cdn.meme.am/instances/250x/64647060.jpg"'
-	f.puts '"example","https://cdn.meme.am/instances/250x/41586830.jpg"'
+	f.puts '"example","http://cdn.meme.am/instances/250x/41586830.jpg"'
 	f.puts '"example","http://i.imgur.com/4lC3Aur.jpg"'
 }
 File.open($conf.funnypicsdeletecsv, "w"){|f|
