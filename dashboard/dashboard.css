@@ -23,6 +23,10 @@ div.widget {
 	background: #333;
 }
  
+@font-face {
+	font-family: 'Segment7Standard';
+  src: url(Segment7Standard.otf);
+}
 #clk_bg, #txt
 {
   font: 2.5em 'Segment7Standard', sans-serif;

@@ -37,7 +37,6 @@ timewidget = <<CONTENT
 </div>
 </div>
 CONTENT
-#h.add_css("https://fontlibrary.org/face/segment7")
 h.add_script <<TIMEWIDGET
 function startTime() {
     var today = new Date();
