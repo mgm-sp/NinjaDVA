@@ -20,6 +20,15 @@ chown = []
 	chown << dir
 }
 
+
+require "digest"
+user = "admin"
+realm = "Restricted Area"
+File.open("#{INSTALLDIR}/db/.htdigest","w"){|f|
+	f << "#{user}:#{realm}:#{Digest::MD5.hexdigest("#{user}:#{realm}:#{$conf.default_userpw}")}\n"
+}
+
+
 ##########################
 # Clone Cloud users
 clouduserdb = SQLite3::Database.new $conf.clouduserdb
