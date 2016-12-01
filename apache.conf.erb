@@ -5,10 +5,10 @@
 %>
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
-	DocumentRoot <%=$conf.installdir%>/<%=server%>
+	DocumentRoot <%=INSTALLDIR%>/<%=server%>
 	ServerName <%=server%><%=$conf.domain%>
 
-	<Directory "<%=$conf.installdir%>/<%=server%>">
+	<Directory "<%=INSTALLDIR%>/<%=server%>">
 		AllowOverride All
 	</Directory>
 

@@ -1,15 +1,15 @@
 require "ostruct"
 $conf = OpenStruct.new
+INSTALLDIR = "/var/www/dvmail/"
 
 $conf.domain = ".mgmsp-lab.com"
-$conf.installdir = "/var/www/dvmail/"
 
-dbdir = "#{$conf.installdir}/db"
+dbdir = "#{INSTALLDIR}/db"
 $conf.userdb = "#{dbdir}/users.db"
 $conf.maildb = "#{dbdir}/mail.db"
 
 $conf.clouduserdb = "#{dbdir}/cloudusers.db"
-$conf.clouduserfiles = "#{$conf.installdir}/clonecloud/files"
+$conf.clouduserfiles = "#{INSTALLDIR}/clonecloud/files"
 
 $conf.pepper = "ayethielu4pheZai"
 $conf.default_userpw = "Kooviufeicae0goo"
@@ -30,6 +30,6 @@ $conf.links = [
 	{ :href => "http://mail#{$conf.domain}",       :name => "mgm-sp Mail" }
 ]
 
-if File.exists?("#{$conf.installdir}/config.rb")
-	load "#{$conf.installdir}/config.rb"
+if File.exists?("#{INSTALLDIR}/config.rb")
+	load "#{INSTALLDIR}/config.rb"
 end
