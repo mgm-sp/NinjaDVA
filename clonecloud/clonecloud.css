@@ -1,5 +1,6 @@
 #bg {
-  background: url(cloud_city.jpg) no-repeat center center fixed; 
+  z-index: -20;
+  background: url(cloud_city.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -14,7 +15,7 @@
 
 
 #header{
-	background: rgba(0, 43, 128, 0.9);
+	background: rgba(111,149,174,0.7);
 	color: #ffffff;
 	position: fixed;
 	top: 0;

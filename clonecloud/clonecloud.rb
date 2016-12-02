@@ -81,6 +81,8 @@ class CloneCloud
 		@html << htmlbodytext
 	end
 	def out
+		@html << "<div id='bg'>"
+		@html << "</div>"
 		@html << "</div></body>"
 		@html.out($cgi)
 	end

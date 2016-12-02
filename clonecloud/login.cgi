@@ -33,7 +33,6 @@ if $cgi.include?("username")
 end
 
 m << <<CONTENT
-<div id='bg'>
 <div id='loginmasq'>
 <div id='head'>
 <img src='clone.png' height='175px'/>
@@ -57,7 +56,6 @@ m << <<CONTENT
 </div>
 <div id='footer'>
 <a href='/' >cloneCloud</a> – web services under no control
-</div>
 </div>
 CONTENT
 m.out
