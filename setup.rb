@@ -74,8 +74,8 @@ def argon(pw)
 end
 # Execute a few inserts
 {
-"alice" => ["Alice Wonder",   Digest::MD5.hexdigest("Password1"), "Follow the white Rabbit", "Newbies"],
-"bob"   => ["Bob Builder",    Digest::MD5.hexdigest("Password1"), "Yes we can", "Newbies"],
+"alice" => ["Alice Wonder",   Digest::MD5.hexdigest("Password1"), "Follow the white Rabbit", "Newbie"],
+"bob"   => ["Bob Builder",    Digest::MD5.hexdigest("Password1"), "Yes we can", "Newbie"],
 "wolle" => ["Wolfgang S.",          Digest::MD5.hexdigest("Gewinner"), "Das muss alles sicherer werden!", "Sicherheitsverantwortlich"],
 "admin" => ["Andi Admin",     Digest::MD5.hexdigest($conf.default_userpw), "Leave me alone if you don't want to have trouble.", "Administrator, Checker"],
 "siggi" => ["Siggi Sorglos",  Digest::MD5.hexdigest($conf.default_userpw), "Die Welt ist schön!", "Dummies"],
