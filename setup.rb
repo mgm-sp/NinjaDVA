@@ -68,20 +68,17 @@ userdb.execute <<-SQL
   );
 SQL
 
-require "argon2"
-def argon(pw)
-	return Argon2::Password.new(secret: $conf.pepper).create(pw)
-end
 # Execute a few inserts
 {
-"alice" => ["Alice Wonder",   Digest::MD5.hexdigest("Password1"), "Follow the white Rabbit", "Newbie"],
-"bob"   => ["Bob Builder",    Digest::MD5.hexdigest("Password1"), "Yes we can", "Newbie"],
-"wolle" => ["Wolfgang S.",          Digest::MD5.hexdigest("Gewinner"), "Das muss alles sicherer werden!", "Sicherheitsverantwortlich"],
-"admin" => ["Andi Admin",     Digest::MD5.hexdigest($conf.default_userpw), "Leave me alone if you don't want to have trouble.", "Administrator, Checker"],
-"siggi" => ["Siggi Sorglos",  Digest::MD5.hexdigest($conf.default_userpw), "Die Welt ist schön!", "Dummies"],
-"susi"  => ["Susi Sorglos",   Digest::MD5.hexdigest($conf.default_userpw), "❤ Otto ❤", "Dummies"],
-"heidi" => ["Heidi Heimlich", Digest::MD5.hexdigest($conf.default_userpw), "Bitte keine Werbung.", "Support, Hidden"],
-"xaver" => ["Xaver Schmidt",  Digest::MD5.hexdigest($conf.default_userpw), "Ask me, I will give you support!", "Support"]
+"alice"   => ["Alice Wonder",   Digest::MD5.hexdigest("Password1"), "Follow the white Rabbit", "Newbie"],
+"bob"     => ["Bob Builder",    Digest::MD5.hexdigest("Password1"), "Yes we can", "Newbie"],
+"wolle"   => ["Wolfgang S.",    Digest::MD5.hexdigest("Gewinner"), "Das muss alles sicherer werden!", "Sicherheitsverantwortlich"],
+"admin"   => ["Andi Admin",     argon($conf.default_userpw), "Leave me alone if you don't want to have trouble.", "Administrator, Checker"],
+"siggi"   => ["Siggi Sorglos",  argon($conf.default_userpw), "Die Welt ist schön!", "Dummies"],
+"mueller" => ["Fräulein Müller-Wachtendonk", argon("Siggi4ever"), "", "Dummies"],
+"susi"    => ["Susi Sorglos",   argon($conf.default_userpw), "❤ Otto ❤", "Dummies"],
+"heidi"   => ["Heidi Heimlich", argon($conf.default_userpw), "Bitte keine Werbung.", "Support, Hidden"],
+"xaver"   => ["Xaver Schmidt",  argon($conf.default_userpw), "Ask me, I will give you support!", "Support"]
 }.each do |name,data|
   userdb.execute "insert into users VALUES ( ?, ?, ?, ?, ? )", [name] + data
 end
