@@ -24,10 +24,10 @@ $conf.myhomepagedb = "#{dbdir}/myhomepage/"
 $conf.location = "Dresden, Germany"
 
 $conf.links = [
-	{ :href => "http://myhomepage#{$conf.domain}", :name =>"My Homepage" },
+	{ :href => "http://myhomepage#{$conf.domain}", :name => "My Homepage" },
 	{ :href => "http://funny-pics#{$conf.domain}", :name => "Funny Pictures" },
 	{ :href => "http://scoreboard#{$conf.domain}", :name => "Scoreboard" },
-	{ :href => "http://mail#{$conf.domain}",       :name => "mgm-sp Mail" }
+	{ :href => "http://mail#{$conf.domain}",       :name => "Mail" }
 ]
 
 if File.exists?("#{INSTALLDIR}/config.rb")
