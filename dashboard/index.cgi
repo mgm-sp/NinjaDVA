@@ -209,10 +209,8 @@ $(function(){ //DOM Ready
             widget_margins: [75, 75],
 						widget_selector: "div.widget",
             helper: 'clone',
-            resize: {
-                enabled: true
-            }
-        }).data('gridster');
+            //resize: { enabled: true }
+        }).data('gridster').disable();
 
 
 });
