@@ -9,7 +9,7 @@ require 'cgi/session'
 $cgi = CGI.new
 $session = CGI::Session.new($cgi)
 
-numpics = $cgi.include?("num") ? $cgi["num"].to_i : 10
+numpics = $cgi.include?("num") ? $cgi["num"].to_i : 5
 
 h = HTML.new("Funny Pics")
 h.add_css("funny_pics.css")
@@ -20,23 +20,26 @@ if $cgi.include?("refresh")
 end
 
 h << <<CONTENT
-<div>
-<form id='newpic' method="POST">
-<div id='last'>
+<div id='head'>
+<div> <h1><span>seminar</span>haha</h1></div>
+<div style="font-weight:bold;"> yet another<br> funny imgur<span style="color: rgba(251, 188, 5, 0.9);;">l</span></div>
+<div id='menu'>
 	Show only last:
 CONTENT
 [5,10,15,20,25].each{|i|
 	if numpics == i
 		h << i.to_s
 	else
-		h << "<a href='?num=#{i}' />#{i}</a>"
+		h << "<a href='?num=#{i}'>#{i}</a>"
 	end
 }
 h << <<CONTENT
 </div>
-This Picture URL is really funny:
-	<input type='text' name='pic_url' placeholder='http://...'/>
-	<input class='button' type='submit'/>
+</div>
+<div>
+<form method="POST">
+	<input type='text' id="pic_url" name='pic_url' placeholder='http://...' />
+	<input class='button' type='submit' value='Add' />
 </form>
 </div>
 CONTENT

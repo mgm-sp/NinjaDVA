@@ -1,59 +1,110 @@
-body{
-	    font-family: "Trebuchet MS", Helvetica, sans-serif;
-		color: #444444;
+body {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	background: #505050;
 }
 
-form#newpic{
-	border: solid 2px rgba(255, 173, 51, 1);
-	border-radius: 5px;
-	padding: 5px;
-	box-shadow: 0 3px 8px 0 rgba(255, 173, 51, 0.2), 0 5px 20px 0 rgba(255, 173, 51, 0.19);
-}
-form#newpic input[type=text] {
-	width: 100%
-}
-input{
-	margin: 5px 0;
+#head {
+	background: #303030;
+	height: 4em;
+	line-height: 4em;
+	width: 101%;
+	position: relative;
+	top: -7px;
+	left: -8px;
 }
 
-input[type=submit]{
-	background: linear-gradient(to bottom right, rgba(255, 215, 0, 1), rgba(255, 173, 51, 1));
-	color: #444444;
-	font-weight: bolder;
-	border-radius: 2px;
-	padding: 0.33em;
-	border: transparent;
-	margin-top: 5px;
-}
-
-input[type=submit]:hover{	
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.1);
-}
-div.pic {
+#head div {
 	display: inline-block;
-	min-width: 10em;
+	color: white;
+	line-height: 1;
 }
+
+#head h1 {
+	margin: 0;
+	padding: 0 0.5em 0 1.5em;
+	color: white;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 3em;
+}
+
+#head h1 span {
+	color: rgba(251, 188, 5, 0.85);
+}
+
+#menu {
+	float: right;
+	text-align: right;
+	margin-right: 2%;
+	color: rgba(255,255,255,0.9);
+	font-size: 1.2em;
+	position: absolute;
+	top: 50%;
+	right: -5em;
+	transform: translate(-50%, -50%);
+}
+
+
+form {
+	margin: 10px 0 30px;
+	text-align: center;
+	font-size: 1.2em;
+	max-width: 100%;
+}
+
+form input {
+	font-size: 1.2em;
+	border: solid rgba(255,255,255,0.25) 0px;
+	border-radius: 5px;
+	padding: 5px 9px ;
+	color: white;
+	background:  #303030;
+	box-shadow: 0 0 8px -2px rgba(255,255,255,0.4);
+}
+
 img{
-	margin: 10px; 
+	margin: 5px; 
 	box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
-a{
+
+#pic_url {
+	width: 90%;
+}
+
+#pic_url:hover, #pic_url:focus {
+	box-shadow: 0 0 6px -2px rgba(255, 255, 255, 0.4), 0 0 8px -2px rgba(255,255,255,0.4);
+}
+
+a {
 	text-decoration: none;
-	color: black;
+	color: rgba(255,255,255,0.75);
+	font-size: 1.042em;
 }
 
-a:hover{
+a:hover {
 	text-decoration: underline;
+	color: rgba(255,255,255,0.90);
 }
 
-div.delete {
-	position: absolute;
-	margin: 5px 10px;
+.button {
+	color: rgba(255,255,255,0.65);
+	border-radius: 2px;
+	padding: 0.2em;
+	margin: 0 0 0 0.5em;
+	border: transparent;
+	margin-top: 0.25em;
 }
-div#last{
-float:right;
+
+.button:hover {		
+	background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 20%,rgba(255, 255, 255, 0.3));
+	color: rgba(255,255,255,0.9);
 }
-div#content{
-	margin:10px;
+
+.content {
+	margin: 10px;
+}
+
+.pic {
+	display: inline-block;
+	min-width: 10em
 }
