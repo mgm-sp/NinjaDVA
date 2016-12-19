@@ -1,9 +1,6 @@
 #bg {
   z-index: -20;
   background: url(cloud_city.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
   background-size: cover;
 	position: fixed;
 	width: 100%;
@@ -25,11 +22,6 @@
 	padding: 0;
 	z-index: 1;
 	font-family: Verdana, sans-serif;  
-}
-
-
-#header div{
-	display: inilne-block;
 }
 
 #clone{
@@ -112,6 +104,9 @@
 }
 
 
+#head img {
+	height: 175px;
+}
 #loginmasq, #head img {
 	display: block;
 	margin: auto;

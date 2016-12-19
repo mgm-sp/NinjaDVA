@@ -20,7 +20,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/
 		html = HTML.new("My Homepage -- #{url}")
 		html.add_head_script("jquery-2.2.3.min.js")
 		html << "<h1>Welcome</h1>"
-		html << "<img style='width:10em;' src='construction.svg' />"
+		html << "<img style='width:10em;' src='construction.svg' alt='Under Construction' />"
 		homepage = {
 			:html => html,
 			:password => pw

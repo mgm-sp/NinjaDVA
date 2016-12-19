@@ -30,14 +30,14 @@ h << <<NEW
 <table>
 	<tr>
 		<td>
-			<img src="1.png" />
+			<img alt="Step 1" src="1.png" />
 			<div>
 			<h3>Step 1:</h3>
 			Choose a name and create your own homepage
 			</div>
 		</td>
 		<td>
-			<img src="2.png" />
+			<img alt="Step 2" src="2.png" />
 			<div>
 			<h3>Step 2:</h3>
 			Edit the source code of your homepage and save it
@@ -46,14 +46,14 @@ h << <<NEW
 	</tr>
 	<tr>
 		<td>
-			<img src="3.png" />
+			<img alt="Step 3" src="3.png" />
 			<div>
 				<h3>Step 3:</h3>
 				Click to view your homepage
 			</div>
 		</td>
 		<td>
-			<img src="4.png" />
+			<img alt="Step 4" src="4.png" />
 			<div>
 			<h3>Step 4:</h3>
 			Admire your creation

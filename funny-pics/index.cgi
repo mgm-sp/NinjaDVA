@@ -107,7 +107,7 @@ pics_to_use[0..(numpics-1)].each{|l|
 		h << "<input type='hidden' name='delete' value=\"#{CGI.escapeHTML(l["url"])}\" />"
 		h << "</div></form>"
 	end
-	h << "<a href='#{CGI.escapeHTML(l["url"])}'><img src='#{CGI.escapeHTML(l["url"])}' height='250px' /></a>"
+	h << "<a href='#{CGI.escapeHTML(l["url"])}'><img alt='A funny picture' src='#{CGI.escapeHTML(l["url"])}' /></a>"
 	h << "</div>"
 }
 

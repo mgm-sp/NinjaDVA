@@ -38,7 +38,6 @@ class HTML
 		ret = <<HEAD
 <head>
 	<meta http-equiv="Content-Type" content="#{@header["type"]}; charset=#{@header["charset"]}" /> 
-	<meta http-equiv="Content-Style-Type" content="text/css" />
 	<title>#{@title}</title>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
 HEAD
@@ -46,8 +45,7 @@ HEAD
 		@css = [@css[0]] + @css[1..-1].sort unless @css.empty?
 		@css.each{|title,href|
 			titleattr = "title='#{title}'" if title != ""
-			ret += "<link rel='stylesheet' type='text/css' href='#{@relative_dir}#{href}' #{titleattr} media='screen, projection, tv, handheld'/>\n"
-			ret += "<link rel='stylesheet' type='text/css' href='#{@relative_dir}#{href}' media='print' />\n" if title == "print"
+			ret += "<link rel='stylesheet' type='text/css' href='#{@relative_dir}#{href}' #{titleattr} />\n"
 		}
 
 		@atom.each{|href|
@@ -101,9 +99,8 @@ SCRIPT
 	def out(cgi)
 		cgi.out(@header){
 			<<HEAD
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 #{head}
 <body>
 #{@body}

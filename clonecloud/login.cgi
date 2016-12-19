@@ -35,7 +35,7 @@ end
 m << <<CONTENT
 <div id='loginmasq'>
 <div id='head'>
-<img src='clone.png' height='175px'/>
+<img src='clone.png' alt='Clone Helmet' />
 </div>
 <div id='login'>
 <form method="post">

@@ -19,7 +19,7 @@ h.add_css("dashboard.css")
 
 h << <<HEAD
 <div id="head">
-<img src='mgm-sp-logo.png' id="logo" />
+<img src='mgm-sp-logo.png' alt='mgm security partners' id="logo" />
 <span style="padding-left:2em" class="green">
 Dashboard
 </span>
