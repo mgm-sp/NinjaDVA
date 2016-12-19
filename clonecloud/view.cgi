@@ -12,8 +12,8 @@ $session = CGI::Session.new($cgi)
 h = HTML.new("Current Lecture")
 h.add_head_script("jquery-2.2.3.min.js")
 
-h << <<CONTENT
-<style>
+h.add_html_head(<<STYLE
+<style type='text/css'>
 html {
 height: 95%
 }
@@ -25,6 +25,9 @@ body {
 	height:100%;
 }
 </style>
+STYLE
+)
+h << <<CONTENT
 <div id='current_slide' style='text-align: center;height: 100%'>
 <object type="application/pdf" data="#{$conf.current_slide}" > </object>
 </div>

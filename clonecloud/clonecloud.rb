@@ -15,13 +15,11 @@ class CloneCloud
 	def initialize(username = $session['username'])
 		@html = HTML.new("CloneCloud")
 		@userdb = SQLite3::Database.new($conf.clouduserdb)
-		@html << "<body>"
 		unless (File.basename($0) == "login.cgi" || $session['username'])
 			# stop if unauthorized
 			@html.header["status"] = "REDIRECT"
 			@html.header["Cache-Control"] = "no-cache"
 			@html.header["Location"] = "/login.cgi?return_url=#{File.basename($0)}"
-			@html << "</body>"
 			out
 			exit
 		end
@@ -83,7 +81,7 @@ class CloneCloud
 	def out
 		@html << "<div id='bg'>"
 		@html << "</div>"
-		@html << "</div></body>"
+		@html << "</div>"
 		@html.out($cgi)
 	end
 end

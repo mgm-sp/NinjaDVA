@@ -38,7 +38,7 @@ m << <<CONTENT
 <img src='clone.png' height='175px'/>
 </div>
 <div id='login'>
-<form method="POST">
+<form method="post">
 	<p id='top'>
 	<input type='text' placeholder='Username' name='username' value="#{CGI.escapeHTML($cgi["username"])}"/>
 	</p>

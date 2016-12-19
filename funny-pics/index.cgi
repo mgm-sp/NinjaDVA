@@ -22,7 +22,7 @@ end
 h << <<CONTENT
 <div id='head'>
 <div> <h1><span>seminar</span>haha</h1></div>
-<div style="font-weight:bold;"> yet another<br> funny imgur<span style="color: rgba(251, 188, 5, 0.9);;">l</span></div>
+<div style="font-weight:bold;"> yet another<br /> funny imgur<span style="color: rgba(251, 188, 5, 0.9);;">l</span></div>
 <div id='menu'>
 	Show only last:
 CONTENT
@@ -36,12 +36,12 @@ CONTENT
 h << <<CONTENT
 </div>
 </div>
+<form method="post">
 <div>
-<form method="POST">
 	<input type='text' id="pic_url" name='pic_url' placeholder='http://...' />
 	<input class='button' type='submit' value='Add' />
-</form>
 </div>
+</form>
 CONTENT
 
 
@@ -101,11 +101,11 @@ pics.reverse_each{|l|
 pics_to_use[0..(numpics-1)].each{|l|
 	h << "<div class='pic'>"
 	if l["sid"] == $session.session_id
+		h << "<form method='post'>"
 		h << "<div class='delete'>"
-		h << "<form method='POST'>"
 		h << "<input type='submit' value='Delete' />"
 		h << "<input type='hidden' name='delete' value=\"#{CGI.escapeHTML(l["url"])}\" />"
-		h << "</form></div>"
+		h << "</div></form>"
 	end
 	h << "<a href='#{CGI.escapeHTML(l["url"])}'><img src='#{CGI.escapeHTML(l["url"])}' height='250px' /></a>"
 	h << "</div>"

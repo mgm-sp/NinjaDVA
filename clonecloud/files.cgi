@@ -9,7 +9,7 @@ cc << <<FILES
 <ul>
 FILES
 cc << Dir.entries($conf.clouduserfiles).select{|f| f != "." && f != ".."}.collect{|f|
-	"<li><a href='files/#{f}' />#{f}</a></li>"
+	"<li><a href='files/#{f}'>#{f}</a></li>"
 }.join("\n")
 cc << "</ul></div>"
 

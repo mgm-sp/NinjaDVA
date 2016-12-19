@@ -17,11 +17,13 @@ h << <<NEW
 <div id="content">
 <div id="create">
 <h1>Create New Homepage</h1>
-<form action='new.cgi' method='POST'>
+<form action='new.cgi' method='post'>
+<div>
 	<label for="url">http://#{$cgi.server_name}/</label><input id="url" size='16' type='text' name='url' value="" />
 	<input type='submit' value='Create' />
 	<div style='margin-top: 10px; font-size: small'>
 	#{$cgi.include?("error") ? CGI.escapeHTML($cgi["error"]) : ""}
+	</div>
 	</div>
 </form>
 </div>
@@ -29,14 +31,14 @@ h << <<NEW
 	<tr>
 		<td>
 			<img src="1.png" />
-			<div><p>
+			<div>
 			<h3>Step 1:</h3>
 			Choose a name and create your own homepage
 			</div>
 		</td>
 		<td>
 			<img src="2.png" />
-			<div><p>
+			<div>
 			<h3>Step 2:</h3>
 			Edit the source code of your homepage and save it
 			</div>
@@ -45,14 +47,14 @@ h << <<NEW
 	<tr>
 		<td>
 			<img src="3.png" />
-			<div><p>
+			<div>
 				<h3>Step 3:</h3>
 				Click to view your homepage
 			</div>
 		</td>
 		<td>
 			<img src="4.png" />
-			<div><p>
+			<div>
 			<h3>Step 4:</h3>
 			Admire your creation
 			</div>
