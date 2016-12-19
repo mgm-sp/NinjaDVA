@@ -1,7 +1,7 @@
 ---
 :description: |
-  Setze eine Webseite auf, welche die E-Mails von in mail.#PENTESTLAB-DOMAIN# eingeloggten Nutzern liest. Benutze dazu die Schwachstelle im Webservice, welcher auch im Dashboard (dashboard.#PENTESTLAB-DOMAIN#) verwendet wird.
-  Die Homepage kann auf myhomepage.#PENTESTLAB-DOMAIN# aufgesetzt werden, es gibt neugierige User, die sich alle dort existierenden Homepages anschauen.
+  Setze eine Webseite auf, welche die E-Mails von in http://mail.#PENTESTLAB-DOMAIN# eingeloggten Nutzern liest. Benutze dazu die Schwachstelle im Webservice, welcher auch im Dashboard (http://dashboard.#PENTESTLAB-DOMAIN#) verwendet wird.
+  Die Homepage kann auf http://myhomepage.#PENTESTLAB-DOMAIN# aufgesetzt werden, es gibt neugierige User, die sich alle dort existierenden Homepages anschauen.
   Die Lösung ist der Betreff einer Mail des Users.
 :category: "Webservices"
 :name: "Read others mail"
