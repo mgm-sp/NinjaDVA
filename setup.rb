@@ -150,4 +150,6 @@ File.open($conf.funnypicsdeletecsv, "w"){|f|
 chown << $conf.funnypicscsv
 chown << $conf.funnypicsdeletecsv
 
+require "fileutils"
+FileUtils.chown("www-data","www-data", chown, :verbose => true)
 puts "chown www-data:www-data #{chown.join(" ")}"
