@@ -37,9 +37,9 @@ class HTML
 	def head
 		ret = <<HEAD
 <head>
-	<meta http-equiv="Content-Type" content="#{@header["type"]}; charset=#{@header["charset"]}" /> 
+	<meta http-equiv="Content-Type" content="#{@header["type"]}; charset=#{@header["charset"]}" />
 	<title>#{@title}</title>
-	<link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+	<link rel="shortcut icon" href="/favicon32_32.gif" type="image/gif" />
 HEAD
 
 		@css = [@css[0]] + @css[1..-1].sort unless @css.empty?
