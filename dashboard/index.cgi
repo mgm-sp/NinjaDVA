@@ -33,7 +33,7 @@ HEAD
 
 
 timewidget = <<CONTENT
-<div class='widget' data-row="4" data-col="3" data-sizex="1" data-sizey="1">
+<div class='widget' data-row="4" data-col="1" data-sizex="1" data-sizey="1">
 <div>
 <h1>Current Time</h1>
 <div id="clock">
@@ -94,7 +94,7 @@ h << "\n"*3
 
 h << <<WEATHERWIDGET
 <!-- BEGIN WEATHER WIDGET -->
-<div class='widget' data-row="2" data-col="3" data-sizex="1" data-sizey="2">
+<div class='widget' data-row="4" data-col="2" data-sizex="2" data-sizey="1">
 <div>
 <h1>#{$conf.location}</h1>
 WEATHERWIDGET
@@ -117,9 +117,11 @@ function updateWeather (){
 			html = '<h2><i class="icon-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h2>';
 			html = '<h2><i class="icon-'+weather.code+'"></i>'+weather.temp+'&deg;'+weather.units.temp+'<img style="vertical-align:middle; display:inline-block; height:3em; margin-left: 0.3em" src="'+weather.forecast[0].image+'"></img></h2>';
 
-			html += '<ul><li>'+weather.city+', '+weather.region+'</li>';
+			html += '<ul>';
+			html += '<li>'+weather.city+', '+weather.region+'</li>';
 			html += '<li class="currently">'+weather.currently+'</li>';
-			html += '<li>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</li></ul>';
+			html += '<li>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</li>';
+			html += '</ul>';
 
 			$("#weather").html(html);
 		},
@@ -141,7 +143,7 @@ h << <<CALENDARWIDGET
 CALENDARWIDGET
 
 h << <<CALENDARWIDGET
-<div class='widget' data-row="1" data-col="1" data-sizex="2" data-sizey="4">
+<div class='widget' data-row="1" data-col="1" data-sizex="2" data-sizey="3">
 <div>
 <h1>Seminar Schedule</h1>
 <div id='calendar'></div>
@@ -160,7 +162,7 @@ $(document).ready(function() {
 			center: 'title',
 			right: 'agendaWeek,agendaDay,listWeek'
 		},
-		height: 350,
+		height: 250,
 		defaultView: 'agendaDay',
 		navLinks: false, // can click day/week names to navigate views
 		editable: false,
@@ -194,7 +196,7 @@ end
 h << <<LINK
 
 <!-- BEGIN LINK WIDGET -->
-<div class='widget' data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+<div class='widget' data-row="1" data-col="3" data-sizex="1" data-sizey="3">
 <div>
 <h1>Favourite Webpages</h1>
 <ul id='fav' style='position: inline'>
