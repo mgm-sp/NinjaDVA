@@ -41,7 +41,7 @@ function chooseFile(event){
 		"type" : "application/pdf",
 	}));
 }
-window.addEventListener("message", chooseFile, false);
+window.addEventListener("message", chooseFile);
 LISTENER
 
 
