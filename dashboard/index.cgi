@@ -184,7 +184,7 @@ h << <<SLIDES
 <!-- BEGIN SLIDES WIDGET -->
 <div id='slides' class='widget' data-row="1" data-col="4" data-sizex="3" data-sizey="6">
 <div>
-<h1 style='height:5%; margin:0; padding:0'>Lecture Material</h1>
+<h1 style='height:5%; margin:0; padding:0;display:flex;justify-content:space-between'>Lecture Material<img id='fslink' style='cursor:pointer;height:20px;width:20px' src='expand-256.png' onclick='toggleMaximize()'></h1>
 <iframe style='border: none;width:100%; height:95%' src='http://clonecloud#{$conf.domain}/view.cgi'></iframe>
 </div>
 </div>
@@ -251,7 +251,15 @@ h << <<FOOTER
 	<div><ul id="icons">
 FOOTER
 $conf.links.each{|l|
-	h << "<li><a href='#{l[:href]}' title='#{l[:name]}'><img alt='#{l[:name]}' src='#{l[:href]}/favicon.ico' /></a></li>"
+	unless l[:icon] == "noicon"
+		h << "<li><a href='#{l[:href]}' title='#{l[:name]}'>"
+		if l[:icon]
+			h << "<img alt='#{l[:name]}' src='#{l[:icon]}' />"
+		else
+			h << "<img alt='#{l[:name]}' src='#{l[:href]}/favicon.ico' height='8' />"
+		end
+		h << "</a></li>"
+	end
 }
 h << <<FOOTER
 	</ul></div>
