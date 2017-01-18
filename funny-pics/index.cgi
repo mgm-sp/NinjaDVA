@@ -38,7 +38,7 @@ h << <<CONTENT
 </div>
 <form method="post">
 <div>
-	<input type='text' id="pic_url" name='pic_url' placeholder='http://...' />
+	<input autocomplete='off' type='text' id="pic_url" name='pic_url' placeholder='http://...' />
 	<input class='button' type='submit' value='Add' />
 </div>
 </form>
