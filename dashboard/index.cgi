@@ -204,10 +204,8 @@ LINK
 
 $conf.links.each{|l|
 	h << "<li><a href='#{l[:href]}'>"
-	if l[:icon]
-		h << "<img alt='#{l[:name]}' src='#{l[:icon]}' height='8' />&nbsp;" unless l[:icon] == "noicon"
-	else
-		h << "<img alt='#{l[:name]}' src='#{l[:href]}/favicon.ico' height='8' />&nbsp;" unless l[:icon] == "noicon"
+	unless l[:noicon]
+		h << "<img alt='#{l[:name]}' src='#{l[:icon] ? l[:icon] : l[:href]+"/favicon.ico"}' height='8' />&nbsp;"
 	end
 	h << "#{l[:name]}</a></li>"
 }
@@ -251,7 +249,7 @@ h << <<FOOTER
 	<div><ul id="icons">
 FOOTER
 $conf.links.each{|l|
-	unless l[:icon] == "noicon"
+	unless l[:noicon]
 		h << "<li><a href='#{l[:href]}' title='#{l[:name]}'>"
 		if l[:icon]
 			h << "<img alt='#{l[:name]}' src='#{l[:icon]}' />"
