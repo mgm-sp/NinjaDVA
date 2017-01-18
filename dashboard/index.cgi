@@ -198,12 +198,18 @@ h << <<LINK
 <!-- BEGIN LINK WIDGET -->
 <div class='widget' data-row="1" data-col="3" data-sizex="1" data-sizey="3">
 <div>
-<h1>Favourite Webpages</h1>
+<h1>Favourite Links</h1>
 <ul id='fav' style='position: inline'>
 LINK
 
 $conf.links.each{|l|
-	h << "<li><a href='#{l[:href]}'><img alt='#{l[:name]}' src='#{l[:href]}/favicon.ico' height='8' />&nbsp;#{l[:name]}</a></li>"
+	h << "<li><a href='#{l[:href]}'>"
+	if l[:icon]
+		h << "<img alt='#{l[:name]}' src='#{l[:icon]}' height='8' />&nbsp;" unless l[:icon] == "noicon"
+	else
+		h << "<img alt='#{l[:name]}' src='#{l[:href]}/favicon.ico' height='8' />&nbsp;" unless l[:icon] == "noicon"
+	end
+	h << "#{l[:name]}</a></li>"
 }
 h << "</ul>"
 
