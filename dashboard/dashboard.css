@@ -147,6 +147,9 @@ li {
 #fav>li{
 	position: static;
 }
+#slides {
+	z-index: 9999;
+}
 #slides object {
 	width:90%;
 	height:80%;
