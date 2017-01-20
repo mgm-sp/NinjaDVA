@@ -168,6 +168,7 @@ $(document).ready(function() {
 		editable: false,
 		eventLimit: true, // allow "more" link when too many events
 		nowIndicator: true,
+		scrollTime:  (new Date().getHours()-1) + ":00",
 		slotDuration: '00:30:00',
 		events: "events.cgi"
 	});
