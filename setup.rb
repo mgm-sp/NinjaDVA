@@ -94,7 +94,8 @@ maildb.execute <<-SQL
   	sender TEXT,
     recipient TEXT,
     subject TEXT,
-    body TEXT
+    body TEXT,
+    challenge TEXT
   );
 SQL
 [
@@ -104,14 +105,13 @@ SQL
 Please do not forget our local administrator password which is valid for
 all our Windows client computers: "Start123"
 
-Best, Siggi'],
+Best, Siggi','csrf'],
 	["Siggi Sorglos",              "xaver","Grillen",
 "Hallo Xaver Sebastian,
 
 bleibts beim Grillen heute Abend?
 
-Ciao, Siggi"
-],
+Ciao, Siggi","xss"],
 	["Fräulein Müller-Wachtendonk","siggi","Der Mensch macht's!",
 	"Sehr geehrter Herr Sorglos,
 
@@ -121,15 +121,14 @@ immer an unseren gemeinsamen Leitsatz:
 Der Mensch macht's!
 
 Viele Grüße,
-Müller-Wachtendonk"
-],
+Müller-Wachtendonk" ,"session_fixation"],
 	["Fön",                        "susi", "Küss mich, ich bin ein verzauberter Königssohn!",
 "Hallo Susi, ich bin es, dein Fön…
 
-…und ich liebe dein goldenes Haar…"]
+…und ich liebe dein goldenes Haar…","jsonp"]
 
 ].each do |data|
-  maildb.execute "insert into mail VALUES ( ?, ?, ?, ? )", data
+  maildb.execute "insert into mail VALUES ( ?, ?, ?, ?, ? )", data
 end
 
 chown << $conf.maildb
@@ -149,6 +148,11 @@ File.open($conf.funnypicsdeletecsv, "w"){|f|
 
 chown << $conf.funnypicscsv
 chown << $conf.funnypicsdeletecsv
+
+File.open($conf.solutiondb, "w"){|f|
+	f.puts 'challenge,ip,state,comment,time'
+}
+chown << $conf.solutiondb
 
 require "fileutils"
 FileUtils.chown("www-data","www-data", chown, :verbose => true)

@@ -21,6 +21,8 @@ $conf.funnypicsdeletecsv = "#{dbdir}/funny-pics/delete.csv"
 
 $conf.myhomepagedb = "#{dbdir}/myhomepage/"
 
+$conf.solutiondb = "#{dbdir}/solves.csv"
+
 $conf.location = "Dresden, Germany"
 
 $conf.links = [
