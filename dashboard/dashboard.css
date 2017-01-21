@@ -148,7 +148,7 @@ li {
 	position: static;
 }
 #slides {
-	z-index: 9999;
+	z-index: 19;
 }
 #slides object {
 	width:90%;
@@ -282,7 +282,7 @@ td {
 	background-color: #333;
 	margin: 0;
 	text-align: center;
-	z-index: 10;
+	z-index: 20;
 }
 
 #ft_cont{
