@@ -61,12 +61,29 @@ form input {
 	box-shadow: 0 0 8px -2px rgba(255,255,255,0.4);
 }
 
+form.delete {
+    position: absolute;
+	left: 7px;
+	top: 20px;
+	box-shadow: 0 0px 2px 0 rgba(255, 255, 255, 0.8);
+	z-index: 3;
+}
+
+form.delete:hover{
+    z-index:5;
+}
+
 img{
 	margin: 5px; 
 	height: 250px;
 	box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.19);
+	position: relative;
+	z-index: 4;
 }
 
+img:hover {
+    z-index: 2;
+}
 
 #pic_url {
 	width: 90%;
@@ -107,5 +124,7 @@ a:hover {
 
 .pic {
 	display: inline-block;
-	min-width: 10em
+	min-width: 10em;
+	position: relative;
+	float: left;
 }

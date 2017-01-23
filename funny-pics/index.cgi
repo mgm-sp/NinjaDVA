@@ -101,8 +101,8 @@ pics.reverse_each{|l|
 pics_to_use[0..(numpics-1)].each{|l|
 	h << "<div class='pic'>"
 	if l["sid"] == $session.session_id
-		h << "<form method='post'>"
-		h << "<div class='delete'>"
+		h << "<form method='post' class='delete'>"
+		h << "<div>"
 		h << "<input type='submit' value='Delete' />"
 		h << "<input type='hidden' name='delete' value=\"#{CGI.escapeHTML(l["url"])}\" />"
 		h << "</div></form>"
