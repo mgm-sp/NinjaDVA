@@ -1,0 +1,7 @@
+AuthType Digest
+AuthName "Restricted Area"
+AuthUserFile /var/www/dvmail/db/.htdigest
+Require valid-user
+Require ip 127.0.0.1
+Satisfy any
+Deny from all
