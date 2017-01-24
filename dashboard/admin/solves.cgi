@@ -39,7 +39,13 @@ font-size: 1.1em;
 </style>
 CSS
 solves.each{|chal_id,solver|
-	challenge = YAML::load_file("#{INSTALLDIR}/challenge-descriptions/#{chal_id}.yaml")
+	challengefile = "#{INSTALLDIR}/challenge-descriptions/#{chal_id}.yaml"
+	if File.exists?(challengefile)
+		challenge = YAML::load_file("#{INSTALLDIR}/challenge-descriptions/#{chal_id}.yaml")
+	else
+		challenge = {category:chal_id,name:chal_id}
+	end
+
 	h << "<fieldset><legend>#{challenge[:category]} -- #{challenge[:name]}</legend>"
 	h << "<table><tr><th>IP Address</th><th>Points</th></th><th>Comment</th></tr>"
 	solver.each{|ip,state|

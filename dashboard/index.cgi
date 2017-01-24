@@ -10,9 +10,18 @@ $session = CGI::Session.new($cgi)
 
 h = HTML.new("Dashboard")
 
-if $cgi.include?("refresh")
-	time = $cgi["refresh"].to_i == 0 ? 60 : $cgi["refresh"].to_i
-	h.add_html_head("<meta http-equiv='refresh' content='#{time}'>")
+if $cgi.include?("ping")
+	require_relative "../solved"
+	if $cgi["ping"] == ""
+		Solution.new("ping",1,"Pinged")
+	else
+		Solution.new("ping",10,"Pinged with message #{$cgi['ping']}")
+	end
+	h.header["status"] = "REDIRECT"
+	h.header["Cache-Control"] = "no-cache"
+	h.header["Location"] = "/"
+	h << "Pong"
+	h.out($cgi)
 end
 
 h.add_css("dashboard.css")
@@ -23,7 +32,7 @@ h << <<HEAD
 <img src='mgm-sp-logo.png' alt='mgm security partners' id="logo" />
 <div id="welcome">&nbsp;</div>
 <ul>
-<li class="nonactive_tab">Dashboard</li>
+<li class="nonactive_tab"><a href="?ping">Dashboard</a></li>
 </ul>
 </div></div>
 
