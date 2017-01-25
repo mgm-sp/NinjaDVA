@@ -9,7 +9,7 @@ require "json"
 $cgi = CGI.new
 
 header = { "content-type" => "application/json" }
-s = CSV.read($conf.solutiondb,{headers: true, col_sep: ","})
+s = CSV.read($conf.solutiondb,{headers: true, col_sep: ",", encoding: "UTF-8"})
 solves = {}
 s.each{|l|
 	ip = l["ip"]
