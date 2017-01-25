@@ -1,0 +1,103 @@
+body {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.gridster .user{
+	border: 1px solid #bbbbbb;
+	border-radius: 4px;
+	background: linear-gradient(to right,rgba(255,0,0,0.5) -5%,rgba(34,139,34,0.6) 5%);
+	overflow: auto;
+
+}
+
+.user legend{
+	font-weight: bold;
+}
+
+.gridster .preview-holder{
+	background: #888888;
+	border: medium none;
+	border-radius: 0;
+}
+
+#menu{
+	z-index: 20;
+	float: right;
+	top: 7em;
+	right: 3px;
+	position: fixed;
+	width: 16em;
+}
+
+#menu input{
+	margin: 5px;
+}
+
+.button {
+	background: black;
+	color: white;
+	padding: 0.3em;
+	margin-left: -50px;
+	font-weight: bold;
+	border: none;
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.3); 
+	text-shadow: 0 0 10px rgba(255,255,255,1), 0 0 5px rgba(255,255,255,1);
+}
+
+.gridster .preview-holder{
+	background: #888888;
+	border: medium none;
+	border-radius: 0;
+}
+
+label {
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	padding-left: 20px;
+}
+
+input[type=radio] {
+	display: none;
+}
+
+label:before {
+	content: "";
+	display: inline-block;
+
+	width: 16px;
+	height: 16px;
+
+	margin-right: 10px;
+	position: absolute;
+	left: 0.5px;
+	top: 3px;
+	background-color: #aaa;
+	box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+}
+
+.radio label:before {
+	border-radius: 8px;
+}
+
+input[type=radio]:checked + label:before{
+	content: "\2022";
+	color: #f3f3f3;
+	font-size: 25px;
+	text-align: center;
+	line-height: 11.75px;
+}
+
+input[type=checkbox] {
+	display: none;
+}
+
+input[type=checkbox]:checked + label:before {
+	content: "\2713";
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+	font-size: 15px;
+	color: #f3f3f3;
+	text-align: center;
+	line-height: 15px;
+}
+
