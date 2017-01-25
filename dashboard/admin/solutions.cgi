@@ -7,9 +7,8 @@ require "yaml"
 require "json"
 $cgi = CGI.new
 solutions = {}
-Dir.glob("#{INSTALLDIR}/challenge-descriptions/*.yaml").collect{|f|
-	challenge = YAML::load_file(f)
-	challenge_id = File.basename(f,".yaml")
+$conf.exercises.each{|challenge_id|
+	challenge = YAML::load_file("#{INSTALLDIR}/challenge-descriptions/#{challenge_id}.yaml")
   solutions[challenge_id] = challenge[:solutions]
 }
 

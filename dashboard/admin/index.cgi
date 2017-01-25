@@ -25,12 +25,13 @@ h << <<MENU
   <input class="button" type="button" value="Save" onclick="save_grid_layout()"><br>
   <div class="radio">
 MENU
-Dir.glob("#{INSTALLDIR}/challenge-descriptions/*.yaml").collect{|f|
-	challenge = YAML::load_file(f)
-	challenge_id = File.basename(f,".yaml")
-
+ex = {}
+$conf.exercises.each{|challenge_id|
+	ex[challenge_id] = YAML::load_file("#{INSTALLDIR}/challenge-descriptions/#{challenge_id}.yaml")
+}
+ex.each{|challenge_id,challenge|
   h << "<input type='radio' name='task' value='#{challenge_id}' onclick='select_task(this)' id='#{challenge_id}'>"
-  h << "<label for='#{challenge_id}'> #{challenge[:category]} -- #{challenge[:name]}</label><br />"
+  h << "<label title='#{challenge[:name]}' for='#{challenge_id}'>#{challenge_id}</label><br />"
 }
 h << "<input type='radio' name='task' value='ping' onclick='select_task(this)' id='ping'>"
 h << "<label for='ping'> ping </label><br />"

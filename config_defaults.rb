@@ -32,6 +32,11 @@ $conf.links = [
 	{ :href => "http://mail#{$conf.domain}",       :name => "Mail" }
 ]
 
+require "yaml"
+$conf.exercises = Dir.glob("#{INSTALLDIR}/challenge-descriptions/*.yaml").sort_by{|f|
+	YAML::load_file(f)[:category]
+}.collect{|f| File.basename(f,".yaml")}
+
 if File.exists?("#{INSTALLDIR}/config.rb")
 	load "#{INSTALLDIR}/config.rb"
 end
