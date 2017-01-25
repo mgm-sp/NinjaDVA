@@ -13,16 +13,18 @@ s = CSV.read($conf.solutiondb,{headers: true, col_sep: ",", encoding: "UTF-8"})
 solves = {}
 s.each{|l|
 	ip = l["ip"]
-	c = l["challenge"]
-	state = l["state"].to_i
+	unless ip == "127.0.0.1"
+		c = l["challenge"]
+		state = l["state"].to_i
 
-	solves[ip] ||= {}
-	if (!solves[ip][c]) || solves[ip][c][:state] < state
-		solves[ip][c] = {
-			:state => state,
-			:comment => l["comment"],
-			:time => l["time"]
-		}
+		solves[ip] ||= {}
+		if (!solves[ip][c]) || solves[ip][c][:state] < state
+			solves[ip][c] = {
+				:state => state,
+				:comment => l["comment"],
+				:time => l["time"]
+			}
+		end
 	end
 }
 
