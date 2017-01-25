@@ -27,7 +27,7 @@ function human_readable_time_ago(time){
 	if (diff.getMonth() != 0)
 		return "long ago";
 	else if (diff.getUTCDate() != 1)
-		return diff.getUTCDate() == 2 ? "yesterday" : diff.getDate().toString() + " days ago";
+		return diff.getUTCDate() == 2 ? "one day ago" : diff.getDate().toString() + " days ago";
 	else if (diff.getUTCHours() != 0)
 		return diff.getUTCHours().toString() + " hours ago";
 	else
@@ -43,7 +43,7 @@ function select_task(sel){
 			var red=100-data[ip][sel.value]['state']*10-5;
 			var green=100-data[ip][sel.value]['state']*10+5;
 			id.style.backgroundImage="linear-gradient(to right,rgba(255,80,80,0.5) "+red+"%,rgba(34,139,34,0.5) "+green+"%)";
-			var text = human_readable_time_ago(data[ip][sel.value]['time']) + "<br />";
+			var text = "<span title='"+data[ip][sel.value]['time']+"'>"+human_readable_time_ago(data[ip][sel.value]['time']) + "</span><br/>";
 			if (data[ip][sel.value]['comment']) {
 				text += data[ip][sel.value]['comment'];
 			}
