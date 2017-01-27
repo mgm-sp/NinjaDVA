@@ -85,8 +85,10 @@ function update_data() {
 		success: function (d) {
 			data = d;
 			for (ip in data){
-				$(".gridster").append('<fieldset id="ip_'+ip.split(".")[3]+'" data-row="1" data-col="1" data-sizex="1" data-sizey="1" class="user"><legend>'+ip+'</legend><div></div></fieldset>');
-
+				var id = 'ip_'+ip.split(".")[3];
+				if (!$("#"+id).length) {
+					$(".gridster").append('<fieldset id="'+id+'" data-row="1" data-col="1" data-sizex="1" data-sizey="1" class="user"><legend>'+ip+'</legend><div></div></fieldset>');
+				}
 			}
 
 			gridster = $("div.gridster").gridster({
