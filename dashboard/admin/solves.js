@@ -43,11 +43,14 @@ function select_task(sel){
 			var red=100-data[ip][sel.value]['state']*10-5;
 			var green=100-data[ip][sel.value]['state']*10+5;
 			id.style.backgroundImage="linear-gradient(to right,rgba(255,80,80,0.5) "+red+"%,rgba(34,139,34,0.5) "+green+"%)";
-			var text = "<span title='"+data[ip][sel.value]['time']+"'>"+human_readable_time_ago(data[ip][sel.value]['time']) + "</span><br/>";
+			var text = $("<span />",{
+				title: data[ip][sel.value]['time']
+			}).text(human_readable_time_ago(data[ip][sel.value]['time']));
+			text.append($("<br />"));
 			if (data[ip][sel.value]['comment']) {
-				text += data[ip][sel.value]['comment'];
+				text.append($("<span />").text(data[ip][sel.value]['comment']));
 			}
-			id.lastElementChild.innerHTML=text;
+			$(id.lastElementChild).html(text);
 		} else {
 			id.style.backgroundImage="linear-gradient(to right,rgba(255,80,80,0.5) 95%,rgba(34,139,34,0.6) 105%)";
 			id.lastElementChild.innerHTML="";
