@@ -18,7 +18,7 @@ s.each{|l|
 		state = l["state"].to_i
 
 		solves[ip] ||= {}
-		if (!solves[ip][c]) || solves[ip][c][:state] < state
+		if (!solves[ip][c]) || solves[ip][c][:state] <= state
 			solves[ip][c] = {
 				:state => state,
 				:comment => l["comment"],
