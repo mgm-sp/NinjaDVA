@@ -13,7 +13,8 @@ h = HTML.new("Dashboard")
 if $cgi.include?("ping")
 	require_relative "../solved"
 	if $cgi["ping"] == ""
-		Solution.new("ping",1,"Pinged")
+		num = `grep ",1,Ping" #{$conf.solutiondb} |wc -l`.chomp
+		Solution.new("ping",1,"Ping #{num}")
 	else
 		Solution.new("ping",10,"Pinged with message #{$cgi['ping']}")
 	end
