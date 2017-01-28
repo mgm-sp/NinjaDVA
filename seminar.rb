@@ -1,9 +1,11 @@
 require "time"
+require_relative "config_defaults"
 class Seminar
 	attr_accessor :events
 	attr_reader :location
 	def initialize(args = {})
 		@events = []
+		@zone = Time.now.getlocal.zone
 		if args[:location]
 			@location = args[:location]
 			$conf.location = args[:location]
@@ -12,9 +14,9 @@ class Seminar
 		end
 
 		if args[:start]
-			@start = DateTime.parse(args[:start])
+			@start = DateTime.parse(args[:start] + @zone)
 		else
-			@start = DateTime.parse("09:00:00")
+			@start = DateTime.parse("09:00:00 #{@zone}")
 		end
 		@current_time = @start
 	end
@@ -29,6 +31,7 @@ class Seminar
 			:start => @current_time,
 			:end   => (args[:duration] ? @current_time+args[:duration].to_f/24/60 : @current_time+90.0/60/24),
 		}
+		event[:file] = args[:file] if args[:file]
 		event[:url] = "javascript:chooseMaterial(\"#{args[:file]}\")" if args[:file]
 		event[:backgroundColor] = args[:backgroundColor] if args[:backgroundColor]
 		@current_time = event[:end]
@@ -45,11 +48,29 @@ class Seminar
 	end
 	def new_day args = {}
 		startofday = args[:start].nil? ? @start.strftime("%H:%M:%S") : args[:start]+":00"
-		@current_time = DateTime.parse((@current_time+1).strftime("%Y-%m-%d ")+(startofday))
+		@current_time = DateTime.parse((@current_time+1).strftime("%Y-%m-%d ")+(startofday)+@zone)
 		self
 	end
 
 	def to_json
 		@events.to_json
 	end
+	def current_lecture
+		now = DateTime.now
+		@events.each{|e|
+			return e if e[:start] < now && e[:end] > now
+		}
+		return nil
+	end
+end
+
+
+if __FILE__ == $0
+	require "pp"
+	require_relative ARGV[0]
+	$conf.events.events.each{|e|
+		puts "#{e[:start].strftime("%F %R")} - #{e[:end].strftime("%F %R")}: #{e[:title]}"
+	}
+	puts
+	pp $conf.events.current_lecture
 end
