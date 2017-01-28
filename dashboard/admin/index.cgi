@@ -22,7 +22,8 @@ h.add_head_script("../jquery.gridster.min.js")
 h << <<MENU
 <div id="menu">
 <form>
-  <input class="button" type="button" value="Save" onclick="save_grid_layout()"><br>
+  <input class="button" type="button" value="Save" onclick="save_grid_layout()">
+  <input class="button" type="button" value="Reload" onclick="update_data()"><br>
   <div class="radio">
 MENU
 ex = {}
