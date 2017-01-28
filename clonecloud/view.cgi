@@ -27,23 +27,27 @@ body {
 </style>
 STYLE
 )
-require "mimemagic"
-file = "data=\"files/#{CGI.escape($cgi["default"])}\" type=#{MimeMagic.by_magic(File.open("files/#{$cgi["default"]}")).type}"
+file = "files/#{$cgi["default"]}"
+if File.exists?(file) && !File.directory?(file)
+	object = "<object data=\"#{file}\"></object>"
+else
+	object = "Please choose a file."
+end
 h << <<CONTENT
 <div id='file' style='text-align: center;height: 100%'>
-<object type="application/pdf" #{file} > </object>
+#{object}
 </div>
 CONTENT
 
 h.add_script <<LISTENER
 function chooseFile(event){
 	var file = event.data;
-	$("#file").text("");
-	$("#file").append($("<object data='files/"+file+"'/>",{
-		"type" : "application/pdf",
-	}));
+	if (typeof file === "string"){
+		$("#file").text("");
+		$("#file").append($("<object data='files/"+file+"'/>"));
+	}
 }
-//window.addEventListener("message", chooseFile);
+window.addEventListener("message", chooseFile);
 LISTENER
 
 
