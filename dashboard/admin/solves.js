@@ -58,10 +58,22 @@ function select_task(sel){
 	}
 
 	if(solutions[sel.value]) {
-		var solutionlist = $("<ul>");
+		var solutionlist = $("<div />");
 		$(solutions[sel.value]).each(function(i,s){
-			solutionlist.append($("<li>").text(s));
-		})
+			var codearea = $("<textarea />",{ class: 'code' });
+			codearea.text(s);
+			solutionlist.append(codearea);
+			var editor = CodeMirror.fromTextArea(codearea[0], {
+				mode:  {
+					name: sel.value.match(/sql/) ? "sql" : "htmlmixed",
+				},
+				readOnly: true,
+			});
+			setTimeout(function() {
+				editor.refresh();
+			},1);
+
+		});
 		$("#solution").html(solutionlist);
 	} else
 		$("#solution").text("");
