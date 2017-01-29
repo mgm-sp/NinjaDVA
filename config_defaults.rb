@@ -1,27 +1,48 @@
 require "ostruct"
-$conf = OpenStruct.new
+
+class Configuration < OpenStruct
+	def clouduserdb
+		"#{self.dbdir_absolute}/cloudusers.db"
+	end
+	def clouduserfiles
+		"#{INSTALLDIR}/clonecloud/files"
+	end
+	def userdb
+		"#{self.dbdir_absolute}/users.db"
+	end
+	def maildb
+		"#{self.dbdir_absolute}/mail.db"
+	end
+	def chatdb
+		"#{self.dbdir_absolute}/chat"
+	end
+	def funnypicscsv
+		"#{self.dbdir_absolute}/funny-pics/pics.csv"
+	end
+	def funnypicsdeletecsv
+		"#{self.dbdir_absolute}/funny-pics/delete.csv"
+	end
+	def myhomepagedb
+		"#{self.dbdir_absolute}/myhomepage/"
+	end
+	def solutiondb
+		"#{self.dbdir_absolute}/solves.csv"
+	end
+	def dbdir_absolute
+		"#{INSTALLDIR}/#{self.dbdir}"
+	end
+end
+
+$conf = Configuration.new
 INSTALLDIR = "/var/www/dvmail/"
 
 $conf.domain = ".mgmsp-lab.com"
 
-dbdir = "#{INSTALLDIR}/db"
-$conf.userdb = "#{dbdir}/users.db"
-$conf.maildb = "#{dbdir}/mail.db"
-
-$conf.clouduserdb = "#{dbdir}/cloudusers.db"
-$conf.clouduserfiles = "#{INSTALLDIR}/clonecloud/files"
+$conf.dbdir = "db"
 
 $conf.pepper = "ayethielu4pheZai"
 $conf.default_userpw = "Kooviufeicae0goo"
 
-$conf.chatdb = "#{dbdir}/chat"
-
-$conf.funnypicscsv = "#{dbdir}/funny-pics/pics.csv"
-$conf.funnypicsdeletecsv = "#{dbdir}/funny-pics/delete.csv"
-
-$conf.myhomepagedb = "#{dbdir}/myhomepage/"
-
-$conf.solutiondb = "#{dbdir}/solves.csv"
 
 $conf.location = "Dresden, Germany"
 
