@@ -7,6 +7,8 @@ def argon(pw)
 	return Argon2::Password.new(secret: $conf.pepper).create(pw)
 end
 
+unless Dir.exists?($conf.dbdir)
+
 chown = []
 
 [
@@ -14,7 +16,7 @@ chown = []
 	$conf.chatdb,
 	File.dirname($conf.funnypicscsv),
 	$conf.myhomepagedb,
-	$conf.clouduserfiles
+	$conf.cloudfiles
 ].each{|dir|
 	Dir.mkdir(dir) unless Dir.exists?(dir)
 	chown << dir
@@ -24,7 +26,7 @@ chown = []
 require "digest"
 user = "admin"
 realm = "Restricted Area"
-File.open("#{INSTALLDIR}/db/.htdigest","w"){|f|
+File.open("#{$conf.dbdir}/.htdigest","w"){|f|
 	f << "#{user}:#{realm}:#{Digest::MD5.hexdigest("#{user}:#{realm}:#{$conf.default_userpw}")}\n"
 }
 
@@ -49,7 +51,7 @@ SQL
 end
 chown << $conf.clouduserdb
 
-File.open($conf.clouduserfiles+"/Wichtig-unbedingt-lesen-README","w") {|f|
+File.open($conf.cloudfiles+"/Wichtig-unbedingt-lesen-README","w") {|f|
 	f << "Diese Cloud hat keinen Virenschutz!"
 }
 
@@ -154,6 +156,19 @@ File.open($conf.solutiondb, "w"){|f|
 }
 chown << $conf.solutiondb
 
+
 require "fileutils"
 FileUtils.chown("www-data","www-data", chown, :verbose => true)
 puts "chown www-data:www-data #{chown.join(" ")}"
+
+else
+	puts "Directory #{$conf.db} already exists... only changing symlinks"
+end
+
+[
+	[$conf.cloudfiles,"#{INSTALLDIR}/clonecloud/files"],
+	[$conf.dbdir,"#{INSTALLDIR}/db"]
+].each{|a,b|
+	File.unlink(b)
+	File.symlink(a,b)
+}

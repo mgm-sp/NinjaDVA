@@ -4,8 +4,8 @@ class Configuration < OpenStruct
 	def clouduserdb
 		"#{self.dbdir_absolute}/cloudusers.db"
 	end
-	def clouduserfiles
-		"#{INSTALLDIR}/clonecloud/files"
+	def cloudfiles
+		"#{self.dbdir_absolute}/../files/"
 	end
 	def userdb
 		"#{self.dbdir_absolute}/users.db"
@@ -31,10 +31,15 @@ class Configuration < OpenStruct
 	def dbdir_absolute
 		"#{INSTALLDIR}/#{self.dbdir}"
 	end
+	def load(file)
+		self.dbdir = "#{File.dirname(file)}/db/"
+		require_relative "#{INSTALLDIR}/#{file}"
+	end
 end
 
 $conf = Configuration.new
 INSTALLDIR = "/var/www/dvmail/"
+require_relative "#{INSTALLDIR}/seminar"
 
 $conf.domain = ".mgmsp-lab.com"
 

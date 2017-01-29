@@ -108,11 +108,11 @@ h << <<WEATHERWIDGET
 <div>
 <h1>#{$conf.location}</h1>
 WEATHERWIDGET
-if File.exists?("#{$conf.location}.jpg")
-	h << "<div id='weather_background' style=\"background-image: url('#{$conf.location}.jpg');\">"
+if File.exists?("#{$conf.cloudfiles}/#{$conf.location}.jpg")
+	h << "<div id='weather_background' style=\"background-image: url('http://clonecloud#{$conf.domain}/files/#{$conf.location}.jpg');\">"
 end
 h << "<div id='weather'></div>"
-if File.exists?("#{$conf.location}.jpg")
+if File.exists?("#{$conf.cloudfiles}/#{$conf.location}.jpg")
 	h << "</div>"
 end
 h << "</div>"
