@@ -33,7 +33,8 @@ h << <<HEAD
 <img src='mgm-sp-logo.png' alt='mgm security partners' id="logo" />
 <div id="welcome">&nbsp;</div>
 <ul>
-<li class="nonactive_tab"><a href="?ping">Dashboard</a></li>
+<li class="nonactive_tab gridnav" style='display:none'><a href="javascript:save_grid_layout()">Save Layout</a></li>
+<li class="nonactive_tab">Dashboard</li>
 </ul>
 </div></div>
 
@@ -43,7 +44,7 @@ HEAD
 
 
 timewidget = <<CONTENT
-<div class='widget' data-row="4" data-col="1" data-sizex="1" data-sizey="1">
+<div id='timewidget' class='widget' data-row="4" data-col="1" data-sizex="1" data-sizey="1">
 <div>
 <h1>Current Time</h1>
 <div id="clock">
@@ -89,7 +90,7 @@ MAILWIDGET
 h.add_script_file("mail.js")
 
 h << <<MAILWIDGET
-<div class='widget' data-row="5" data-col="1" data-sizex="3" data-sizey="2">
+<div id='mailwidget' class='widget' data-row="5" data-col="1" data-sizex="3" data-sizey="2">
 <div>
 <h1>New Mail</h1>
 <div id='inbox'>Fetching new mail...</div>
@@ -104,7 +105,7 @@ h << "\n"*3
 
 h << <<WEATHERWIDGET
 <!-- BEGIN WEATHER WIDGET -->
-<div class='widget' data-row="4" data-col="2" data-sizex="2" data-sizey="1">
+<div id='weatherwidget' class='widget' data-row="4" data-col="2" data-sizex="2" data-sizey="1">
 <div>
 <h1>#{$conf.location}</h1>
 WEATHERWIDGET
@@ -153,7 +154,7 @@ h << <<CALENDARWIDGET
 CALENDARWIDGET
 
 h << <<CALENDARWIDGET
-<div class='widget' data-row="1" data-col="1" data-sizex="2" data-sizey="3">
+<div id='calendarwidget' class='widget' data-row="1" data-col="1" data-sizex="2" data-sizey="3">
 <div>
 <h1>Seminar Schedule</h1>
 <div id='calendar'></div>
@@ -205,7 +206,7 @@ SLIDES
 h << <<LINK
 
 <!-- BEGIN LINK WIDGET -->
-<div class='widget' data-row="1" data-col="3" data-sizex="1" data-sizey="3">
+<div id='linkwidget' class='widget' data-row="1" data-col="3" data-sizex="1" data-sizey="3">
 <div>
 <h1>Favourite Links</h1>
 <ul id='fav' style='position: inline'>
@@ -235,26 +236,71 @@ h.add_head_script("jquery-2.2.3.min.js")
 h.add_head_script("jquery.gridster.min.js")
 
 h.add_script <<GRID
+var gridster;
 $(function(){ //DOM Ready
-
-        $("div.gridster").gridster({
-            widget_base_dimensions: [170, 100],
-            widget_margins: [12, 12],
-						widget_selector: "div.widget",
-            helper: 'clone',
-            //resize: { enabled: true }
-        }).data('gridster').disable();
-
-
+	gridster = $("div.gridster").gridster({
+			widget_base_dimensions: [170, 100],
+			widget_margins: [12, 12],
+			widget_selector: "div.widget",
+			draggable: {
+				handle: 'h1',
+				stop: function () {
+					$(".gridnav").show();
+				}
+			},
+			shift_widgets_up: false,
+			shift_larger_widgets_down: true,
+			collision: {
+				wait_for_mouseup: true
+			},
+			resize: { enabled: true }
+	}).data('gridster').enable();
+	load_grid_layout();
 });
-GRID
 
+function save_grid_layout(){
+	$(".widget").each(function(i,u){
+		window.localStorage.setItem('gridster-'+u.id, JSON.stringify({
+			"col" : $(u).attr("data-col"),
+			"row" : $(u).attr("data-row"),
+			"sizex" : $(u).attr("data-sizex"),
+			"sizey" : $(u).attr("data-sizey"),
+		}));
+	});
+	$(".gridnav").hide();
+}
+
+function load_grid_layout(){
+	$(".widget").each(function(i,u){
+		layout = JSON.parse(window.localStorage.getItem('gridster-'+u.id));
+		if (layout){
+			$("#"+u.id).attr("data-col",layout["col"]);
+			$("#"+u.id).attr("data-row",layout["row"]);
+			$("#"+u.id).attr("data-sizex",layout["sizex"]);
+			$("#"+u.id).attr("data-sizey",layout["sizey"]);
+		}
+	});
+	$(".gridnav").hide();
+}
+GRID
+h << <<CSS
+<style>
+.gridster .preview-holder{
+	background: #bbbbbb;
+	border: medium none;
+	border-radius: 0;
+}
+.widget h1 {
+	cursor: move;
+}
+</style>
+CSS
 
 h << <<FOOTER
 <div id=footer>
 <div id="ft_cont">
 	<div> <a href="https://www.mgm-sp.com/impressum/">Imprint</a> </div>
-	<div> (c) 2016 mgm security partners GmbH </div>
+	<div> <a href="?ping">(c)</a> 2016 mgm security partners GmbH </div>
 	<div><ul id="icons">
 FOOTER
 $conf.links.each{|l|
