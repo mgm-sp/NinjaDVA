@@ -22,26 +22,24 @@ body {
 
 #menu{
 	z-index: 20;
-	float: right;
-	top: 7em;
-	right: 3px;
+	bottom: 3px;
+	left: 3px;
 	position: fixed;
-	width: 16em;
+	width: 100%;
 }
 
 #menu input{
-	margin: 5px;
+	margin-top: 5px;
 }
 
-.button {
-	background: black;
+input[type=button], label {
+	background: #008fb3;
 	color: white;
 	padding: 0.3em;
-	margin-left: -50px;
 	font-weight: bold;
 	border: none;
-	box-shadow: 3px 3px 5px rgba(0,0,0,0.3); 
-	text-shadow: 0 0 10px rgba(255,255,255,1), 0 0 5px rgba(255,255,255,1);
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+	text-shadow: 0 0 10px rgba(51,204,255,1), 0 0 5px rgba(51,204,255,1);
 }
 
 .gridster .preview-holder{
@@ -54,38 +52,6 @@ label {
 	display: inline-block;
 	cursor: pointer;
 	position: relative;
-	padding-left: 20px;
-}
-
-input[type=radio] {
-	display: none;
-}
-
-label:before {
-	content: "";
-	display: inline-block;
-
-	width: 16px;
-	height: 16px;
-
-	margin-right: 10px;
-	position: absolute;
-	left: 0.5px;
-	top: 3px;
-	background-color: #aaa;
-	box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
-}
-
-.radio label:before {
-	border-radius: 8px;
-}
-
-input[type=radio]:checked + label:before{
-	content: "\2022";
-	color: #f3f3f3;
-	font-size: 25px;
-	text-align: center;
-	line-height: 11.75px;
 }
 
 input[type=checkbox] {
