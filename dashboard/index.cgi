@@ -274,8 +274,8 @@ function load_grid_layout(){
 	$(".widget").each(function(i,u){
 		layout = JSON.parse(window.localStorage.getItem('gridster-'+u.id));
 		if (layout){
-			gridster.move_widget($("#"+u.id), layout["col"], layout["row"]);
-			gridster.resize_widget($("#"+u.id), layout["sizex"], layout["sizey"]);
+			gridster.move_widget($("#"+u.id), parseInt(layout["col"]), parseInt(layout["row"]));
+			gridster.resize_widget($("#"+u.id), parseInt(layout["sizex"]), parseInt(layout["sizey"]));
 		}
 	});
 	$(".gridnav").hide();
