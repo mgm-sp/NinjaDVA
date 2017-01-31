@@ -32,8 +32,8 @@ class Configuration < OpenStruct
 		"#{INSTALLDIR}/#{self.dbdir}"
 	end
 	def load(file)
-		self.dbdir = "#{File.dirname(file)}/db/"
-		require_relative "#{INSTALLDIR}/#{file}"
+		self.dbdir = "config/#{File.dirname(file)}/db/"
+		require_relative "#{INSTALLDIR}/config/#{file}"
 	end
 end
 
@@ -63,6 +63,10 @@ $conf.exercises = Dir.glob("#{INSTALLDIR}/challenge-descriptions/*.yaml").sort_b
 	YAML::load_file(f)[:category]
 }.collect{|f| File.basename(f,".yaml")}
 
-if File.exists?("#{INSTALLDIR}/config.rb")
-	load "#{INSTALLDIR}/config.rb"
+if File.exists?("#{INSTALLDIR}/config/config.rb")
+	load "#{INSTALLDIR}/config/config.rb"
+else
+	puts
+	puts "You need to configure the server. Please copy config_sample.rb to config/config.rb."
+	exit
 end
