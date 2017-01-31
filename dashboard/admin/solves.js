@@ -35,6 +35,9 @@ function human_readable_time_ago(time){
 }
 
 function select_task(sel){
+	$("input[type=button]").removeClass("active");
+	sel.classList.add("active");
+
 	window.localStorage.setItem('last-task',sel.value);
 	for (ip in data){
 		var id = $("#ip_"+ip.split(".")[3])[0];
