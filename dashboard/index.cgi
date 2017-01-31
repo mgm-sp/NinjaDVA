@@ -244,6 +244,9 @@ $(function(){ //DOM Ready
 			widget_selector: "div.widget",
 			draggable: {
 				handle: 'h1',
+				start: function(){
+					gridster.empty_cells_player_occupies (); 
+				},
 				stop: function () {
 					$(".gridnav").show();
 				}
