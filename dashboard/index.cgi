@@ -274,10 +274,8 @@ function load_grid_layout(){
 	$(".widget").each(function(i,u){
 		layout = JSON.parse(window.localStorage.getItem('gridster-'+u.id));
 		if (layout){
-			$("#"+u.id).attr("data-col",layout["col"]);
-			$("#"+u.id).attr("data-row",layout["row"]);
-			$("#"+u.id).attr("data-sizex",layout["sizex"]);
-			$("#"+u.id).attr("data-sizey",layout["sizey"]);
+			gridster.move_widget($("#"+u.id), layout["col"], layout["row"]);
+			gridster.resize_widget($("#"+u.id), layout["sizex"], layout["sizey"]);
 		}
 	});
 	$(".gridnav").hide();
