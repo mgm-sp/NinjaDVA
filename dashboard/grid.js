@@ -18,10 +18,21 @@ $(function(){ //DOM Ready
 			collision: {
 				wait_for_mouseup: true
 			},
-			resize: { enabled: true }
+			resize: {
+				enabled: true,
+				stop: function(){
+					adjust_calendar();
+					$(".gridnav").show();
+				},
+				resize: adjust_calendar
+			}
 	}).data('gridster').enable();
 	grid_layout_from_server(true);
 });
+
+function adjust_calendar(){
+	$('#calendar').fullCalendar('option','height',$('#calendarwidget').height()-53);
+}
 
 function grid_layout_from_server(load_layout_from_localstorage){
 	$.ajax({
@@ -58,7 +69,7 @@ function save_grid_layout_to_localstorage(){
 function grid_layout_from_localstorage(){
 	gridlayout = JSON.parse(window.localStorage.getItem('gridster-'+document.location.pathname));
 	if (gridlayout) {
-		set_grid_layout(gridlayout)
+		set_grid_layout(gridlayout);
 	}
 }
 
@@ -70,4 +81,5 @@ function set_grid_layout(gridlayout){
 			gridster.resize_widget($("#"+u.id), parseInt(layout["sizex"]), parseInt(layout["sizey"]));
 		}
 	});
+	window.setTimeout(adjust_calendar,500);
 }
