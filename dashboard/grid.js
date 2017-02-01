@@ -23,25 +23,34 @@ $(function(){ //DOM Ready
 	load_grid_layout();
 });
 
-function save_grid_layout(){
+function get_grid_layout(){
+	var layout = {};
 	$(".widget").each(function(i,u){
-		window.localStorage.setItem('gridster-'+u.id, JSON.stringify({
+
+		layout[u.id] = {
 			"col" : $(u).attr("data-col"),
 			"row" : $(u).attr("data-row"),
 			"sizex" : $(u).attr("data-sizex"),
 			"sizey" : $(u).attr("data-sizey"),
-		}));
+		};
 	});
+	return(layout);
+}
+
+function save_grid_layout(){
+	window.localStorage.setItem('gridster-'+document.location.pathname,JSON.stringify(get_grid_layout()));
 	$(".gridnav").hide();
 }
 
 function load_grid_layout(){
-	$(".widget").each(function(i,u){
-		layout = JSON.parse(window.localStorage.getItem('gridster-'+u.id));
-		if (layout){
-			gridster.move_widget($("#"+u.id), parseInt(layout["col"]), parseInt(layout["row"]));
-			gridster.resize_widget($("#"+u.id), parseInt(layout["sizex"]), parseInt(layout["sizey"]));
-		}
-	});
-	$(".gridnav").hide();
+	gridlayout = JSON.parse(window.localStorage.getItem('gridster-'+document.location.pathname));
+	if (gridlayout) {
+		$(".widget").each(function(i,u){
+			layout = gridlayout[u.id];
+			if (layout){
+				gridster.move_widget($("#"+u.id), parseInt(layout["col"]), parseInt(layout["row"]));
+				gridster.resize_widget($("#"+u.id), parseInt(layout["sizex"]), parseInt(layout["sizey"]));
+			}
+		});
+	}
 }
