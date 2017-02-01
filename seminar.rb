@@ -19,6 +19,17 @@ class Seminar
 			@start = DateTime.parse("09:00:00 #{@zone}")
 		end
 		@current_time = @start
+		if args[:title]
+			event = {
+				:title => args[:title],
+				:start => @start.to_date,
+				:end => @start.to_date
+			}
+			event[:file] = args[:file] if args[:file]
+			event[:url] = "javascript:chooseMaterial(\"#{args[:file]}\")" if args[:file]
+			event[:backgroundColor] = args[:backgroundColor] if args[:backgroundColor]
+			@events << event
+		end
 	end
 	def location= location
 		@location = location
