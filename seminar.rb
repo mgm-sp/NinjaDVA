@@ -2,7 +2,7 @@ require "time"
 require_relative "config_defaults"
 class Seminar
 	attr_accessor :events
-	attr_reader :location
+	attr_reader :location, :start
 	def initialize(args = {})
 		@events = []
 		@zone = Time.now.getlocal.zone
