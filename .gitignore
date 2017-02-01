@@ -1,4 +1,4 @@
-db/
+db
 .htdigest
-config.rb
+config/
 clonecloud/files
