@@ -58,6 +58,8 @@ $conf.links = [
 	{ :href => "http://mail#{$conf.domain}",       :name => "Mail" }
 ]
 
+$conf.dashboard_grid_layout = '{"timewidget":{"col":"1","row":"4","sizex":"1","sizey":"1"},"mailwidget":{"col":"1","row":"5","sizex":"3","sizey":"2"},"weatherwidget":{"col":"2","row":"4","sizex":"2","sizey":"1"},"calendarwidget":{"col":"1","row":"1","sizex":"2","sizey":"3"},"slides":{"col":"4","row":"1","sizex":"3","sizey":"6"},"linkwidget":{"col":"3","row":"1","sizex":"1","sizey":"3"}}'
+
 require "yaml"
 $conf.exercises = Dir.glob("#{INSTALLDIR}/challenge-descriptions/*.yaml").sort_by{|f|
 	YAML::load_file(f)[:category]

@@ -33,7 +33,7 @@ h << <<HEAD
 <img src='mgm-sp-logo.png' alt='mgm security partners' id="logo" />
 <div id="welcome">&nbsp;</div>
 <ul>
-<li class="nonactive_tab gridnav" style='display:none'><a href="javascript:save_grid_layout()">Save Layout</a></li>
+<li class="nonactive_tab gridnav" style='display:none'><a href="javascript:save_grid_layout_to_localstorage()">Save Layout</a></li>
 <li class="nonactive_tab">Dashboard</li>
 </ul>
 </div></div>

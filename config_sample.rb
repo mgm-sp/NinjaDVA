@@ -16,6 +16,9 @@ $conf.links << {
 	:name => "Bad Code",
 	:noicon => true
 }
+# get this in the debug console with JSON.stringify(get_current_grid_layout())
+$conf.dashboard_grid_layout = '{"timewidget":{"col":"3","row":"4","sizex":"1","sizey":"1"},"mailwidget":{"col":"3","row":"5","sizex":"3","sizey":"2"},"weatherwidget":{"col":"6","row":"5","sizex":"1","sizey":"2"},"calendarwidget":{"col":"1","row":"1","sizex":"2","sizey":"6"},"slides":{"col":"4","row":"1","sizex":"3","sizey":"4"},"linkwidget":{"col":"3","row":"1","sizex":"1","sizey":"3"}}'
+
 $conf.events = Seminar.new(
 	title: "Web Application Security",
 	location: "Dresden, Germany",

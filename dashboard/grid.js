@@ -20,10 +20,23 @@ $(function(){ //DOM Ready
 			},
 			resize: { enabled: true }
 	}).data('gridster').enable();
-	load_grid_layout();
+	grid_layout_from_server(true);
 });
 
-function get_grid_layout(){
+function grid_layout_from_server(load_layout_from_localstorage){
+	$.ajax({
+		url: "/grid_layout.cgi",
+		type: "get",
+		success: function(gridlayout){
+			set_grid_layout(gridlayout);
+			if (load_layout_from_localstorage) {
+				grid_layout_from_localstorage();
+			}
+		}
+	});
+}
+
+function get_current_grid_layout(){
 	var layout = {};
 	$(".widget").each(function(i,u){
 
@@ -37,20 +50,24 @@ function get_grid_layout(){
 	return(layout);
 }
 
-function save_grid_layout(){
-	window.localStorage.setItem('gridster-'+document.location.pathname,JSON.stringify(get_grid_layout()));
+function save_grid_layout_to_localstorage(){
+	window.localStorage.setItem('gridster-'+document.location.pathname,JSON.stringify(get_current_grid_layout()));
 	$(".gridnav").hide();
 }
 
-function load_grid_layout(){
+function grid_layout_from_localstorage(){
 	gridlayout = JSON.parse(window.localStorage.getItem('gridster-'+document.location.pathname));
 	if (gridlayout) {
-		$(".widget").each(function(i,u){
-			layout = gridlayout[u.id];
-			if (layout){
-				gridster.move_widget($("#"+u.id), parseInt(layout["col"]), parseInt(layout["row"]));
-				gridster.resize_widget($("#"+u.id), parseInt(layout["sizex"]), parseInt(layout["sizey"]));
-			}
-		});
+		set_grid_layout(gridlayout)
 	}
+}
+
+function set_grid_layout(gridlayout){
+	$(".widget").each(function(i,u){
+		layout = gridlayout[u.id];
+		if (layout){
+			gridster.move_widget($("#"+u.id), parseInt(layout["col"]), parseInt(layout["row"]));
+			gridster.resize_widget($("#"+u.id), parseInt(layout["sizex"]), parseInt(layout["sizey"]));
+		}
+	});
 }
