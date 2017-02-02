@@ -41,9 +41,9 @@ h.add_head_script("../jquery.gridster.min.js")
 h << <<MENU
 <div id="menu">
 <div id="solution"></div>
-<form>
-  <input type="button" value="Save" onclick="save_grid_layout()" />
-  <input type="button" value="Reload" onclick="update_data()" />
+<input type="button" value="Save" onclick="save_grid_layout()" />
+<input type="button" value="Reload" onclick="update_data()" />
+&nbsp;
 MENU
 ex = {}
 $conf.exercises.each{|challenge_id|
@@ -55,7 +55,6 @@ ex.each{|challenge_id,challenge|
 h << "<input type='button' value='ping' onclick='select_task(this)' id='ping' />"
 
 h << <<MENU
-</form>
 </div>
 MENU
 
