@@ -196,7 +196,7 @@ h << <<SLIDES
 <div id='slides' class='widget' data-row="1" data-col="4" data-sizex="3" data-sizey="6">
 <div>
 <h1 style='height:5%; margin:0; padding:0;display:flex;justify-content:space-between'>Lecture Material<img id='fslink' style='cursor:pointer;height:20px;width:20px' src='expand-256.png' onclick='toggleMaximize()'></h1>
-<iframe style='border: none;width:100%; height:95%' src='http://clonecloud#{$conf.domain}/view.cgi?default=#{$conf.events.current_lecture ? $conf.events.current_lecture[:file] : $conf.default_slide}'></iframe>
+<iframe style='border: none;width:100%; height:95%' src='http://clonecloud#{$conf.domain}/view.cgi?default=#{$conf.events.current_lecture && $conf.events.current_lecture[:file] ? $conf.events.current_lecture[:file] : $conf.default_slide}'></iframe>
 </div>
 </div>
 <!-- END SLIDES WIDGET -->
