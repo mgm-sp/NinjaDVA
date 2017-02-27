@@ -14,9 +14,12 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/
 		h.header["Cache-Control"] = "no-cache"
 		h.header["Location"] = "/?error=#{CGI.escape("This Homepage already exists.")}"
 	else
-		require "yaml"
-		chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a 
-		pw = Array.new(12){chars[rand(chars.size)]}.join
+		if $cgi.include?("password")
+			pw = $cgi["password"]
+		else
+			chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a 
+			pw = Array.new(12){chars[rand(chars.size)]}.join
+		end
 		html = HTML.new("My Homepage -- #{url}")
 		html.add_head_script("jquery-2.2.3.min.js")
 		html << "<h1>Welcome</h1>"
@@ -25,6 +28,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/
 			:html => html,
 			:password => pw
 		}
+		require "yaml"
 		File.open("#{$conf.myhomepagedb}/#{url}.yaml","w"){|f|
 			f << homepage.to_yaml
 		}
