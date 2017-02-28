@@ -10,3 +10,7 @@
 :value: 10
 :keys:
   - "Siggi4ever"
+:students:
+  - http://myhomepage.#PENTESTLAB-DOMAIN#/admin
+:solutions:
+  - "1. Den Sourcecode von http://mail.#PENTESTLAB-DOMAIN#/login.cgi kopieren und auf http://myhomepage.#PENTESTLAB-DOMAIN# stellen.\n2. http://mail.#PENTESTLAB-DOMAIN#/login.cgi?return_url=http://myhomepage.#PENTESTLAB-DOMAIN#/attacker an Fräulein Mülller-Wachtendonk schicken."

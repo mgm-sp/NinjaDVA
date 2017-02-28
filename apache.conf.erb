@@ -6,7 +6,7 @@
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
 	DocumentRoot <%=INSTALLDIR%>/<%=server%>
-	ServerName <%=server%><%=$conf.domain%>
+	ServerName <%=server%>.<%=$conf.domain%>
 
 	<Directory "<%=INSTALLDIR%>/<%=server%>">
 		AllowOverride All

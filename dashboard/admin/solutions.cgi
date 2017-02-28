@@ -9,7 +9,7 @@ $cgi = CGI.new
 solutions = {}
 $conf.exercises.each{|challenge_id|
 	challenge = YAML::load_file("#{INSTALLDIR}/challenge-descriptions/#{challenge_id}.yaml")
-  solutions[challenge_id] = challenge[:solutions]
+  solutions[challenge_id] = challenge[:solutions].collect{|s| s.gsub(/#PENTESTLAB-DOMAIN#/,$conf.domain) } if challenge[:solutions]
 }
 
 $cgi.out({ "content-type" => "application/json" }){solutions.to_json}

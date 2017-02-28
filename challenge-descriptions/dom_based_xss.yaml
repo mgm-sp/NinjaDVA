@@ -10,6 +10,8 @@
 :value: 20
 :keys:
   - "Diese Cloud hat keinen Virenschutz!"
+:students:
+  - http://myhomepage.#PENTESTLAB-DOMAIN#/admin
 :solutions:
   - |
     <h1>Attackers place</h1>

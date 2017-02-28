@@ -8,6 +8,8 @@
 :value: 10
 :keys:
   - "Küss mich, ich bin ein verzauberter Königssohn!"
+:students:
+  - http://myhomepage.#PENTESTLAB-DOMAIN#/admin
 :solutions:
   - |
     <script>
