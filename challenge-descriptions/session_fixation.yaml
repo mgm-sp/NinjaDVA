@@ -10,3 +10,5 @@
 :value: 10
 :keys:
   - "der mensch macht's!"
+:solutions:
+  - "http://mail.#PENTESTLAB-DOMAIN#/?_session_id=deadbeefc0febabedeadbeefc0febabe"
