@@ -79,6 +79,16 @@ else
 		FileUtils.cp("#{INSTALLDIR}/config_customer_sample.rb","#{INSTALLDIR}/config/#{examplecustomer}/config.rb")
 		puts "An example customer-specific config was created. You may edit $YOURCONFIGDIR/#{examplecustomer}/config.rb"
 	end
+	unless File.exists?("#{INSTALLDIR}/config/htdigest")
+		require "digest"
+		user = "admin"
+		realm = "Restricted Area"
+		File.open("#{INSTALLDIR}/config/htdigest","w"){|f|
+			f << "#{user}:#{realm}:#{Digest::MD5.hexdigest("#{user}:#{realm}:#{$conf.default_userpw}")}\n"
+		}
+		puts "A default password file was created at $YOURCONFIGDIR/htdigest with the default password in config.rb!"
+		puts "You need this password for the first access to setup_db.cgi!"
+	end
 	exit
 end
 
