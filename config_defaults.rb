@@ -52,10 +52,10 @@ $conf.default_userpw = "Kooviufeicae0goo"
 $conf.location = "Dresden, Germany"
 
 $conf.links = [
-	{ :href => "http://myhomepage#{$conf.domain}", :name => "My Homepage" },
-	{ :href => "http://funny-pics#{$conf.domain}", :name => "Funny Pictures" },
-	{ :href => "http://scoreboard#{$conf.domain}", :name => "Scoreboard" },
-	{ :href => "http://mail#{$conf.domain}",       :name => "Mail" }
+	{ :href => "http://myhomepage.#{$conf.domain}", :name => "My Homepage" },
+	{ :href => "http://funny-pics.#{$conf.domain}", :name => "Funny Pictures" },
+	{ :href => "http://scoreboard.#{$conf.domain}", :name => "Scoreboard" },
+	{ :href => "http://mail.#{$conf.domain}",       :name => "Mail" }
 ]
 
 $conf.dashboard_grid_layout = '{"timewidget":{"col":"1","row":"4","sizex":"1","sizey":"1"},"mailwidget":{"col":"1","row":"5","sizex":"3","sizey":"2"},"weatherwidget":{"col":"2","row":"4","sizex":"2","sizey":"1"},"calendarwidget":{"col":"1","row":"1","sizex":"2","sizey":"3"},"slides":{"col":"4","row":"1","sizex":"3","sizey":"6"},"linkwidget":{"col":"3","row":"1","sizex":"1","sizey":"3"}}'
@@ -68,7 +68,15 @@ $conf.exercises = Dir.glob("#{INSTALLDIR}/challenge-descriptions/*.yaml").sort_b
 if File.exists?("#{INSTALLDIR}/config/config.rb")
 	load "#{INSTALLDIR}/config/config.rb"
 else
+	require "fileutils"
+	FileUtils.cp("#{INSTALLDIR}/config_sample.rb","#{INSTALLDIR}/config/config.rb")
 	puts
-	puts "You need to configure the server. Please copy config_sample.rb to config/config.rb."
+	puts "A default config was created. Please reload to proceed."
+
+	examplecustomer = "somecustomer"
+	unless Dir.exists?("#{INSTALLDIR}/config/#{examplecustomer}")
+		Dir.mkdir("#{INSTALLDIR}/config/#{examplecustomer}")
+		FileUtils.cp("#{INSTALLDIR}/config_customer_sample.rb","#{INSTALLDIR}/config/#{examplecustomer}/config.rb")
+	end
 	exit
 end
