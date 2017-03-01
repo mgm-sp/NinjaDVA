@@ -41,7 +41,7 @@ $conf = Configuration.new
 INSTALLDIR = "/var/www/dvmail/"
 require_relative "#{INSTALLDIR}/seminar"
 
-$conf.domain = ".mgmsp-lab.com"
+$conf.domain = "mgmsp-lab.com"
 
 $conf.dbdir = "db"
 
@@ -79,5 +79,12 @@ else
 		FileUtils.cp("#{INSTALLDIR}/config_customer_sample.rb","#{INSTALLDIR}/config/#{examplecustomer}/config.rb")
 		puts "An example customer-specific config was created. You may edit $YOURCONFIGDIR/#{examplecustomer}/config.rb"
 	end
+	exit
+end
+
+unless Dir.exists?($conf.dbdir_absolute) || (File.basename($0) == "setup_db.cgi")
+	puts "Content-Type: text/html"
+	puts
+	puts "DB does not exist, you need to run <a href='/admin/setup_db.cgi'>/admin/setup_db.cgi</a> in your Dashboard."
 	exit
 end

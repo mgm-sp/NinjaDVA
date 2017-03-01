@@ -1,13 +1,17 @@
+#!/usr/bin/ruby
 # coding: utf-8
+
+out = ""
+
 require "sqlite3"
-require_relative "config_defaults"
+require_relative "../../config_defaults"
 
 require "argon2"
 def argon(pw)
 	return Argon2::Password.new(secret: $conf.pepper).create(pw)
 end
 
-unless Dir.exists?($conf.dbdir)
+unless Dir.exists?($conf.dbdir_absolute)
 
 chown = []
 
@@ -26,7 +30,7 @@ chown = []
 require "digest"
 user = "admin"
 realm = "Restricted Area"
-File.open("#{$conf.dbdir}/.htdigest","w"){|f|
+File.open("#{INSTALLDIR}/config/htdigest","w"){|f|
 	f << "#{user}:#{realm}:#{Digest::MD5.hexdigest("#{user}:#{realm}:#{$conf.default_userpw}")}\n"
 }
 
@@ -159,16 +163,19 @@ chown << $conf.solutiondb
 
 require "fileutils"
 FileUtils.chown("www-data","www-data", chown, :verbose => true)
-puts "chown www-data:www-data #{chown.join(" ")}"
+#out << "chown www-data:www-data #{chown.join(" ")}"
 
 else
-	puts "Directory #{$conf.db} already exists... only changing symlinks"
+	out << "Directory #{$conf.dbdir} already exists... Please delete it if you want to clean up the database!"
 end
 
 [
 	[$conf.cloudfiles,"#{INSTALLDIR}/clonecloud/files"],
-	[$conf.dbdir,"#{INSTALLDIR}/db"]
+	#[$conf.dbdir,"#{INSTALLDIR}/db"]
 ].each{|a,b|
-	File.unlink(b)
+	File.unlink(b) if File.symlink?(b)
 	File.symlink(a,b)
 }
+
+puts
+puts out
