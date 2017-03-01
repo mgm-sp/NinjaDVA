@@ -71,12 +71,13 @@ else
 	require "fileutils"
 	FileUtils.cp("#{INSTALLDIR}/config_sample.rb","#{INSTALLDIR}/config/config.rb")
 	puts
-	puts "A default config was created. Please reload to proceed."
+	puts "A default config was created. You may edit $YOURCONFIGDIR/config.rb"
 
-	examplecustomer = "somecustomer"
+	examplecustomer = "example"
 	unless Dir.exists?("#{INSTALLDIR}/config/#{examplecustomer}")
 		Dir.mkdir("#{INSTALLDIR}/config/#{examplecustomer}")
 		FileUtils.cp("#{INSTALLDIR}/config_customer_sample.rb","#{INSTALLDIR}/config/#{examplecustomer}/config.rb")
+		puts "An example customer-specific config was created. You may edit $YOURCONFIGDIR/#{examplecustomer}/config.rb"
 	end
 	exit
 end
