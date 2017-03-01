@@ -1,9 +1,3 @@
-<Files ~ "^(.*csv|setup)$">
-	deny from all
-	satisfy all
-	ErrorDocument 403 "Access to these files is forbidden!"
-</Files>
-
 Options +ExecCGI
 AddHandler cgi-script .cgi
 DirectoryIndex index.cgi
