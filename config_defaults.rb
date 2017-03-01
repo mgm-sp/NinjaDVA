@@ -45,8 +45,8 @@ $conf.domain = "mgmsp-lab.com"
 
 $conf.dbdir = "db"
 
-$conf.pepper = "ayethielu4pheZai"
-$conf.default_userpw = "Kooviufeicae0goo"
+$conf.pepper = "Luiphoh3gooz9pai"
+$conf.default_userpw = "shohseib9Phi6euL"
 
 
 $conf.location = "Dresden, Germany"
