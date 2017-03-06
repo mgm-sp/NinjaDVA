@@ -70,6 +70,7 @@ if File.exists?("#{INSTALLDIR}/config/config.rb")
 else
 	require "fileutils"
 	FileUtils.cp("#{INSTALLDIR}/config_sample.rb","#{INSTALLDIR}/config/config.rb")
+	puts "Content-Type: text/html"
 	puts
 	puts "A default config was created. You may edit $YOURCONFIGDIR/config.rb"
 
@@ -87,14 +88,16 @@ else
 			f << "#{user}:#{realm}:#{Digest::MD5.hexdigest("#{user}:#{realm}:#{$conf.default_userpw}")}\n"
 		}
 		puts "A default password file was created at $YOURCONFIGDIR/htdigest with the default password in config.rb!"
-		puts "You need this password for the first access to setup_db.cgi!"
+		puts "You need this Password: after reloading the webpage: #{$conf.default_userpw} (username: admin)!"
 	end
+	puts "Reload this page when you finished customizing your config."
 	exit
 end
 
 unless Dir.exists?($conf.dbdir_absolute) || (File.basename($0) == "setup_db.cgi")
 	puts "Content-Type: text/html"
 	puts
-	puts "DB does not exist, you need to run <a href='/admin/setup_db.cgi'>/admin/setup_db.cgi</a> in your Dashboard."
+	puts "DB does not exist, you need to run <a href='http://dashboard.#{$conf.domain}/admin/setup_db.cgi'>dashboard/admin/setup_db.cgi</a>.<br/>"
+	puts "You need the password from $YOURCONFIGDIR/config.rb for the first access to setup_db.cgi (username: admin)!"
 	exit
 end
