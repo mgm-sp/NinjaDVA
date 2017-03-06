@@ -70,7 +70,6 @@ if File.exists?("#{INSTALLDIR}/config/config.rb")
 else
 	require "fileutils"
 	FileUtils.cp("#{INSTALLDIR}/config_sample.rb","#{INSTALLDIR}/config/config.rb")
-	puts "Content-Type: text/html"
 	puts
 	puts "A default config was created. You may edit $YOURCONFIGDIR/config.rb"
 
