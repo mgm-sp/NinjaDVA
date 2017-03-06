@@ -178,4 +178,9 @@ end
 }
 
 puts
-puts out
+if out != ""
+	puts "Setup finished with the following output:"
+	puts out
+else
+	puts "Setup finished successfully."
+end
