@@ -43,6 +43,7 @@ function grid_layout_from_server(load_layout_from_localstorage){
 			if (load_layout_from_localstorage) {
 				grid_layout_from_localstorage();
 			}
+			$(".gridnav").hide();
 		}
 	});
 }
@@ -66,11 +67,18 @@ function save_grid_layout_to_localstorage(){
 	$(".gridnav").hide();
 }
 
+function revert_grid_layout_to_server(){
+	window.localStorage.removeItem('gridster-'+document.location.pathname);
+	$(".gridnav").hide();
+	grid_layout_from_server(true);
+}
+
 function grid_layout_from_localstorage(){
 	gridlayout = JSON.parse(window.localStorage.getItem('gridster-'+document.location.pathname));
 	if (gridlayout) {
 		set_grid_layout(gridlayout);
 	}
+	$(".gridnav").hide();
 }
 
 function set_grid_layout(gridlayout){
