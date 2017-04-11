@@ -30,7 +30,7 @@ page.open('http://mail.'+domainname+'/login.cgi?_session_id='+mail_sid, function
 					}
 					setTimeout(function(){
 						phantom.exit()
-					}, 5000); // 5 Sekunden warten -> Studenten executen JavaScript was manchmal noch etwas Zeit zur Ausführung braucht!
+					}, 10000); // 10 Sekunden warten -> Studenten executen JavaScript was manchmal noch etwas Zeit zur Ausführung braucht!
 					});
 				});
 			});
