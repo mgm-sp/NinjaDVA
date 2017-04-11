@@ -1,6 +1,11 @@
-div.widget {
+input {
+	background: #f9f9f9;
+	border: solid 1px #aaa;
+}
+div.widget, input {
 	font-size: 10px;
-
+}
+div.widget {
 	background: #f9f9f9;
 	border: hidden;
 	border-radius: 10px;
@@ -252,7 +257,6 @@ fieldset {
 	padding-bottom: 2.5em;
 }
 #content table, .max {
-	width: 100%;
 }
 #content table textarea {
 	min-height: 50ex;

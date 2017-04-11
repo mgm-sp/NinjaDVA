@@ -44,39 +44,23 @@ $(document).ready(function () {
 				$("#inbox").text("You need to sign in to your mail account first!");
 				var logintable = $("<table />");
 				logintable.append($("<tr />")
-						.append($("<td />",{
-							"class" : "description"
-						}).text('Username:'))
-						.append($("<td />",{
-								"class" : "content"
-							}).append($("<input />",{
+						.append($("<th />").text('Username'))
+						.append($("<th />").text('Password'))
+					);
+				logintable.append($("<tr />")
+						.append($("<td />").append($("<input />",{
 							"type":"text",
 							"name":"username"
-						}))
-						)
-					);
-				logintable.append($("<tr />")
-						.append($("<td />",{
-							"class" : "description"
-						}).text('Password:'))
-						.append($("<td />",{
-							"class" : "content"
-						}).append($("<input />",{
+						})))
+						.append($("<td />").append($("<input />",{
 							"type":"password",
 							"name":"password"
-						}))
-						)
+						})))
+						.append($("<td />").append($("<input />",{
+							"type":"submit"
+						})))
 					);
-				logintable.append($("<tr />")
-						.append($("<td />",{
-							"class" : "description"
-						}))
-						.append($("<td />",{
-							"class" : "content"
-						}).append($("<input />",{"type":"submit"}))
-						)
-					);
-				$("#inbox").append($("<form />",{
+				$("#inbox").html($("<form />",{
 					"method" : "POST",
 					"action" : mailhost
 				}).append(logintable).append(
