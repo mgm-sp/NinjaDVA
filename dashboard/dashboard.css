@@ -2,6 +2,9 @@ input {
 	background: #f9f9f9;
 	border: solid 1px #aaa;
 }
+input[type=text], input[type=password] {
+	width: 10em;
+}
 div.widget, input {
 	font-size: 10px;
 }
