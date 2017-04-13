@@ -50,7 +50,7 @@ $conf.exercises.each{|challenge_id|
 	ex[challenge_id] = YAML::load_file("#{INSTALLDIR}/challenge-descriptions/#{challenge_id}.yaml")
 }
 ex.each{|challenge_id,challenge|
-  h << "<input type='button' value='#{challenge_id}' onclick='select_task(this)' id='#{challenge_id}' />"
+  h << "<input type='button' value='#{challenge_id}' onclick='select_task(this)' id='#{challenge_id}' title='#{challenge[:name]}'/>"
 }
 h << "<input type='button' value='ping' onclick='select_task(this)' id='ping' />"
 

@@ -60,9 +60,13 @@ function select_task(sel){
 		}
 	}
 
-	if(solutions[sel.value]) {
+	if(tasks[sel.value]) {
 		var solutionlist = $("<div />");
-		$(solutions[sel.value]).each(function(i,s){
+		solutionlist.append($("<h1 />").text(tasks[sel.value]["title"]));
+		$(tasks[sel.value]["description"].split("\n\n")).each(function(i,s){
+			solutionlist.append($("<p />").html(s.replace(/(https?:\/\/[a-zA-Z0-9\.-]*)/g,"<a href='$1'>$1</a>")));
+		});
+		$(tasks[sel.value]["solutions"]).each(function(i,s){
 			var codearea = $("<textarea />",{ class: 'code' });
 			codearea.text(s);
 			solutionlist.append(codearea);
@@ -81,12 +85,12 @@ function select_task(sel){
 	} else
 		$("#solution").text("");
 }
-var solutions;
+var tasks;
 $(document).ready(function(){
 	$.ajax({
-		url: "solutions.cgi",
+		url: "tasks.cgi",
 		success: function(result) { 
-			solutions = result; 
+			tasks = result; 
 			update_data();
 		},
 	});

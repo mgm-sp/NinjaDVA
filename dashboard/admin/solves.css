@@ -2,6 +2,15 @@ body {
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
+h1 {
+font-size: 110%;
+}
+
+p {
+	margin: 1ex 0;
+	padding: 0;
+}
+
 .gridster .user{
 	border: 1px solid #bbbbbb;
 	border-radius: 4px;
