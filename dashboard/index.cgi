@@ -175,7 +175,19 @@ $(document).ready(function() {
 		header: {
 			left: 'prev,next today',
 			center: 'title',
-			right: 'agendaWeek,agendaDay,listWeek'
+			right: 'agendaDay,agendaTwoDays,agendaThreeDays,listWeek'
+		},
+		views: {
+        agendaTwoDays: {
+            type: 'agenda',
+            duration: { days: 2 },
+            buttonText: '2 Tage'
+        },
+        agendaThreeDays: {
+            type: 'agenda',
+            duration: { days: 3 },
+            buttonText: '3 Tage'
+        }
 		},
 		height: 250,
 		defaultView: 'agendaDay',
