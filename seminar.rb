@@ -60,6 +60,7 @@ class Seminar
 	def new_day args = {}
 		startofday = args[:start].nil? ? @start.strftime("%H:%M:%S") : args[:start]+":00"
 		@current_time = DateTime.parse((@current_time+1).strftime("%Y-%m-%d ")+(startofday)+@zone)
+		@events[0][:end] = (@current_time+1).to_date
 		self
 	end
 
