@@ -11,7 +11,10 @@ $conf.links << {
 }
 
 # get this in the debug console with JSON.stringify(get_current_grid_layout())
-$conf.dashboard_grid_layout = '{"timewidget":{"col":"3","row":"4","sizex":"1","sizey":"1"},"mailwidget":{"col":"3","row":"5","sizex":"3","sizey":"2"},"weatherwidget":{"col":"6","row":"5","sizex":"1","sizey":"2"},"calendarwidget":{"col":"1","row":"1","sizex":"2","sizey":"6"},"slides":{"col":"4","row":"1","sizex":"3","sizey":"4"},"linkwidget":{"col":"3","row":"1","sizex":"1","sizey":"3"}}'
+# A4 Slides example
+#$conf.dashboard_grid_layout = '{"timewidget":{"col":"1","row":"4","sizex":"1","sizey":"1"},"mailwidget":{"col":"1","row":"5","sizex":"3","sizey":"2"},"weatherwidget":{"col":"2","row":"4","sizex":"2","sizey":"1"},"calendarwidget":{"col":"1","row":"1","sizex":"2","sizey":"3"},"slides":{"col":"4","row":"1","sizex":"3","sizey":"6"},"linkwidget":{"col":"3","row":"1","sizex":"1","sizey":"3"}}'
+# Presentation Slides example
+#$conf.dashboard_grid_layout = '{"timewidget":{"col":"6","row":"1","sizex":"1","sizey":"1"},"mailwidget":{"col":"3","row":"1","sizex":"3","sizey":"1"},"weatherwidget":{"col":"1","row":"5","sizex":"1","sizey":"2"},"calendarwidget":{"col":"1","row":"1","sizex":"2","sizey":"4"},"slides":{"col":"3","row":"2","sizex":"4","sizey":"5"},"linkwidget":{"col":"2","row":"5","sizex":"1","sizey":"2"}}'
 
 $conf.events = Seminar.new(
 	title: "Web Application Security",
