@@ -67,10 +67,10 @@ class Seminar
 	def to_json
 		@events.to_json
 	end
-	def current_lecture
+	def current_lecture_file
 		now = DateTime.now
 		@events.each{|e|
-			return e if e[:start] < now && e[:end] > now
+			return e[:file] if e[:start] < now && e[:end] > now && e[:file]
 		}
 		return nil
 	end
@@ -83,6 +83,4 @@ if __FILE__ == $0
 	$conf.events.events.each{|e|
 		puts "#{e[:start].strftime("%F %R")} - #{e[:end].strftime("%F %R")}: #{e[:title]}"
 	}
-	puts
-	pp $conf.events.current_lecture
 end
