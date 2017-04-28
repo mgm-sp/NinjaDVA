@@ -32,6 +32,10 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/
 		File.open("#{$conf.myhomepagedb}/#{url}.yaml","w"){|f|
 			f << homepage.to_yaml
 		}
+		require "csv"
+		File.open("#{$conf.myhomepagedb}/#{url}_access.log","w"){|f|
+			f << ["ADDR","METHOD","URI","USER_AGENT","TIME","REFERER"].to_csv
+		}
 		h.header["status"] = "REDIRECT"
 		h.header["Cache-Control"] = "no-cache"
 		h.header["Location"] = "/edit.cgi?url=#{$cgi["url"]}&password=#{pw}"

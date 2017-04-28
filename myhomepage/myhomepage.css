@@ -50,7 +50,7 @@ table{
 width:100%;
 }
 
-td{
+table#explaination td {
 	padding-top: 30px;
 }
 
@@ -115,4 +115,9 @@ a:active{
 	border-width: 1px;
 	border-style: solid;
   height: auto;
+}
+
+.requestlog {
+	text-align: left;
+	font-size: small;
 }

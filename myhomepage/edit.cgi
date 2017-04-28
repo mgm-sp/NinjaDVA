@@ -47,6 +47,20 @@ h.add_script <<JS
     lineNumbers: true,
   });
 JS
+
+		h << "<h1>Access Log</h1>"
+		require "csv"
+		fields = ["ADDR","TIME","METHOD","URI","USER_AGENT","REFERER"]
+		h << "<table class='requestlog'><tr>#{fields.collect{|e| "<th>#{e}</th>"}.join("")}</tr>"
+		CSV.read("#{$conf.myhomepagedb}/#{$cgi["url"]}_access.log",{headers:true}).reverse_each{|log|
+			h << "<tr>"
+			fields.each{|elem|
+				h << "<td>#{log[elem]}</td>"
+			}
+			h << "</tr>"
+		}
+		h << "</table>"
+
 	else
 		h.header["status"] = "REDIRECT"
 		h.header["Cache-Control"] = "no-cache"

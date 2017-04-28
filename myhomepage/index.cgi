@@ -27,7 +27,7 @@ h << <<NEW
 	</div>
 </form>
 </div>
-<table>
+<table id='explaination'>
 	<tr>
 		<td>
 			<img alt="Step 1" src="1.png" />
