@@ -55,7 +55,11 @@ JS
 		CSV.read("#{$conf.myhomepagedb}/#{$cgi["url"]}_access.log",{headers:true}).reverse_each{|log|
 			h << "<tr>"
 			fields.each{|elem|
-				h << "<td>#{log[elem]}</td>"
+				s = log[elem].to_s
+				if elem == "URI"|| elem == "REFERER"
+					s = CGI.unescape(s)
+				end
+				h << "<td>#{CGI.escapeHTML(s)}</td>"
 			}
 			h << "</tr>"
 		}
