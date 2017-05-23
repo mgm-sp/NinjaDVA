@@ -1,0 +1,11 @@
+---
+:description: |
+  Finde die NoSQL Injection in der Cloudinstanz und melde dich als Nutzer Susi an.
+
+:category: "SQLi"
+:name: "Nein, kein SQL!"
+:value: 50
+:keys:
+  - ""
+:solutions:
+  - "username=susi&password[$ne]=iea&login=Submit+Query
