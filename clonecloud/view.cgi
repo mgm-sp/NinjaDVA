@@ -52,3 +52,7 @@ LISTENER
 
 
 h.out($cgi)
+if ENV['HTTP_REFERER'] =~ /myhomepage.#{$conf.domain}/
+	require_relative "../solved"
+	Solution.new("dom_based_xss",1,"Viewed a Webpage at myhomepage which requests view.cgi")
+end
