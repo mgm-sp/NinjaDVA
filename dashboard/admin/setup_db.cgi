@@ -131,7 +131,16 @@ Müller-Wachtendonk" ,"session_fixation"],
 	["Fön",                        "susi", "Küss mich, ich bin ein verzauberter Königssohn!",
 "Hallo Susi, ich bin es, dein Fön…
 
-…und ich liebe dein goldenes Haar…","jsonp"]
+…und ich liebe dein goldenes Haar…","jsonp"],
+	["Jürgen Schmidt", "wolle", "Webseite gehacked!",
+"Hallo Wolfgang!
+
+Hast du schon gesehen, dass deine Webseite gehackt wurde? Ich habe das
+ganze mal hier zusammengefasst:
+https://www.heise.de/security/meldung/Website-von-Wolfgang-Schaeuble-ueber-Typo3-Luecke-gehackt-Update-194363.html
+
+Viele Grüße,
+Jürgen","sqli2"]
 
 ].each do |data|
   maildb.execute "insert into mail VALUES ( ?, ?, ?, ?, ? )", data
