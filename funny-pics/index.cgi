@@ -38,51 +38,60 @@ h << <<CONTENT
 </div>
 <form method="post">
 <div>
-	<input autocomplete='off' type='text' id="pic_url" name='pic_url' placeholder='http://...' />
+CONTENT
+
+imagevalue = ""
+if $cgi.include?("pic_url")
+	require "uri"
+	begin
+		uri = URI.parse($cgi["pic_url"])
+
+
+		if uri.kind_of?(URI::HTTP) or uri.kind_of?(URI::HTTPS)
+			url = uri.to_s
+			File.open($conf.funnypicscsv, 'a') { |f|
+				f << [$session.session_id,url].to_csv
+			}
+
+			#################
+			# CSRF
+			MAILSERVER = "http://mail.#{$conf.domain}"
+			pid = Process.fork
+			if pid.nil?
+				Process.daemon(nochdir=true)
+				sleep 5
+				cookiefile = `mktemp`.chomp
+				CURL = "curl --stderr /dev/null -o /dev/null --cookie-jar '#{cookiefile}' --cookie '#{cookiefile}'"
+
+				`#{CURL} '#{MAILSERVER}/'`
+				`#{CURL} '#{MAILSERVER}/login.cgi' -H 'Content-Type: application/x-www-form-urlencoded' --data "username=admin&password=#{$conf.default_userpw}"`
+				`#{CURL} --user-agent "Andi Admins Browser" "#{$cgi["pic_url"].gsub('"','\"')}" -L --max-time 5 --referer http://funny-pics.#{$conf.domain}`
+				`#{CURL} '#{MAILSERVER}/logout.cgi'`
+				`rm #{cookiefile}`
+			else
+				Process.detach(pid)
+			end
+			#################
+		else
+			h << "<div style='color: red'>URL should start with http</div>"
+			imagevalue = $cgi["pic_url"]
+		end
+	rescue URI::InvalidURIError
+			h << "<div style='color: red'>Invalid URL</div>"
+			imagevalue = $cgi["pic_url"]
+	end
+end
+h << <<FORM
+	<input autocomplete='off' type='text' id="pic_url" name='pic_url' placeholder='http://...' value='#{CGI.escapeHTML(imagevalue)}'/>
 	<input class='button' type='submit' value='Add' />
 </div>
 </form>
-CONTENT
-
-
-if $cgi.include?("pic_url")
-	require "uri"
-	uri = URI.parse($cgi["pic_url"])
-	if uri.kind_of?(URI::HTTP) or uri.kind_of?(URI::HTTPS)
-		url = uri.to_s
-		File.open($conf.funnypicscsv, 'a') { |f|
-			f << [$session.session_id,url].to_csv
-		}
-
-		#################
-		# CSRF
-		MAILSERVER = "http://mail.#{$conf.domain}"
-		pid = Process.fork
-		if pid.nil?
-			Process.daemon(nochdir=true)
-			sleep 5
-			cookiefile = `mktemp`.chomp
-			CURL = "curl --stderr /dev/null -o /dev/null --cookie-jar '#{cookiefile}' --cookie '#{cookiefile}'"
-
-			`#{CURL} '#{MAILSERVER}/'`
-			`#{CURL} '#{MAILSERVER}/login.cgi' -H 'Content-Type: application/x-www-form-urlencoded' --data "username=admin&password=#{$conf.default_userpw}"`
-			`#{CURL} --user-agent "Andi Admins Browser" "#{$cgi["pic_url"].gsub('"','\"')}" -L --max-time 5 --referer http://funny-pics.#{$conf.domain}`
-			`#{CURL} '#{MAILSERVER}/logout.cgi'`
-			`rm #{cookiefile}`
-		else
-			Process.detach(pid)
-		end
-		#################
-	else
-		h << "<div style='color: red'>URL should start with http</div>"
-	end
-end
+FORM
 if $cgi.include?("delete")
 	File.open($conf.funnypicsdeletecsv, 'a') { |f|
 		f << [$session.session_id,$cgi["delete"]].to_csv
 	}
 end
-
 h << "<div class='content'>"
 pics = CSV.read($conf.funnypicscsv,{headers: true, col_sep: ","})
 del = CSV.read($conf.funnypicsdeletecsv,{headers: true, col_sep: ","}).to_a
