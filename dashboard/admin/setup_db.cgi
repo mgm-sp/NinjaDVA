@@ -105,7 +105,7 @@ maildb.execute <<-SQL
   );
 SQL
 [
-	["Siggi Sorglos",              "group:Administrator","Backdoor Password for all Clients", 
+	["Siggi Sorglos",              "group:Administrator","Backdoor Password for all Clients",
 	'Dear Colleagues
 
 Please do not forget our local administrator password which is valid for

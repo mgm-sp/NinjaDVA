@@ -37,7 +37,7 @@ class HTML
 	def head
 		ret = <<HEAD
 <head>
-	<meta http-equiv="Content-Type" content="#{@header["type"]}; charset=#{@header["charset"]}" /> 
+	<meta http-equiv="Content-Type" content="#{@header["type"]}; charset=#{@header["charset"]}" />
 	<title>#{@title}</title>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
 HEAD

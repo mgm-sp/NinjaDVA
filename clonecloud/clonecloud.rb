@@ -41,7 +41,7 @@ class CloneCloud
 		end
 		@html << "<div id='tabs'>"
 		@html << "<div id='welcome'>"
-		@html << welcomemessage 
+		@html << welcomemessage
 		@html << "</div>"
 
 		@html << "<ul>"

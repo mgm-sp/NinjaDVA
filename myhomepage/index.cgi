@@ -13,7 +13,7 @@ h << <<NEW
 <div id="head">
 	<h1>MyHomepage</h1>
 	<h2>space for <span>your</span> spam</h2>
-</div> 
+</div>
 <div id="content">
 <div id="create">
 <h1>Create New Homepage</h1>

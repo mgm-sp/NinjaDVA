@@ -21,7 +21,7 @@
 	height: 2.8em;
 	padding: 0;
 	z-index: 1;
-	font-family: Verdana, sans-serif;  
+	font-family: Verdana, sans-serif;
 }
 
 #clone{
@@ -74,13 +74,13 @@
 	background: rgba(255, 255, 255, 0.8);
 	padding: 1em;
 	margin-bottom: 4em;
-	font-family: Helvetica, sans-serif;  
+	font-family: Helvetica, sans-serif;
 }
 
 .files ul{
 	position: relative;
 	list-style: none;
-	line-height: 2.5em; 
+	line-height: 2.5em;
 	padding-right: 2em;
 }
 

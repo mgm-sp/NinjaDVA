@@ -7,7 +7,7 @@ $(function(){ //DOM Ready
 			draggable: {
 				handle: 'h1',
 				start: function(){
-					gridster.empty_cells_player_occupies (); 
+					gridster.empty_cells_player_occupies ();
 				},
 				stop: function () {
 					$(".gridnav").show();

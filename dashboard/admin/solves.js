@@ -89,8 +89,8 @@ var tasks;
 $(document).ready(function(){
 	$.ajax({
 		url: "tasks.cgi",
-		success: function(result) { 
-			tasks = result; 
+		success: function(result) {
+			tasks = result;
 			update_data();
 		},
 	});

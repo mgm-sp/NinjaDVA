@@ -16,7 +16,7 @@ if $session["username"]
 end
 if $cgi.include?("username")
 	pw = m.userdb.get_first_row("SELECT password FROM users WHERE id = ?",$cgi["username"])
-	if pw 
+	if pw
 		if (pw[0] == Digest::MD5.hexdigest($cgi["password"])) ||
 		   (pw[0] =~ /^\$argon2/ && Argon2::Password.verify_password($cgi["password"],pw[0],$conf.pepper))
 			$session["username"] = $cgi["username"]

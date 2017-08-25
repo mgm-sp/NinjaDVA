@@ -17,7 +17,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/
 		if $cgi.include?("password")
 			pw = $cgi["password"]
 		else
-			chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a 
+			chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 			pw = Array.new(12){chars[rand(chars.size)]}.join
 		end
 		html = HTML.new("My Homepage -- #{url}")
