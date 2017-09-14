@@ -10,9 +10,16 @@ $cgi = CGI.new
 h = HTML.new("My Homepage -- admin")
 
 Dir.glob("#{$conf.myhomepagedb}/*.yaml") {|f|
-	hp = YAML::load_file(f)
-	h << "<h1>#{File.basename(f).gsub(/.yaml$/,"")}</h1>"
-	h << "<textarea class='code'>#{CGI.escapeHTML(hp[:html].body)}</textarea>	"
+	url = File.basename(f).gsub(/.yaml$/,"")
+	if !$cgi.include?("url") || $cgi["url"] == url
+		hp = YAML::load_file(f)
+		if $cgi.include?("url")
+			h << "<h1><a href='.'>#{url}</a></h1>"
+		else
+			h << "<h1><a href='?url=#{url}'>#{url}</a></h1>"
+		end
+		h << "<textarea class='code'>#{CGI.escapeHTML(hp[:html].body)}</textarea>	"
+	end
 }
 
 h.add_css("../codemirror/codemirror.css") # needs to be loaded before other css
