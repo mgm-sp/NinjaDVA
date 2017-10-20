@@ -10,18 +10,6 @@ class Configuration < OpenStruct
 	def userdb
 		"#{self.dbdir_absolute}/users.db"
 	end
-	def maildb
-		"#{self.dbdir_absolute}/mail.db"
-	end
-	def chatdb
-		"#{self.dbdir_absolute}/chat"
-	end
-	def funnypicscsv
-		"#{self.dbdir_absolute}/funny-pics/pics.csv"
-	end
-	def funnypicsdeletecsv
-		"#{self.dbdir_absolute}/funny-pics/delete.csv"
-	end
 	def myhomepagedb
 		"#{self.dbdir_absolute}/myhomepage/"
 	end
@@ -38,7 +26,7 @@ class Configuration < OpenStruct
 end
 
 $conf = Configuration.new
-INSTALLDIR = "/var/www/dvmail/"
+INSTALLDIR = "/var/www/"
 require_relative "#{INSTALLDIR}/seminar"
 
 $conf.domain = "mgmsp-lab.com"
