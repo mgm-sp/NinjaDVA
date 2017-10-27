@@ -33,9 +33,9 @@ Vagrant.configure("2") do |config|
     # up and running. This is the right place for software installation.
     config.vm.provision "shell", inline: <<~END
         apt-get -y update
-	apt-get -y remove isc-dhcp-client 
+	    apt-get -y remove isc-dhcp-client
         apt-get -y install apache2 ruby ruby-dev ruby-sqlite3 sqlite3 inotify-tools dhcpcd5 psmisc atool
-	killall dhclient
+	    killall dhclient
         gem install argon2
         cd /tmp
         wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
@@ -45,9 +45,10 @@ Vagrant.configure("2") do |config|
         ln -sf /usr/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
     END
 
-    # copy network interfaces definition to vm
+    # copy network interfaces definition and hosts file to vm
     config.vm.provision "file", source: "./interfaces", destination: "/etc/network/interfaces"
-    
+    config.vm.provision "file", source: "./hosts", destination: "/etc/hosts"
+
     # reload the network configuration
     config.vm.provision "shell", inline: <<~END
 	ifdown eth1
