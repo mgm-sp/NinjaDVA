@@ -3,27 +3,15 @@
 
 # ninjaDVA Dashboard
 #
-# Requirements:
-# Please execute `vagrant plugin install vagrant-triggers`
-# if you start the vm the first time and get an error
 
 Vagrant.configure("2") do |config|
-
-    # set username and ssh key for vagrant
-    config.ssh.username="root"
-    config.ssh.private_key_path = "./vagrant_key"
-
-    # command that will be executed except of "sudo %c"
-    # box will run under root thus we don't need sudo
-    config.ssh.sudo_command='%c'
 
     # deactivate the standard shared folder
     config.vm.synced_folder ".", "/vagrant", disabled:true
 
-    # name and url of vm image
-    config.vm.box = "debian-minimal-64"
-    config.vm.box_url = "http://vagrant-repo.mgm-edv.de/debian-minimal-64.json"
-    config.vm.box_check_update = false #TODO: this is a debug statement for home office ... remove this later
+    # name and version of vm image
+    config.vm.box = "debian/contrib-stretch64"
+    config.vm.box_version = "9.1.0"
     
     # add a interface to the vm that is in the same internal networke like the gateway
     #config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "broken"
@@ -45,9 +33,31 @@ Vagrant.configure("2") do |config|
         ln -sf /usr/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
     END
 
+   ########### copy files to vm
+
+
     # copy network interfaces definition and hosts file to vm
-    config.vm.provision "file", source: "./interfaces", destination: "/etc/network/interfaces"
-    config.vm.provision "file", source: "./hosts", destination: "/etc/hosts"
+    config.vm.provision "file", source: "./interfaces", destination: "/home/vagrant/tmp_provision/interfaces"
+    config.vm.provision "file", source: "./hosts", destination: "/home/vagrant/tmp_provision/hosts"
+    # copy apache vm definition and server code to vm
+    config.vm.provision "file", source: "./vmhost.conf", destination: "/home/vagrant/tmp_provision/vmhost.conf"
+    config.vm.provision "file", source: "./www", destination: "/home/vagrant/tmp_provision/www"
+
+    # move files to their destination
+    config.vm.provision "shell", inline: <<~END
+        cd /home/vagrant/tmp_provision/
+        install -o root -g root interfaces /etc/network/interfaces
+        install -o root -g root hosts /etc/hosts
+	install -o root -g root  vmhost.conf /etc/apache2/sites-available/vmhost.conf
+	cp -R www/* /var/www/
+	chown -R root:root /var/www/
+    END
+
+    # shared folders
+    Dir.mkdir("config") unless Dir.exists?("config")
+    config.vm.synced_folder "./config", "/var/www/config", mount_options: ["dmode=777,fmode=666"]
+    config.vm.synced_folder "./challenge-descriptions", "/var/www/challenge-descriptions"
+
 
     # reload the network configuration
     config.vm.provision "shell", inline: <<~END
@@ -57,14 +67,6 @@ Vagrant.configure("2") do |config|
         ifup eth1:1
     END
 
-
-    # copy apache vm definition and server code to vm
-    config.vm.provision "file", source: "./vmhost.conf", destination: "/etc/apache2/sites-available/vmhost.conf"
-    config.vm.provision "file", source: "./www", destination: "/var/www"
-
-    Dir.mkdir("config") unless Dir.exists?("config")
-    config.vm.synced_folder "./config", "/var/www/config", mount_options: ["dmode=777,fmode=666"]
-    config.vm.synced_folder "./challenge-descriptions", "/var/www/challenge-descriptions"
 
     # define commands that will be executed after the code was copied to
     # the vm. This is the place where your server configuration can take place
@@ -82,7 +84,4 @@ Vagrant.configure("2") do |config|
         a2dissite 000-default
         service apache2 start
     END
-        # install -d -o www-data -g www-data -m 777 /var/www/config
 end
-
-# xvfb-run --server-args="-screen 0 640x480x16" phantomjs
