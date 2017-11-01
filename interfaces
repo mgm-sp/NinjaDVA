@@ -1,0 +1,31 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eth0
+iface eth0 inet dhcp
+
+# internal network (other servers)
+auto eth1
+iface eth1 inet static
+        address 172.23.42.1
+        netmask 255.255.255.192
+
+# Participant network
+auto eth2
+iface eth2 inet static
+        address 172.23.42.129
+        netmask 255.255.255.128
+
+auto wlan0
+iface wlan0 inet static
+        address 172.23.42.129
+        netmask 255.255.255.128
+        hwaddress ether 02:00:00:aa:00:ab
+
+
+iface eth3 inet manual
