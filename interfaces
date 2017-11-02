@@ -21,11 +21,4 @@ iface eth2 inet static
         address 172.23.42.129
         netmask 255.255.255.128
 
-auto wlan0
-iface wlan0 inet static
-        address 172.23.42.129
-        netmask 255.255.255.128
-        hwaddress ether 02:00:00:aa:00:ab
-
-
 iface eth3 inet manual
