@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
 	config.vm.network "forwarded_port", guest: 443, host: 8443, host_ip: "0.0.0.0", id: "openvpn", auto_correct: false
 
 	# Interface 2, VirtualBox internal network
-	config.vm.network "private_network", auto_config: false, virtualbox__intnet: "broken"
+	config.vm.network "private_network", auto_config: false, virtualbox__intnet: "ninjadva"
 
     # Interface 3, bridged device
  	if ARGV[0] == "up"  || ARGV[0] == "reload"
