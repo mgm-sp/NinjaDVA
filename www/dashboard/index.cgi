@@ -170,7 +170,7 @@ CALENDARWIDGET
 h.add_css("fullcalendar/fullcalendar.min.css")
 h.add_script_file("fullcalendar/moment.min.js")
 h.add_script_file("fullcalendar/fullcalendar.min.js")
-h.add_script_file("fullcalendar/locale/de.js")
+h.add_script_file("fullcalendar/locale/de.js") if ENV["HTTP_ACCEPT_LANGUAGE"] =~ /^((?<!en).)*de/
 h.add_script <<JS
 $(document).ready(function() {
 	$('#calendar').fullCalendar({
@@ -183,12 +183,10 @@ $(document).ready(function() {
         agendaTwoDays: {
             type: 'agenda',
             duration: { days: 2 },
-            buttonText: '2 Tage'
         },
         agendaThreeDays: {
             type: 'agenda',
             duration: { days: 3 },
-            buttonText: '3 Tage'
         }
 		},
 		height: 250,
