@@ -22,23 +22,27 @@ Vagrant.configure("2") do |config|
 	config.vm.network "private_network", auto_config: false, virtualbox__intnet: "broken"
 
     # Interface 3, bridged device
-    decision_bridge_device = "none"
-	if ARGV[0] == "up"  || ARGV[0] == "reload"
+ 	if ARGV[0] == "up"  || ARGV[0] == "reload"
 	    puts <<~END
 		    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		    ===        Starting Gateway          ===
 		    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	    END
-        while decision_bridge_device.downcase != "y" && decision_bridge_device.downcase != "n" && !(decision_bridge_device.to_s.strip.empty?)
+        END
+        decision_needed = true
+        while decision_needed
             puts "Do you want to bridge a hardware network device to the VM? [y/N]"
-            decision_bridge_device = STDIN.gets.chomp
-            if decision_bridge_device.downcase == "y"
+            decision_needed = STDIN.gets.chomp
+            if decision_needed.downcase == "y"
                 config.vm.network "public_network", auto_config: false, use_dhcp_assigned_default_route: false
                 	# promiscuous mode für Interface 3
                     config.vm.provider :virtualbox do |vb|
                         vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
                     end
+                decision_needed = false
+            elsif decision_needed.downcase == "n" || decision_needed.to_s.strip.empty?
+                config.vm.network "private_network", auto_config: false, virtualbox__intnet: "somename"
+                decision_needed = false
             end
         end
     end
@@ -48,7 +52,7 @@ Vagrant.configure("2") do |config|
     # up and running. This is the right place for software installation.
     config.vm.provision "shell", inline: <<~END
         apt-get -y update
-        apt-get -y install inotify-tools dnsmasq psmisc openvpn squid3
+        apt-get -y install inotify-tools dnsmasq psmisc squid3
     END
 
    ########### copy files to vm
@@ -74,13 +78,7 @@ Vagrant.configure("2") do |config|
 	    ifup eth0
 	    ifdown eth1
         ifup eth1
+        ifdown eth2
+        ifup eth2
     END
-    # reload eth2 if bridge mode was activated
-    if decision_bridge_device.downcase == "y"
-        config.vm.provision "shell", inline: <<~END
-            ifdown eth2
-            ifup eth2
-        END
-    end
-
 end
