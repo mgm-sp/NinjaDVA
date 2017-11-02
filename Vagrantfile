@@ -18,14 +18,14 @@ Vagrant.configure("2") do |config|
 
     # add a interface to the vm that is in the same internal networke like the gateway
     #config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "broken"
-    config.vm.network "private_network", auto_config: false, virtualbox__intnet: "broken"
+    config.vm.network "private_network", auto_config: false, virtualbox__intnet: "ninjadva"
 
     # define commands that will be executed on the vm after the vm is
     # up and running. This is the right place for software installation.
     config.vm.provision "shell", inline: <<~END
         apt-get -y update
         apt-get -y remove isc-dhcp-client
-        apt-get -y install apache2 ruby ruby-dev ruby-sqlite3 sqlite3 inotify-tools dhcpcd5 psmisc atool
+        apt-get -y install apache2 ruby ruby-dev ruby-sqlite3 sqlite3 dhcpcd5 atool
         killall dhclient
         gem install argon2
         cd /tmp
@@ -65,7 +65,7 @@ Vagrant.configure("2") do |config|
 
     # reload the network configuration
     config.vm.provision "shell", inline: <<~END
-    ifdown eth1
+        ifdown eth1
         ifup eth1
         ifup eth1:0
         ifup eth1:1
