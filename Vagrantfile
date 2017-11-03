@@ -12,7 +12,9 @@ Vagrant.configure("2") do |config|
     config.vm.box = "debian/contrib-stretch64"
     config.vm.box_version = "9.1.0"
 
-	config.vm.hostname = "gateway"
+    # set hostname
+    config.vm.hostname = "gateway"
+    ENV['LC_ALL']="en_US.UTF-8"
 
 	# Interface 1
 	config.vm.network "forwarded_port", guest: 3128, host: 3128, host_ip: "0.0.0.0", id: "squid", auto_correct: false
