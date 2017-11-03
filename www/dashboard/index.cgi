@@ -10,11 +10,11 @@ $session = CGI::Session.new($cgi)
 
 h = HTML.new("Dashboard")
 
+require_relative "../solved"
 if $cgi.include?("ping")
-	require_relative "../solved"
 	if $cgi["ping"] == ""
 		num = `grep ",1,Ping" #{$conf.solutiondb} |wc -l`.chomp
-		Solution.new("ping",1,"Ping #{num}")
+		Solution.new("ping",2,"Ping #{num}")
 	else
 		Solution.new("ping",10,"Pinged with message #{$cgi['ping']}")
 	end
@@ -23,6 +23,8 @@ if $cgi.include?("ping")
 	h.header["Location"] = "/"
 	h << "Pong"
 	h.out($cgi)
+else
+	Solution.new("ping",1,"Accessed the Dashboard")
 end
 
 h.add_css("dashboard.css")
@@ -168,7 +170,7 @@ CALENDARWIDGET
 h.add_css("fullcalendar/fullcalendar.min.css")
 h.add_script_file("fullcalendar/moment.min.js")
 h.add_script_file("fullcalendar/fullcalendar.min.js")
-h.add_script_file("fullcalendar/locale/de.js")
+h.add_script_file("fullcalendar/locale/de.js") if ENV["HTTP_ACCEPT_LANGUAGE"] =~ /^((?<!en).)*de/
 h.add_script <<JS
 $(document).ready(function() {
 	$('#calendar').fullCalendar({
@@ -181,12 +183,10 @@ $(document).ready(function() {
         agendaTwoDays: {
             type: 'agenda',
             duration: { days: 2 },
-            buttonText: '2 Tage'
         },
         agendaThreeDays: {
             type: 'agenda',
             duration: { days: 3 },
-            buttonText: '3 Tage'
         }
 		},
 		height: 250,
