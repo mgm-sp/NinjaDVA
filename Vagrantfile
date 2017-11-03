@@ -59,14 +59,14 @@ Vagrant.configure("2") do |config|
 
     # copy network interfaces definition and hosts file to vm
     config.vm.provision "file", source: "./interfaces", destination: "/home/vagrant/tmp_provision/interfaces"
-    config.vm.provision "file", source: "./dns-mgmsp-lab.conf", destination: "/home/vagrant/tmp_provision/dns-mgmsp-lab.conf"
+    config.vm.provision "file", source: "./dnsmasq.conf", destination: "/home/vagrant/tmp_provision/dnsmasq.conf"
     config.vm.provision "file", source: "./squid.conf", destination: "/home/vagrant/tmp_provision/squid.conf"
 
     # move files to their destination
     config.vm.provision "shell", inline: <<~END
         cd /home/vagrant/tmp_provision/
         install -o root -g root interfaces /etc/network/interfaces
-        install -o root -g root dns-mgmsp-lab.conf /etc/dnsmasq.d/dns-mgmsp-lab.conf
+        install -o root -g root dnsmasq.conf /etc/dnsmasq.d/dnsmasq.conf
         install -o root -g root squid.conf /etc/squid/squid.conf
     END
 
