@@ -15,6 +15,7 @@ Vagrant.configure("2") do |config|
 
     #set hostname for vm
     config.vm.hostname = "dashboardvm"
+    ENV['LC_ALL']="en_US.UTF-8"
 
     # add a interface to the vm that is in the same internal networke like the gateway
     #config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "broken"
