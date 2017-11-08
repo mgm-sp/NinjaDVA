@@ -70,6 +70,7 @@ Vagrant.configure("2") do |config|
         ifup eth1
         ifup eth1:0
         ifup eth1:1
+        echo -e "\n# avoid nic1 providing a dns server\ninterface eth0\nnooption 6" >> /etc/dhcpcd.conf
     END
 
 
