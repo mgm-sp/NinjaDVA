@@ -1,8 +1,8 @@
 ---
 :description: |
-Try to get access to the email account of Mr. Schmidt via cross-site scripting. The Solution is the middle name of Mr. Schmidt.
+ Try to get access to the email account of Mr. Schmidt via cross-site scripting. The Solution is the middle name of Mr. Schmidt.
 
-Hint: Mr. Schmidt is part of the support team. He will read all incoming chat messages in the mail-service support chat.
+ Hint: Mr. Schmidt is part of the support team. He will read all incoming chat messages in the mail-service support chat.
 
 :category: "XSS"
 :name: "Steal the Session ID"

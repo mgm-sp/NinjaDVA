@@ -28,6 +28,9 @@ Vagrant.configure("2") do |config|
     # -c, --category                     (required) category of the solution
     # -s, --state                        (required) state of the challenge
     # --comment                          (optional) comment for the trainer
+    #
+    #  Example: ninjasolver -r http://dashboard.mgmsp-lab.com/solve_srv.cgi -i 172.23.42.1 -c your_vm_xss1
+    #                        -s 10 --comment "He read the mails of Mr. Schmidt"
     ########################################################################################################
 
 
@@ -41,6 +44,7 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: <<~END
         apt-get -y update
         apt-get -y install ruby ruby-dev
+        gem install slop
     END
     config.vm.provision "file", source: "../ninjadva_service", destination: "/home/vagrant/tmp_provision/ninjadva_service"
     config.vm.provision "shell", inline: <<~END
