@@ -1,2 +1,5 @@
 .vagrant/
-*_vm/
+config/
+clonecloud/files
+.vscode
+

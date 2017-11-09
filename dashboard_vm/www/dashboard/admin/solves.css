@@ -1,0 +1,85 @@
+body {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+h1 {
+font-size: 110%;
+}
+
+p {
+	margin: 1ex 0;
+	padding: 0;
+}
+
+.gridster .user{
+	border: 1px solid #bbbbbb;
+	border-radius: 4px;
+	background: linear-gradient(to right,rgba(255,0,0,0.5) -5%,rgba(34,139,34,0.6) 5%);
+	overflow: auto;
+
+}
+
+.user legend{
+	font-weight: bold;
+}
+
+.gridster .preview-holder{
+	background: #888888;
+	border: medium none;
+	border-radius: 0;
+}
+
+#menu{
+	z-index: 20;
+	bottom: 3px;
+	left: 3px;
+	position: fixed;
+	width: 100%;
+}
+
+#menu input{
+	margin-top: 5px;
+}
+
+input[type=button] {
+	background: #008fb3;
+	color: white;
+	padding: 0.3em;
+	font-weight: bold;
+	border: none;
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+	text-shadow: 0 0 10px rgba(51,204,255,1), 0 0 5px rgba(51,204,255,1);
+}
+
+input[type=button].active{
+        background: #33ccff;
+	text-shadow: 0 0 10px rgba(0,143,179,1), 0 0 8px rgba(0,143,179,1), 0 0 5px rgba(0,143,179,1);
+}
+
+
+
+.gridster .preview-holder{
+	background: #888888;
+	border: medium none;
+	border-radius: 0;
+}
+
+label {
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+}
+
+input[type=checkbox] {
+	display: none;
+}
+
+input[type=checkbox]:checked + label:before {
+	content: "\2713";
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+	font-size: 15px;
+	color: #f3f3f3;
+	text-align: center;
+	line-height: 15px;
+}
+

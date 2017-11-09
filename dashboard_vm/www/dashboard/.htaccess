@@ -1,0 +1,9 @@
+Options +ExecCGI
+AddHandler cgi-script .cgi
+DirectoryIndex index.cgi
+
+<FilesMatch "solve_srv.cgi">
+  Order deny,allow
+  Deny from all
+  Allow from 172.23.42.32/27
+</FilesMatch>
