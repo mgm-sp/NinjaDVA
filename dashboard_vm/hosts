@@ -1,5 +1,4 @@
 127.0.0.1       localhost
-127.0.1.1       debian-minimal-64
 127.0.0.1	dashboard dashboard.mgmsp-lab.com
 127.0.0.1	myhomepage myhomepage.mgmsp-lab.com
 
