@@ -17,22 +17,6 @@ Vagrant.configure("2") do |config|
 
     #set hostname for vm
     config.vm.hostname = "yourvulnerablevm"
-    ENV['LC_ALL']="en_US.UTF-8"
-
-    ########################################################################################################
-    # To inform the dashboard that a participant
-    # solved a challenge, use the installed program
-    # ninjasolver [options]
-    # -r, --remote_solution_handler_url  (required) url of the solution handler script on the dashboard vm
-    # -i, --ip_addr                      (required) ip address of the participant solved the challenge
-    # -c, --category                     (required) category of the solution
-    # -s, --state                        (required) state of the challenge
-    # --comment                          (optional) comment for the trainer
-    #
-    #  Example: ninjasolver -r http://dashboard.mgmsp-lab.com/solve_srv.cgi -i 172.23.42.1 -c your_vm_xss1
-    #                        -s 10 --comment "He read the mails of Mr. Schmidt"
-    ########################################################################################################
-
 
     #----------------- ninjaDVA specific configuration -------------------------------
 
@@ -40,7 +24,6 @@ Vagrant.configure("2") do |config|
     config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva"
 
     # install ninjadva specific software
-    # TODO: export this to a git repo and install all dependencies via makefile
     config.vm.provision "shell", inline: <<~END
         apt-get -y update
         apt-get -y install ruby ruby-dev
