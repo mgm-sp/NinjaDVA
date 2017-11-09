@@ -19,22 +19,30 @@ Vagrant.configure("2") do |config|
     config.vm.hostname = "yourvulnerablevm"
     ENV['LC_ALL']="en_US.UTF-8"
 
+    ########################################################################################################
+    # To inform the dashboard that a participant
+    # solved a challenge, use the installed program
+    # ninjasolver [options]
+    # -r, --remote_solution_handler_url  (required) url of the solution handler script on the dashboard vm
+    # -i, --ip_addr                      (required) ip address of the participant solved the challenge
+    # -c, --category                     (required) category of the solution
+    # -s, --state                        (required) state of the challenge
+    # --comment                          (optional) comment for the trainer
+    ########################################################################################################
+
 
     #----------------- ninjaDVA specific configuration -------------------------------
 
     # add a interface to the vm that is in the same internal network like the gateway vm
     config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva"
 
-    # install software needed and fix dns problems
+    # install ninjadva specific software
+    # TODO: export this to a git repo and install all dependencies via makefile
     config.vm.provision "shell", inline: <<~END
         apt-get -y update
         apt-get -y install ruby ruby-dev
     END
-    # echo -e '\n# avoid nic1 providing a dns server\ninterface "eth0" {\nsupersede domain-name-servers 127.0.0.1;\n}' >> /etc/dhcp/dhclient.conf
-
-    # move ninja_service files to their destination and install them
-    # TODO: get them via git clone and install them via make
-    config.vm.provision "file", source: "./ninjadva_service", destination: "/home/vagrant/tmp_provision/ninjadva_service"
+    config.vm.provision "file", source: "../ninjadva_service", destination: "/home/vagrant/tmp_provision/ninjadva_service"
     config.vm.provision "shell", inline: <<~END
         cd /home/vagrant/tmp_provision/
         cp -R ninjadva_service /usr/share/

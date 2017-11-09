@@ -9,13 +9,24 @@ require 'net/http'
 require 'uri'
 require 'slop'
 
-opts = Slop.parse do |o|
-    o.string '-r', '--remote_solution_handler_url', 'url of the solution handler script on the dashboard vm', required: true
-    o.string '-i', '--ip_addr', 'ip address of the participant solved the challenge', required: true
-    o.string '-c', '--category', 'category of the solution', required: true
-    o.integer '-s', '--state', 'state of the challenge', required: true
-    o.string '--comment', 'comment for the trainer'
-  end
+begin
+opts = Slop.parse() do |o|
+    o.string '-r', '--remote_solution_handler_url', '(required) url of the solution handler script on the dashboard vm', required: true
+    o.string '-i', '--ip_addr', '(required) ip address of the participant solved the challenge', required: true
+    o.string '-c', '--category', '(required) category of the solution', required: true
+    o.integer '-s', '--state', '(required) state of the challenge', required: true
+    o.string '--comment', '(optional) comment for the trainer'
+    o.on '--help', 'show this help message' do
+        puts o
+        exit
+      end
+end
+rescue
+ puts "Arguments Error: use the --help flag to get more information about the right usage"
+ exit 1
+end
+
+#puts opts
 
 def send_solve(remote_solution_handler_url, ip_addr, category, state, comment="")
         post_payload = {
