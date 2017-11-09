@@ -4,11 +4,7 @@
 # (including a file for the location, e.g. "Innsbruck, Austria.jpg")
 #
 $conf.default_slide = "bad_code.pdf"
-$conf.links << {
-	:href => 'javascript:chooseMaterial("bad_code.pdf")',
-	:name => "Bad Code",
-	:noicon => true
-}
+
 
 # get this in the debug console with JSON.stringify(get_current_grid_layout())
 # A4 Slides example

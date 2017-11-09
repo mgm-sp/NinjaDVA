@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: <<~END
         apt-get -y update
         apt-get -y remove isc-dhcp-client
-        apt-get -y install apache2 ruby ruby-dev ruby-sqlite3 sqlite3 dhcpcd5 atool libfontconfig1 inotify-tools psmisc 
+        apt-get -y install apache2 ruby ruby-dev ruby-sqlite3 sqlite3 dhcpcd5 atool libfontconfig1 inotify-tools psmisc
         killall dhclient
         gem install argon2
         cd /tmp

@@ -88,24 +88,22 @@ h << timewidget
 
 
 
-h << <<MAILWIDGET
+h << <<CUSTOMWIDGET
 
 
-<!-- BEGIN MAIL WIDGET -->
-MAILWIDGET
-h.add_script_file("mail.js")
+<!-- BEGIN CUSTOM WIDGET -->
+CUSTOMWIDGET
 
-h << <<MAILWIDGET
-<div id='mailwidget' class='widget' data-row="5" data-col="1" data-sizex="3" data-sizey="2">
+h << <<CUSTOMWIDGET
+<div id='customwidget' class='widget' data-row="5" data-col="1" data-sizex="3" data-sizey="2">
 <div>
-<h1>New Mail</h1>
-<div id='inbox'>Fetching new mail...</div>
+<h1>Your Custom Widget</h1>
+<div>I could be vulnerable ...</div>
 </div>
 </div>
-MAILWIDGET
-#h.add_script_file("http://mail.#{$conf.domain}/api/mail.cgi?jsonp=updateMail")
+CUSTOMWIDGET
 
-h << "<!-- END MAIL WIDGET -->"
+h << "<!-- END CUSTOM WIDGET -->"
 
 h << "\n"*3
 
