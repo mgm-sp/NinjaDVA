@@ -3,6 +3,10 @@
 # if you start a vm importing the first time and get an error
 class NinjaDVA
 	def initialize(config, options = {})
+		# set some defaults
+		options[:relative_dir] ||= ".."
+		options[:challenge_descriptions_dir] ||= "challenge-descriptions/"
+
 		# add a interface to the vm that is in the same internal network like the gateway vm
 		config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva"
 
@@ -12,9 +16,9 @@ class NinjaDVA
 			apt-get -y install ruby ruby-dev
 			gem install slop
 		END
-		config.vm.provision "file", source: "../ninjadva_service", destination: "/home/vagrant/tmp_provision/ninjadva_service"
+		config.vm.provision "file", source: "#{options[:relative_dir]}/ninjadva_service", destination: "/tmp/tmp_provision/ninjadva_service"
 		config.vm.provision "shell", inline: <<~END
-			cd /home/vagrant/tmp_provision/
+			cd /tmp/tmp_provision/
 			cp -R ninjadva_service /usr/share/
 			chmod +x /usr/share/ninjadva_service/ninjasolver.rb
 			ln -sf /usr/share/ninjadva_service/ninjasolver.rb /usr/local/bin/ninjasolver
@@ -23,10 +27,7 @@ class NinjaDVA
 
 
 		# set necessary variables for provision of challenges
-		dashboard_dir = "../dashboard_vm/"
-		if !options.key?(:challenge_descriptions_dir)
-			options[:challenge_descriptions_dir] = "challenge-descriptions/"
-		end
+		dashboard_dir = "#{options[:relative_dir]}/dashboard_vm/"
 
 		# check whether dashboard_vm exists
 		if Dir.exists?(dashboard_dir)
