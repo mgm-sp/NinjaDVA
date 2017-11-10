@@ -5,81 +5,81 @@
 
 Vagrant.configure("2") do |config|
 
-    # deactivate the standard shared folder
-    config.vm.synced_folder ".", "/vagrant", disabled:true
+	# deactivate the standard shared folder
+	config.vm.synced_folder ".", "/vagrant", disabled:true
 
-    # name and version of vm image
-    config.vm.box = "debian/contrib-stretch64"
-    config.vm.box_version = "9.1.0"
+	# name and version of vm image
+	config.vm.box = "debian/contrib-stretch64"
+	config.vm.box_version = "9.1.0"
 
-    # set hostname
-    config.vm.hostname = "gateway"
-    ENV['LC_ALL']="en_US.UTF-8"
-
-
-    # Interface 2, VirtualBox internal network
-    config.vm.network "private_network", auto_config: false, virtualbox__intnet: "ninjadva"
-
-    # Interface 3, bridged device
-    if ARGV[0] == "up"  || ARGV[0] == "reload"
-        puts <<~END
-                >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                ===        Starting Gateway          ===
-                <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-        END
-        decision_needed = true
-        while decision_needed
-            puts "Do you want to bridge a hardware network device to the VM? [y/N]"
-            decision_needed = STDIN.gets.chomp
-            if decision_needed.downcase == "y"
-                config.vm.network "public_network", auto_config: false, use_dhcp_assigned_default_route: false
-                # promiscuous mode für Interface 3
-                config.vm.provider :virtualbox do |vb|
-                    vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
-                end
-                decision_needed = false
-            elsif decision_needed.downcase == "n" || decision_needed.to_s.strip.empty?
-                config.vm.network "private_network", auto_config: false, virtualbox__intnet: "deadnetwork"
-                decision_needed = false
-            end
-        end
-    end
+	# set hostname
+	config.vm.hostname = "gateway"
+	ENV['LC_ALL']="en_US.UTF-8"
 
 
-    # define commands that will be executed on the vm after the vm is
-    # up and running. This is the right place for software installation.
-    config.vm.provision "shell", inline: <<~END
-                apt-get -y update
-                apt-get -y install dnsmasq
-    END
+	# Interface 2, VirtualBox internal network
+	config.vm.network "private_network", auto_config: false, virtualbox__intnet: "ninjadva"
 
-    ########### copy files to vm
+	# Interface 3, bridged device
+	if ARGV[0] == "up"  || ARGV[0] == "reload"
+		puts <<~END
+		>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		===        Starting Gateway          ===
+		<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-    # copy network interfaces definition and hosts file to vm
-    config.vm.provision "file", source: "./interfaces", destination: "/home/vagrant/tmp_provision/interfaces"
-    config.vm.provision "file", source: "./dnsmasq.conf", destination: "/home/vagrant/tmp_provision/dnsmasq.conf"
+		END
+		decision_needed = true
+		while decision_needed
+			puts "Do you want to bridge a hardware network device to the VM? [y/N]"
+			decision_needed = STDIN.gets.chomp
+			if decision_needed.downcase == "y"
+				config.vm.network "public_network", auto_config: false, use_dhcp_assigned_default_route: false
+				# promiscuous mode für Interface 3
+				config.vm.provider :virtualbox do |vb|
+					vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+				end
+				decision_needed = false
+			elsif decision_needed.downcase == "n" || decision_needed.to_s.strip.empty?
+				config.vm.network "private_network", auto_config: false, virtualbox__intnet: "deadnetwork"
+				decision_needed = false
+			end
+		end
+	end
 
-    # move files to their destination
-    config.vm.provision "shell", inline: <<~END
-                cd /home/vagrant/tmp_provision/
-                install -o root -g root interfaces /etc/network/interfaces
-                install -o root -g root dnsmasq.conf /etc/dnsmasq.d/dnsmasq.conf
-    END
 
-    # reload the network configuration
-    config.vm.provision "shell", inline: <<~END
- 	    echo -e "net.ipv4.ip_forward=1\nnet.ipv6.conf.all.forwarding=1" > /etc/sysctl.d/forward.conf
-	    sysctl -p /etc/sysctl.d/forward.conf
-            iptables --table nat --append POSTROUTING -j MASQUERADE -o eth0
-            iptables-save >/etc/network/if-pre-up.d/iptables-custom
-            systemctl restart dnsmasq.service
-            ifdown eth0
-            ifup eth0
-            ifdown eth1
-            ifup eth1
-            ifdown eth2
-            ifup eth2
-    END
+	# define commands that will be executed on the vm after the vm is
+	# up and running. This is the right place for software installation.
+	config.vm.provision "shell", inline: <<~END
+		apt-get -y update
+		apt-get -y install dnsmasq
+	END
+
+	########### copy files to vm
+
+	# copy network interfaces definition and hosts file to vm
+	config.vm.provision "file", source: "./interfaces", destination: "/home/vagrant/tmp_provision/interfaces"
+	config.vm.provision "file", source: "./dnsmasq.conf", destination: "/home/vagrant/tmp_provision/dnsmasq.conf"
+
+	# move files to their destination
+	config.vm.provision "shell", inline: <<~END
+		cd /home/vagrant/tmp_provision/
+		install -o root -g root interfaces /etc/network/interfaces
+		install -o root -g root dnsmasq.conf /etc/dnsmasq.d/dnsmasq.conf
+	END
+
+	# reload the network configuration
+	config.vm.provision "shell", inline: <<~END
+		echo -e "net.ipv4.ip_forward=1\nnet.ipv6.conf.all.forwarding=1" > /etc/sysctl.d/forward.conf
+		sysctl -p /etc/sysctl.d/forward.conf
+		iptables --table nat --append POSTROUTING -j MASQUERADE -o eth0
+		iptables-save >/etc/network/if-pre-up.d/iptables-custom
+		systemctl restart dnsmasq.service
+		ifdown eth0
+		ifup eth0
+		ifdown eth1
+		ifup eth1
+		ifdown eth2
+		ifup eth2
+	END
 
 end
