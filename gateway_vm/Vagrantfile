@@ -4,6 +4,7 @@
 # ninjaDVA Gateway
 
 Vagrant.configure("2") do |config|
+	config.vm.define "gateway"
 
 	# deactivate the standard shared folder
 	config.vm.synced_folder ".", "/vagrant", disabled:true

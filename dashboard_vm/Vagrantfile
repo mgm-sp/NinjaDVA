@@ -5,6 +5,7 @@
 #
 
 Vagrant.configure("2") do |config|
+	config.vm.define "dashboard"
 
 	# deactivate the standard shared folder
 	config.vm.synced_folder ".", "/vagrant", disabled:true
