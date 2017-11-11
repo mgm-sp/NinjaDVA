@@ -140,7 +140,7 @@ $(document).ready(function() {
 		eventLimit: true, // allow "more" link when too many events
 		nowIndicator: true,
 		scrollTime:  "#{($conf.events.start-0.5/24).strftime('%H:%M')}",
-		slotDuration: '00:30:00',
+		slotDuration: '#{$conf.default_slot_duration}',
 		events: "events.cgi"
 	});
 });
