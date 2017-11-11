@@ -15,15 +15,14 @@ class NinjaDVA
 		# install ninjadva specific software
 		config.vm.provision "shell", inline: <<~END
 			apt-get -y update
-			apt-get -y install ruby ruby-dev
-			gem install slop
+			apt-get -y install curl
 		END
 		config.vm.provision "file", source: "#{options[:ninjadva_dir]}/ninjadva_service", destination: "/tmp/tmp_provision/ninjadva_service"
 		config.vm.provision "shell", inline: <<~END
 			cd /tmp/tmp_provision/
 			cp -R ninjadva_service /usr/share/
-			chmod +x /usr/share/ninjadva_service/ninjasolver.rb
-			ln -sf /usr/share/ninjadva_service/ninjasolver.rb /usr/local/bin/ninjasolver
+			chmod +x /usr/share/ninjadva_service/ninjasolver.sh
+			ln -sf /usr/share/ninjadva_service/ninjasolver.sh /usr/local/bin/ninjasolver
 			rm -rf *
 		END
 
