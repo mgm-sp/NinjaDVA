@@ -9,21 +9,22 @@
 
 Vagrant.configure("2") do |config|
 
-    #-------------------Your VM config----------------------------------
+	#-------------------Your VM config----------------------------------
+	config.vm.define "yourvulnerablevm"
 
-    # name and version of vm image
-    config.vm.box = "debian/contrib-stretch64"
-    config.vm.box_version = "9.1.0"
+	# name and version of vm image
+	config.vm.box = "debian/contrib-stretch64"
+	config.vm.box_version = "9.1.0"
 
-    #set hostname for vm
-    config.vm.hostname = "yourvulnerablevm"
+	#set hostname for vm
+	config.vm.hostname = "yourvulnerablevm"
 
-    #----------------- ninjaDVA specific configuration -------------------------------
+	#----------------- ninjaDVA specific configuration -------------------------------
 
-    # test whether the vm is started in ninjaDVA context
-    # if yes copy challenges to dashboard vm
-    if File.exists?("../ninjadva.rb")
-        require "../ninjadva"
-        NinjaDVA.new(config)
-    end
+	# test whether the vm is started in ninjaDVA context
+	# if yes copy challenges to dashboard vm
+	if File.exists?("../ninjadva.rb")
+		require "../ninjadva"
+		NinjaDVA.new(config)
+	end
 end
