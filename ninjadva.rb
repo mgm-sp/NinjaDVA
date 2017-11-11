@@ -34,7 +34,7 @@ class NinjaDVA
 		if Dir.exists?(dashboard_dir)
 			require 'fileutils'
 
-			# copy challenges to dashboard, before the vm is started
+			# copy challenges and widgets to dashboard, before the vm is started
 			config.trigger.before :up do
 				chal_list = Dir.glob("./" + options[:challenge_descriptions_dir] + "/*.yaml")
 				FileUtils.cp(chal_list, dashboard_dir + "challenge-descriptions/")
@@ -43,7 +43,7 @@ class NinjaDVA
 				FileUtils.cp(widget_list, dashboard_dir + "dashboard-widgets/")
 			end
 
-			# delete all challenges  included in this vm from the dashboard vm
+			# delete all challenges/widgets included in this vm from the dashboard vm
 			config.trigger.after :halt do
 				puts "Deleting challenges:"
 				Dir.glob("./" + options[:challenge_descriptions_dir] + "/*.yaml").each{|file|
