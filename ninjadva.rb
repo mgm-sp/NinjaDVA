@@ -4,8 +4,9 @@
 class NinjaDVA
 	def initialize(config, options = {})
 		# set some defaults
-		options[:relative_dir] ||= ".."
-		options[:challenge_descriptions_dir] ||= "challenge-descriptions/"
+		options[:ninjadva_dir] ||= ".."
+		options[:challenge_descriptions_dir] ||= "ninjadva/challenge-descriptions/"
+		options[:dashboard_widgets_dir] ||= "ninjadva/dashboard-widgets/"
 
 		# add a interface to the vm that is in the same internal network like the gateway vm
 		config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva"
@@ -16,7 +17,7 @@ class NinjaDVA
 			apt-get -y install ruby ruby-dev
 			gem install slop
 		END
-		config.vm.provision "file", source: "#{options[:relative_dir]}/ninjadva_service", destination: "/tmp/tmp_provision/ninjadva_service"
+		config.vm.provision "file", source: "#{options[:ninjadva_dir]}/ninjadva_service", destination: "/tmp/tmp_provision/ninjadva_service"
 		config.vm.provision "shell", inline: <<~END
 			cd /tmp/tmp_provision/
 			cp -R ninjadva_service /usr/share/
@@ -27,7 +28,7 @@ class NinjaDVA
 
 
 		# set necessary variables for provision of challenges
-		dashboard_dir = "#{options[:relative_dir]}/dashboard_vm/"
+		dashboard_dir = "#{options[:ninjadva_dir]}/dashboard_vm/"
 
 		# check whether dashboard_vm exists
 		if Dir.exists?(dashboard_dir)
@@ -35,8 +36,11 @@ class NinjaDVA
 
 			# copy challenges to dashboard, before the vm is started
 			config.trigger.before :up do
-				yaml_list = Dir.glob("./" + options[:challenge_descriptions_dir] + "/*.yaml")
-				FileUtils.cp(yaml_list, dashboard_dir + "challenge-descriptions/")
+				chal_list = Dir.glob("./" + options[:challenge_descriptions_dir] + "/*.yaml")
+				FileUtils.cp(chal_list, dashboard_dir + "challenge-descriptions/")
+
+				widget_list = Dir.glob("./" + options[:dashboard_widgets_dir] + "/*.html")
+				FileUtils.cp(widget_list, dashboard_dir + "dashboard-widgets/")
 			end
 
 			# delete all challenges  included in this vm from the dashboard vm
@@ -46,6 +50,13 @@ class NinjaDVA
 					file_name = File.basename(file)
 					puts " - " + file_name
 					path_to_file = dashboard_dir + "challenge-descriptions/" + file_name
+					FileUtils.rm(path_to_file) if File.exist?(path_to_file)
+				}
+				puts "Deleting widgets:"
+				Dir.glob("./" + options[:dashboard_widgets_dir] + "/*.html").each{|file|
+					file_name = File.basename(file)
+					puts " - " + file_name
+					path_to_file = dashboard_dir + "dashboard-widgets/" + file_name
 					FileUtils.rm(path_to_file) if File.exist?(path_to_file)
 				}
 			end

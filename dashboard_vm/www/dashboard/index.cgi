@@ -48,64 +48,10 @@ h << <<HEAD
 <div class='gridster'>
 HEAD
 
-
-timewidget = <<CONTENT
-<div id='timewidget' class='widget' data-row="4" data-col="1" data-sizex="1" data-sizey="1">
-<div>
-<h1>Current Time</h1>
-<div id="clock">
-      <div id="clk_bg">88:88:88</div>
-      <div id="txt">10:11:59</div>
-</div>
-</div>
-</div>
-CONTENT
-h.add_script <<TIMEWIDGET
-function startTime() {
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-    m = checkTime(m);
-    s = checkTime(s);
-    if ( h >= 10 ) {
-	    document.getElementById('txt').innerHTML =
-        h + ":" + m + ":" + s;
-    } else {
-        document.getElementById('txt').innerHTML =
-        '&nbsp'+h + ":" + m + ":" + s;
-	}
-    var t = setTimeout(startTime, 500);
+Dir.glob("../dashboard-widgets/*.html").each{|htmlfile|
+	h << File.open(htmlfile).read
 }
-function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-    return i;
-}
-$(document).ready(startTime);
-TIMEWIDGET
 
-h << timewidget
-
-
-
-h << <<CUSTOMWIDGET
-
-
-<!-- BEGIN CUSTOM WIDGET -->
-CUSTOMWIDGET
-
-h << <<CUSTOMWIDGET
-<div id='customwidget' class='widget' data-row="5" data-col="1" data-sizex="3" data-sizey="2">
-<div>
-<h1>Your Custom Widget</h1>
-<div>I could be vulnerable ...</div>
-</div>
-</div>
-CUSTOMWIDGET
-
-h << "<!-- END CUSTOM WIDGET -->"
-
-h << "\n"*3
 
 h << <<WEATHERWIDGET
 <!-- BEGIN WEATHER WIDGET -->
