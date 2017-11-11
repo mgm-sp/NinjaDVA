@@ -172,6 +172,14 @@ h << <<LINK
 <ul id='fav' style='position: inline'>
 LINK
 
+if File.exists?("#{INSTALLDIR}/dashboard-widgets/available_favourite_links.yaml")
+	add_links = YAML::load_file("#{INSTALLDIR}/dashboard-widgets/available_favourite_links.yaml")
+	add_links.each{|linkhash|
+		linkhash[:href] = "http://#{linkhash[:hostname]}.#{$conf.domain}"
+	}
+	$conf.links += add_links
+end
+
 $conf.links.each{|l|
 	h << "<li><a href='#{l[:href]}'>"
 	unless l[:noicon]

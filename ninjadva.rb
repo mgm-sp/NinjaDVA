@@ -7,6 +7,7 @@ class NinjaDVA
 		options[:ninjadva_dir] ||= ".."
 		options[:challenge_descriptions_dir] ||= "ninjadva/challenge-descriptions/"
 		options[:dashboard_widgets_dir] ||= "ninjadva/dashboard-widgets/"
+		options[:link_widget_links] ||= [{ hostname: config.vm.hostname, name: config.vm.hostname }]
 
 		# add a interface to the vm that is in the same internal network like the gateway vm
 		config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva"
@@ -41,6 +42,17 @@ class NinjaDVA
 
 				widget_list = Dir.glob("./" + options[:dashboard_widgets_dir] + "/*.html")
 				FileUtils.cp(widget_list, dashboard_dir + "dashboard-widgets/")
+
+				# add host to list of available favourite links
+				linkfile = "#{dashboard_dir}/dashboard-widgets/available_favourite_links.yaml"
+				require "yaml"
+				if File.exists?(linkfile)
+					currentlinks = YAML::load_file(linkfile)
+				else
+					currentlinks = []
+				end
+				currentlinks += options[:link_widget_links]
+				File.open(linkfile,"w") {|f| f << currentlinks.to_yaml }
 			end
 
 			# delete all challenges/widgets included in this vm from the dashboard vm
@@ -59,6 +71,19 @@ class NinjaDVA
 					path_to_file = dashboard_dir + "dashboard-widgets/" + file_name
 					FileUtils.rm(path_to_file) if File.exist?(path_to_file)
 				}
+
+				# delete host from list of available favourite links
+				linkfile = "#{dashboard_dir}/dashboard-widgets/available_favourite_links.yaml"
+				require "yaml"
+				if File.exists?(linkfile)
+					currentlinks = YAML::load_file(linkfile)
+				else
+					currentlinks = []
+				end
+				options[:link_widget_links].each{|link|
+					currentlinks.delete(link)
+				}
+				File.open(linkfile,"w") {|f| f << currentlinks.to_yaml }
 			end
 		end
 	end
