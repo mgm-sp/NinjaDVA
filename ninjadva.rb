@@ -51,6 +51,7 @@ class NinjaDVA
 					currentlinks = []
 				end
 				currentlinks += options[:link_widget_links]
+				currentlinks.uniq!
 				File.open(linkfile,"w") {|f| f << currentlinks.to_yaml }
 			end
 
