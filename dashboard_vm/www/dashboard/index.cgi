@@ -155,7 +155,7 @@ h << <<SLIDES
 <!-- BEGIN SLIDES WIDGET -->
 <div id='slides' class='widget' data-row="1" data-col="4" data-sizex="3" data-sizey="6">
 <div>
-<h1 style='height:5%; margin:0; padding:0;display:flex;justify-content:space-between'>Lecture Material<img id='fslink' style='cursor:pointer;height:20px;width:20px' src='expand-256.png' onclick='toggleMaximize()'></h1>
+<h1 style='height:5%; margin:0; padding:0;display:flex;justify-content:space-between'>Lecture Material<img id='fslink' style='cursor:pointer;height:2ex;width:2ex' src='expand-256.png' onclick='toggleMaximize()'></h1>
 <iframe style='border: none;width:100%; height:95%' src='http://clonecloud.#{$conf.domain}/view.cgi?default=#{$conf.events.current_lecture_file ? $conf.events.current_lecture_file : $conf.default_slide}'></iframe>
 </div>
 </div>

@@ -19,6 +19,7 @@ height: 95%
 }
 body {
 	height: 100%;
+	margin: 0;
 }
 #file object {
 	width:100%;
