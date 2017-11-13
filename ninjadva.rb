@@ -5,8 +5,8 @@ class NinjaDVA
 	def initialize(config, options = {})
 		# set some defaults
 		options[:ninjadva_dir] ||= ".."
-		options[:challenge_descriptions_dir] ||= "ninjadva/challenge-descriptions/"
-		options[:dashboard_widgets_dir] ||= "ninjadva/dashboard-widgets/"
+		options[:challenge_descriptions_dir] ||= "./ninjadva/challenge-descriptions/"
+		options[:dashboard_widgets_dir] ||= "./ninjadva/dashboard-widgets/"
 		options[:link_widget_links] ||= [{ hostname: config.vm.hostname, name: config.vm.hostname }]
 
 		# add a interface to the vm that is in the same internal network like the gateway vm
@@ -36,10 +36,10 @@ class NinjaDVA
 
 			# copy challenges and widgets to dashboard, before the vm is started
 			config.trigger.before :up do
-				chal_list = Dir.glob("./" + options[:challenge_descriptions_dir] + "/*.yaml")
+				chal_list = Dir.glob(options[:challenge_descriptions_dir] + "/*.yaml")
 				FileUtils.cp(chal_list, dashboard_dir + "challenge-descriptions/")
 
-				widget_list = Dir.glob("./" + options[:dashboard_widgets_dir] + "/*.html")
+				widget_list = Dir.glob(options[:dashboard_widgets_dir] + "/*.html")
 				FileUtils.cp(widget_list, dashboard_dir + "dashboard-widgets/")
 
 				# add host to list of available favourite links
@@ -58,14 +58,14 @@ class NinjaDVA
 			# delete all challenges/widgets included in this vm from the dashboard vm
 			config.trigger.after :halt do
 				puts "Deleting challenges:"
-				Dir.glob("./" + options[:challenge_descriptions_dir] + "/*.yaml").each{|file|
+				Dir.glob(options[:challenge_descriptions_dir] + "/*.yaml").each{|file|
 					file_name = File.basename(file)
 					puts " - " + file_name
 					path_to_file = dashboard_dir + "challenge-descriptions/" + file_name
 					FileUtils.rm(path_to_file) if File.exist?(path_to_file)
 				}
 				puts "Deleting widgets:"
-				Dir.glob("./" + options[:dashboard_widgets_dir] + "/*.html").each{|file|
+				Dir.glob(options[:dashboard_widgets_dir] + "/*.html").each{|file|
 					file_name = File.basename(file)
 					puts " - " + file_name
 					path_to_file = dashboard_dir + "dashboard-widgets/" + file_name
