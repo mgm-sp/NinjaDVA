@@ -139,7 +139,7 @@ $(document).ready(function() {
 		editable: false,
 		eventLimit: true, // allow "more" link when too many events
 		nowIndicator: true,
-		scrollTime:  "#{($conf.events.start-0.5/24).strftime('%H:%M')}",
+		scrollTime: "#{$conf.dayStart}",
 		slotDuration: '#{$conf.default_slot_duration}',
 		events: "events.cgi"
 	});
@@ -156,7 +156,7 @@ h << <<SLIDES
 <div id='slides' class='widget' data-row="1" data-col="4" data-sizex="3" data-sizey="6">
 <div>
 <h1 style='height:5%; margin:0; padding:0;display:flex;justify-content:space-between'>Lecture Material<img id='fslink' style='cursor:pointer;height:2ex;width:2ex' src='expand-256.png' onclick='toggleMaximize()'></h1>
-<iframe style='border: none;width:100%; height:95%' src='http://clonecloud.#{$conf.domain}/view.cgi?default=#{$conf.events.current_lecture_file ? $conf.events.current_lecture_file : $conf.default_slide}'></iframe>
+<iframe style='border: none;width:100%; height:95%' src='http://clonecloud.#{$conf.domain}/view.cgi?default=#{$conf.default_slide}'></iframe>
 </div>
 </div>
 <!-- END SLIDES WIDGET -->

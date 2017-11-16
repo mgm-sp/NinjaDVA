@@ -27,7 +27,6 @@ end
 
 $conf = Configuration.new
 INSTALLDIR = "/var/www/"
-require_relative "#{INSTALLDIR}/seminar"
 
 $conf.domain = "mgmsp-lab.com"
 
@@ -38,6 +37,7 @@ $conf.default_userpw = "shohseib9Phi6euL"
 
 
 $conf.location = "Dresden, Germany"
+$conf.dayStart = "09:00"
 
 $conf.links = [
 	{ :href => "http://myhomepage.#{$conf.domain}", :name => "My Homepage" },

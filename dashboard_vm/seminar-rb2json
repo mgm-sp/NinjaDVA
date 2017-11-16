@@ -1,5 +1,12 @@
+#!/usr/bin/env ruby
+
+if ARGV.size == 0
+	puts "usage: #{$0} config/examplecustomer/schedule.rb [config/examplecustomer/db/schedule.json]"
+	exit
+end
+
+
 require "time"
-require_relative "config_defaults"
 class Seminar
 	attr_accessor :events
 	attr_reader :location, :start
@@ -8,7 +15,6 @@ class Seminar
 		@zone = Time.now.getlocal.zone
 		if args[:location]
 			@location = args[:location]
-			$conf.location = args[:location]
 		else
 			@location = "Dresden, Germany"
 		end
@@ -33,7 +39,6 @@ class Seminar
 	end
 	def location= location
 		@location = location
-		$conf.location = location
 	end
 
 	def add_lecture args
@@ -76,11 +81,13 @@ class Seminar
 	end
 end
 
+require_relative ARGV[0]
+require "pp"
+$s.events.each{|e|
+	STDERR.puts "#{e[:start].strftime("%F %R")} - #{e[:end].strftime("%F %R")}: #{e[:title]}"
+}
 
-if __FILE__ == $0
-	require "pp"
-	require_relative ARGV[0]
-	$conf.events.events.each{|e|
-		puts "#{e[:start].strftime("%F %R")} - #{e[:end].strftime("%F %R")}: #{e[:title]}"
-	}
+if ARGV[1]
+	require "json"
+	File.open(ARGV[1],"w"){|f| f << $s.events.to_json}
 end
