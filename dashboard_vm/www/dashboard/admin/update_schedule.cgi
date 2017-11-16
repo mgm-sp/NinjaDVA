@@ -7,13 +7,14 @@ require "pp"
 
 $cgi = CGI.new
 if $cgi.include?("schedule")
-	File.open("#{$conf.dbdir_absolute}/schedule.json","w"){|f|
-		if $cgi["schedule"].class == StringIO
+	if $cgi["schedule"].class == StringIO
+		File.open("#{$conf.dbdir_absolute}/schedule.json","w"){|f|
 			f << $cgi["schedule"].read
-		else
-			f << $cgi["schedule"]
-		end
-	}
+		}
+	else
+		require "fileutils"
+		FileUtils.mv($cgi["schedule"].local_path(),"#{$conf.dbdir_absolute}/schedule.json")
+	end
 	out = "OK"
 else
 	out = <<FORM
