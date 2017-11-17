@@ -11,7 +11,8 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$con
 	require "yaml"
 	homepage = YAML::load_file("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml")
 	if homepage[:password] == $cgi["password"]
-		homepage[:html].body = $cgi["body"]
+		homepage[:contents] = $cgi["contents"]
+		homepage[:header] = $cgi["header"]
 		File.open("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml","w"){|f|
 			f << homepage.to_yaml
 		}

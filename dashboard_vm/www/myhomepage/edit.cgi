@@ -14,39 +14,52 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$con
 	require "yaml"
 	homepage = YAML::load_file("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml")
 	if homepage[:password] == $cgi["password"]
-		h << "<div>"
-		h << "The link to your <a href='#{$cgi["url"]}'>homepage</a>: <input value='http://#{$cgi.server_name}/#{$cgi["url"]}' type='text' readonly='readonly' style='width: 50%' />"
+		h << <<~LINK
+			<div>
+				The link to your <a href='#{$cgi["url"]}'>homepage</a>: <input value='http://#{$cgi.server_name}/#{$cgi["url"]}' type='text' readonly='readonly' style='width: 50%' />
+			</div>
+		LINK
 
-		h << <<EDIT
-<form style='height: 100%' method='post' action='store.cgi'>
-<div>
-<input type='hidden' name='url' value='#{$cgi["url"]}' />
-<input type='hidden' name='password' value='#{$cgi["password"]}' />
-<textarea id='codeeditor' name='body' style='width: 100%; height:100%'>
-#{CGI.escapeHTML(homepage[:html].body)}</textarea>
-<input type='submit' value='Save' />
-</div>
-</form>
-</div>
-EDIT
-h.add_script_file("codemirror/codemirror.js")
-h.add_script_file("codemirror/css.js")
-h.add_script_file("codemirror/javascript.js")
-h.add_script_file("codemirror/vbscript.js")
-h.add_script_file("codemirror/xml.js")
-h.add_script_file("codemirror/htmlmixed.js")
-h.add_script <<JS
-  var editor = CodeMirror.fromTextArea(document.getElementById("codeeditor"), {
-		mode:  {
-			name: "htmlmixed",
-			scriptTypes: [
-				{matches: /\\/x-handlebars-template|\\/x-mustache/i, mode: null},
-        {matches: /(text|application)\\/(x-)?vb(a|script)/i, mode: "vbscript"}
-      ]
-    },
-    lineNumbers: true,
-  });
-JS
+		h << <<~EDIT
+			<form style='margin-top:2ex; height: 100%' method='post' action='store.cgi'>
+			<div>
+		EDIT
+		h << <<~EDIT
+				<textarea id='headereditor' name='header' style='width: 100%; height:100%'>#{CGI.escapeHTML(homepage[:header])}</textarea>
+				<input type='hidden' name='url' value='#{$cgi["url"]}' />
+				<input type='hidden' name='password' value='#{$cgi["password"]}' />
+				<textarea id='codeeditor' name='contents' style='width: 100%; height:100%'>#{CGI.escapeHTML(homepage[:contents])}</textarea>
+				<input type='submit' value='Save' />
+			</div>
+			</form>
+		EDIT
+		h.add_script_file("codemirror/codemirror.js")
+		h.add_script_file("codemirror/css.js")
+		h.add_script_file("codemirror/javascript.js")
+		h.add_script_file("codemirror/vbscript.js")
+		h.add_script_file("codemirror/xml.js")
+		h.add_script_file("codemirror/htmlmixed.js")
+		h.add_script <<~JS
+			var editor = CodeMirror.fromTextArea(document.getElementById("codeeditor"), {
+				mode:  {
+					name: "htmlmixed",
+					scriptTypes: [
+						{matches: /\\/x-handlebars-template|\\/x-mustache/i, mode: null},
+						{matches: /(text|application)\\/(x-)?vb(a|script)/i, mode: "vbscript"}
+					]
+				},
+				lineNumbers: true,
+			});
+		JS
+		h.add_script_file("codemirror/http.js")
+		h.add_script <<~JS
+			var editor = CodeMirror.fromTextArea(document.getElementById("headereditor"), {
+				mode:  {
+					name: "http",
+				},
+				lineNumbers: true,
+			});
+		JS
 
 		h << "<h1>Access Log</h1>"
 		require "csv"

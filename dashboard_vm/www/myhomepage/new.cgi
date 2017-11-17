@@ -20,12 +20,21 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/
 			chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 			pw = Array.new(12){chars[rand(chars.size)]}.join
 		end
-		html = HTML.new("My Homepage -- #{url}")
-		html.add_head_script("jquery-2.2.3.min.js")
-		html << "<h1>Welcome</h1>"
-		html << "<img style='width:10em;' src='construction.svg' alt='Under Construction' />"
+		contents = <<~CONTENTS
+			<!DOCTYPE html>
+			<html lang="en">
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<title>#{url}</title>
+				<script type='text/javascript' src='jquery-2.2.3.min.js'></script>
+			<body>
+			<h1>Welcome</h1>
+			<img style='width:10em;' src='construction.svg' alt='Under Construction' />
+			</body>
+			</html>
+		CONTENTS
 		homepage = {
-			:html => html,
+			:contents => contents,
+			:header => "HTTP/1.1 200 OK\nContent-Type: text/html",
 			:password => pw
 		}
 		require "yaml"
