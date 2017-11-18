@@ -149,13 +149,16 @@ JS
 h << "<!-- END CALENDAR WIDGET -->"
 
 
-h.add_script_file("slides.js")
+h << "\n\n<!-- BEGIN SLIDES WIDGET -->"
+h.add_script <<SCRIPT
+function chooseMaterial(slide){
+	$("#slides iframe")[0].contentWindow.postMessage(slide,"*")
+}
+SCRIPT
 h << <<SLIDES
-
-<!-- BEGIN SLIDES WIDGET -->
 <div id='slides' class='widget' data-row="1" data-col="4" data-sizex="3" data-sizey="6">
 <div>
-<h1 style='height:5%; margin:0; padding:0;display:flex;justify-content:space-between'>Lecture Material<img id='fslink' style='cursor:pointer;height:2ex;width:2ex' src='expand-256.png' onclick='toggleMaximize()'></h1>
+<h1 style='height:5%; margin: 0'>Lecture Material</h1>
 <iframe style='border: none;width:100%; height:95%' src='http://clonecloud.#{$conf.domain}/view.cgi?default=#{$conf.default_slide}'></iframe>
 </div>
 </div>

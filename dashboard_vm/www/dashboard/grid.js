@@ -91,3 +91,18 @@ function set_grid_layout(gridlayout){
 	});
 	window.setTimeout(adjust_calendar,500);
 }
+
+
+// zoom button for all widgets
+$(function(){ //DOM Ready
+	var zoomButton = "<img class='zoomButton' style='cursor:pointer;height:2ex;width:2ex' src='expand-256.png' onclick='toggleMaximize()'>";
+	$("div.widget h1").append(zoomButton);
+});
+
+function toggleMaximize(){
+	var e = "expand-256.png";
+	var c = "collapse-256.png";
+	var i = $(".zoomButton");
+	i.attr("src", i.attr("src") === e ? c : e);
+	$("div.widget:hover").toggleClass("fullscreen");
+}
