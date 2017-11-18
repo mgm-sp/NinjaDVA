@@ -1,5 +1,5 @@
 .vagrant/
-config/
-clonecloud/files
-.vscode
-
+dashboard_vm/challenge-descriptions/
+dashboard_vm/config/
+dashboard_vm/dashboard-widgets/
+dashboard_vm/www/clonecloud/files
