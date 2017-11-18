@@ -28,44 +28,6 @@ div.widget>div{
 	height: 100% !important;
 }
 
-#clock
-{
-	height:40px;
-	width: 100%;
-	background: #333 none repeat scroll 0 0;
-	border: hidden;
-	border-radius: 3px;
-	position: relative;
-}
-
-@font-face {
-	font-family: 'Segment7Standard';
-	src: url(Segment7Standard.otf);
-}
-
-#clk_bg, #txt {
-	margin: 0;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -40%);
-	font: 2.1em 'Segment7Standard', sans-serif;
-	position: absolute;
-}
-
-#clk_bg
-{
-	color:#136e11;
-	text-shadow: 0px 0px 10px rgba(36, 221, 34, 0.6);
-	border: hidden;
-}
-
-#txt
-{
-	color:rgba(36, 221, 34, 0.7);
-	text-shadow: 0 0 0.25em  rgba(36, 221, 34, 0.3), 0 0 0.15em #24dd22;
-}
-
-
 
 #inbox th{
 	text-align: left;
