@@ -12,81 +12,81 @@ $conf.default_slide = "bad_code.pdf"
 # Presentation Slides example
 #$conf.dashboard_grid_layout = '{"timewidget":{"col":"6","row":"1","sizex":"1","sizey":"1"},"mailwidget":{"col":"3","row":"1","sizex":"3","sizey":"1"},"weatherwidget":{"col":"1","row":"5","sizex":"1","sizey":"2"},"calendarwidget":{"col":"1","row":"1","sizex":"2","sizey":"4"},"slides":{"col":"3","row":"2","sizex":"4","sizey":"5"},"linkwidget":{"col":"2","row":"5","sizex":"1","sizey":"2"}}'
 
-s = Seminar.new(
-	title: "Web Application Security",
-	location: "Dresden, Germany",
-	start: "#{Date.today} 09:30"
-)
-s.add_lecture(
-		title: "Einführung und System",# Einführung und HTTP-Grundlagen
-		file: "03-Ebene 1 - System.pdf",
-		duration: 100
-	)
-s.add_break(duration: 5)
-s.add_break(
-	visible: true,
-	title: "Bäcker",
-	duration: 15
-)
-s.add_lecture(
-		title: "Grundlagen", # bis CSRF
-		file: "02-Grundlagen.pdf",
-		duration: 105
-	)
-s.add_break(
-	title: "Mittagessen",
-	visible: true,
-	duration: 45
-)
-s.add_lecture(
-	title: "Grundlagen und Implementierung", # ab Clickjacking bis CORS/Webmessaging
-	file: "02-Grundlagen.pdf",
-	duration: 90
-)
-s.add_break(duration:15)
-s.add_lecture(
-	title: "Grundlagen und Implementierung",# System + Cryptography
-	file: "04-Ebene 3 - Implementierung.pdf",
-	duration: 75
-)
-s.new_day(start:"9:00")
-s.add_lecture(
-	title: "Cryptography",
-	file: "04-Ebene 3 - Implementierung.pdf",
-	duration: 30
-)
-s.add_break(duration:10)
-s.add_lecture(
-	title: "Cross Site Scripting",# Cross Site Scripting #Injection?
-	file: "04-Ebene 3 - Implementierung.pdf",
-	duration: 90
-)
-s.add_break(duration:5)
-s.add_break(
-	visible: true,
-	title: "Bäcker",
-	duration: 15
-)
-s.add_lecture(
-	title: "Implementierung",#Session Fixation, URL Rewrite, Unvalidated Redirects and Forwards
-	file: "04-Ebene 3 - Implementierung.pdf",
-	duration: 105
-)
-s.add_break(
-	title: "Mittagessen",
-	visible: true,
-	duration: 45
-)
-s.add_lecture(
-	title: "Technologie und Logik",#Injection
-	file: "05-Ebene 2 - Technologie.pdf",
-	duration: 60
-)
-s.add_break
-s.add_lecture(
-	title: "Semantik, SDLC",
-	file: "06-Ebene 4 - Logik.pdf",
-	duration: 60
-)
+# s = Seminar.new(
+# 	title: "Web Application Security",
+# 	location: "Dresden, Germany",
+# 	start: "#{Date.today} 09:30"
+# )
+# s.add_lecture(
+# 		title: "Einführung und System",# Einführung und HTTP-Grundlagen
+# 		file: "03-Ebene 1 - System.pdf",
+# 		duration: 100
+# 	)
+# s.add_break(duration: 5)
+# s.add_break(
+# 	visible: true,
+# 	title: "Bäcker",
+# 	duration: 15
+# )
+# s.add_lecture(
+# 		title: "Grundlagen", # bis CSRF
+# 		file: "02-Grundlagen.pdf",
+# 		duration: 105
+# 	)
+# s.add_break(
+# 	title: "Mittagessen",
+# 	visible: true,
+# 	duration: 45
+# )
+# s.add_lecture(
+# 	title: "Grundlagen und Implementierung", # ab Clickjacking bis CORS/Webmessaging
+# 	file: "02-Grundlagen.pdf",
+# 	duration: 90
+# )
+# s.add_break(duration:15)
+# s.add_lecture(
+# 	title: "Grundlagen und Implementierung",# System + Cryptography
+# 	file: "04-Ebene 3 - Implementierung.pdf",
+# 	duration: 75
+# )
+# s.new_day(start:"9:00")
+# s.add_lecture(
+# 	title: "Cryptography",
+# 	file: "04-Ebene 3 - Implementierung.pdf",
+# 	duration: 30
+# )
+# s.add_break(duration:10)
+# s.add_lecture(
+# 	title: "Cross Site Scripting",# Cross Site Scripting #Injection?
+# 	file: "04-Ebene 3 - Implementierung.pdf",
+# 	duration: 90
+# )
+# s.add_break(duration:5)
+# s.add_break(
+# 	visible: true,
+# 	title: "Bäcker",
+# 	duration: 15
+# )
+# s.add_lecture(
+# 	title: "Implementierung",#Session Fixation, URL Rewrite, Unvalidated Redirects and Forwards
+# 	file: "04-Ebene 3 - Implementierung.pdf",
+# 	duration: 105
+# )
+# s.add_break(
+# 	title: "Mittagessen",
+# 	visible: true,
+# 	duration: 45
+# )
+# s.add_lecture(
+# 	title: "Technologie und Logik",#Injection
+# 	file: "05-Ebene 2 - Technologie.pdf",
+# 	duration: 60
+# )
+# s.add_break
+# s.add_lecture(
+# 	title: "Semantik, SDLC",
+# 	file: "06-Ebene 4 - Logik.pdf",
+# 	duration: 60
+# )
 
-$conf.events = s
+# $conf.events = s

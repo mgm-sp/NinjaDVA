@@ -347,3 +347,22 @@ td {
 	filter: grayscale(0%); /* Standard */
 	-webkit-filter: grayscale(0%); /* Webkit */
 }
+
+#admcaleventedit fieldset {
+   border: none;
+   display: inline-block;
+   width: auto;
+}
+
+#admcaleventedit fieldset span{
+    float: right;
+}
+
+#admcaleventedit p {
+ margin-bottom: 10px;
+}
+
+#admcaleventedit input[type="color" i]{
+ height: 1.5em;
+}
+
