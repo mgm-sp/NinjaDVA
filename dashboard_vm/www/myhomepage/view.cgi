@@ -11,7 +11,8 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$con
 	page = YAML::load_file("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml")
 
 	puts page[:header].lines[0].gsub(/^HTTP\/.* (\d\d\d).*$/,'Status: \1')
-	puts page[:header].lines[1..-1].join
+	puts page[:header].lines[1..-1].join.strip
+	puts
 	puts page[:contents]
 
 	require "csv"
