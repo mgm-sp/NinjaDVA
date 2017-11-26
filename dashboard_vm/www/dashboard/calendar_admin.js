@@ -129,7 +129,7 @@ $(document).ready(function() {
                         "<p><h3>Edit Event</h3></p>" +
                         '<p><label for="admcaltitle">Title:</label><span><input id="admcaltitle"></span></p>' +
                         '<p><label for="admcalurl">URL:</label><span><input id="admcalurl" type="url"></span></p>' +
-                        '<p><label for="admcalcolor">Color:</label><span><input id="admcalcolor" type="color"><input type="checkbox" id="admcalusecolor">custom</input></span></p>' +
+                        '<p><label for="admcalcolor">Color:</label><span><input id="admcalcolor" type="color"><input type="checkbox" id="admcalusecolor"><label for="admcalusecolor">Custom</label></input></span></p>' +
                         '<p><button type="button" id="admcalsave">Save Event</button><button type="button" id="admcaldismiss">Dismiss</button></p>' +
                         "</fieldset>" +
                         "</div>";
@@ -201,7 +201,7 @@ $(document).ready(function() {
                     '<p><label for="admcaltitle">Date:</label><span><input type="date" id="admcaldate"></span></p>' +
                     '<p><label for="admcaltitle">Title:</label><span><input id="admcaltitle"></span></p>' +
                     '<p><label for="admcalurl">URL:</label><span><input id="admcalurl" type="url"></span></p>' +
-                    '<p><label for="admcalcolor">Color:</label><span><input id="admcalcolor" type="color"><input type="checkbox" id="admcalusecolor">custom</input></span></p>' +
+                    '<p><label for="admcalcolor">Color:</label><span><input id="admcalcolor" type="color"><input type="checkbox" id="admcalusecolor"><label for="admcalusecolor">Custom</label></input></span></p>' +
                     '<p><button type="button" id="admcalsave">Save Event</button><button type="button" id="admcaldismiss">Dismiss</button></p>' +
                     "</fieldset>" +
                     "</div>";
