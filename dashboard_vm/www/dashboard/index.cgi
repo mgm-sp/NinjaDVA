@@ -150,7 +150,6 @@ h << "<!-- END CALENDAR WIDGET -->"
 
 
 h.add_script_file("slides.js")
-h.add_script_file("calendar_admin.js")
 h << <<SLIDES
 
 <!-- BEGIN SLIDES WIDGET -->
@@ -218,11 +217,12 @@ h << <<CSS
 </style>
 CSS
 
+h.add_script_file("admin.js")
 h << <<FOOTER
 <div id=footer>
 <div id="ft_cont">
 	<div> <a href="https://www.mgm-sp.com/impressum/">Imprint</a> </div>
-	<div> <a href="?ping">(c)</a> 2016 mgm security p<div id="hiddenadmin">a</div>rtners GmbH </div>
+	<div> <a href="?ping">(c)</a> 2016 mgm security p<a href='javascript:toggleAdminInterface()'>a</a>rtners GmbH </div>
 	<div><ul id="icons">
 FOOTER
 $conf.links.each{|l|

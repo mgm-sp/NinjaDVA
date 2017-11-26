@@ -7,6 +7,7 @@ class NinjaDVA
 		options[:ninjadva_dir] ||= ".."
 		options[:challenge_descriptions_dir] ||= "./ninjadva/challenge-descriptions/"
 		options[:dashboard_widgets_dir] ||= "./ninjadva/dashboard-widgets/"
+		options[:dashboard_admin_widgets_dir] ||= "./ninjadva/dashboard-admin/"
 		options[:link_widget_links] ||= [{ hostname: config.vm.hostname, name: config.vm.hostname }]
 
 		# add a interface to the vm that is in the same internal network like the gateway vm
@@ -42,6 +43,9 @@ class NinjaDVA
 				widget_list = Dir.glob(options[:dashboard_widgets_dir] + "/*.html")
 				FileUtils.cp(widget_list, dashboard_dir + "dashboard-widgets/")
 
+				admin_widget_list = Dir.glob(options[:dashboard_admin_widgets_dir] + "/*.html")
+				FileUtils.cp(admin_widget_list, dashboard_dir + "dashboard-admin/")
+
 				# add host to list of available favourite links
 				linkfile = "#{dashboard_dir}/dashboard-widgets/available_favourite_links.yaml"
 				require "yaml"
@@ -69,6 +73,13 @@ class NinjaDVA
 					file_name = File.basename(file)
 					puts " - " + file_name
 					path_to_file = dashboard_dir + "dashboard-widgets/" + file_name
+					FileUtils.rm(path_to_file) if File.exist?(path_to_file)
+				}
+
+				Dir.glob(options[:dashboard_admin_widgets_dir] + "/*.html").each{|file|
+					file_name = File.basename(file)
+					puts " - " + file_name
+					path_to_file = dashboard_dir + "dashboard-admin/" + file_name
 					FileUtils.rm(path_to_file) if File.exist?(path_to_file)
 				}
 

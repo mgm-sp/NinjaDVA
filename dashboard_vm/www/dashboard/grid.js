@@ -62,8 +62,11 @@ function get_current_grid_layout(){
 	return(layout);
 }
 
+// this global variable should be in sync with the current state
+// if user or admin view is shown
+var grid_store_suffix = "user";
 function save_grid_layout_to_localstorage(){
-	window.localStorage.setItem('gridster-'+document.location.pathname,JSON.stringify(get_current_grid_layout()));
+	window.localStorage.setItem('gridster-'+document.location.pathname+grid_store_suffix,JSON.stringify(get_current_grid_layout()));
 	$(".gridnav").hide();
 }
 
@@ -74,7 +77,7 @@ function revert_grid_layout_to_server(){
 }
 
 function grid_layout_from_localstorage(){
-	gridlayout = JSON.parse(window.localStorage.getItem('gridster-'+document.location.pathname));
+	gridlayout = JSON.parse(window.localStorage.getItem('gridster-'+document.location.pathname+grid_store_suffix));
 	if (gridlayout) {
 		set_grid_layout(gridlayout);
 	}

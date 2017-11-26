@@ -64,6 +64,7 @@ Vagrant.configure("2") do |config|
 	config.vm.synced_folder "./config", "/var/www/config", mount_options: ["dmode=777,fmode=666"]
 	config.vm.synced_folder "./challenge-descriptions", "/var/www/challenge-descriptions"
 	config.vm.synced_folder "./dashboard-widgets", "/var/www/dashboard-widgets/"
+	config.vm.synced_folder "./dashboard-admin", "/var/www/dashboard-admin/"
 
 
 	# reload the network configuration
