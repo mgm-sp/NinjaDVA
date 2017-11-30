@@ -220,11 +220,12 @@ h << <<CSS
 </style>
 CSS
 
+h.add_script_file("admin.js")
 h << <<FOOTER
 <div id=footer>
 <div id="ft_cont">
 	<div> <a href="https://www.mgm-sp.com/impressum/">Imprint</a> </div>
-	<div> <a href="?ping">(c)</a> 2016 mgm security partners GmbH </div>
+	<div> <a href="?ping">(c)</a> 2016 mgm security p<a id='toggleAdminInterface' href='javascript:toggleAdminInterface()'>a</a>rtners GmbH </div>
 	<div><ul id="icons">
 FOOTER
 $conf.links.each{|l|
