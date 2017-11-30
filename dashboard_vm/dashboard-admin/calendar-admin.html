@@ -13,15 +13,16 @@
  */
 
 var stopEdit = function (){
-	// FIXME: needs to be called on remove of $("#admincalendar_content")
 	$("#calendar").fullCalendar("option", {
 		editable: false,
 		eventClick: function(oCalendarEvent) {
 			return true;
 		}
 	});
+	$("#toggleAdminInterface").off("click.calendarAdmin");
 };
 
+$("#toggleAdminInterface").on("click.calendarAdmin",stopEdit);
 
 //function enable save button
 var fnEnableSaveButton = function() {
