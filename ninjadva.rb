@@ -60,41 +60,43 @@ class NinjaDVA
 			end
 
 			# delete all challenges/widgets included in this vm from the dashboard vm
-			config.trigger.after :halt do
-				puts "Deleting challenges:"
-				Dir.glob(options[:challenge_descriptions_dir] + "/*.yaml").each{|file|
-					file_name = File.basename(file)
-					puts " - " + file_name
-					path_to_file = dashboard_dir + "challenge-descriptions/" + file_name
-					FileUtils.rm(path_to_file) if File.exist?(path_to_file)
-				}
-				puts "Deleting widgets:"
-				Dir.glob(options[:dashboard_widgets_dir] + "/*.html").each{|file|
-					file_name = File.basename(file)
-					puts " - " + file_name
-					path_to_file = dashboard_dir + "dashboard-widgets/" + file_name
-					FileUtils.rm(path_to_file) if File.exist?(path_to_file)
-				}
+			[:halt,:destroy].each do |trigger|
+				config.trigger.after trigger do
+					puts "Deleting challenges:"
+					Dir.glob(options[:challenge_descriptions_dir] + "/*.yaml").each{|file|
+						file_name = File.basename(file)
+						puts " - " + file_name
+						path_to_file = dashboard_dir + "challenge-descriptions/" + file_name
+						FileUtils.rm(path_to_file) if File.exist?(path_to_file)
+					}
+					puts "Deleting widgets:"
+					Dir.glob(options[:dashboard_widgets_dir] + "/*.html").each{|file|
+						file_name = File.basename(file)
+						puts " - " + file_name
+						path_to_file = dashboard_dir + "dashboard-widgets/" + file_name
+						FileUtils.rm(path_to_file) if File.exist?(path_to_file)
+					}
 
-				Dir.glob(options[:dashboard_admin_widgets_dir] + "/*.html").each{|file|
-					file_name = File.basename(file)
-					puts " - " + file_name
-					path_to_file = dashboard_dir + "dashboard-admin/" + file_name
-					FileUtils.rm(path_to_file) if File.exist?(path_to_file)
-				}
+					Dir.glob(options[:dashboard_admin_widgets_dir] + "/*.html").each{|file|
+						file_name = File.basename(file)
+						puts " - " + file_name
+						path_to_file = dashboard_dir + "dashboard-admin/" + file_name
+						FileUtils.rm(path_to_file) if File.exist?(path_to_file)
+					}
 
-				# delete host from list of available favourite links
-				linkfile = "#{dashboard_dir}/dashboard-widgets/available_favourite_links.yaml"
-				require "yaml"
-				if File.exists?(linkfile)
-					currentlinks = YAML::load_file(linkfile)
-				else
-					currentlinks = []
+					# delete host from list of available favourite links
+					linkfile = "#{dashboard_dir}/dashboard-widgets/available_favourite_links.yaml"
+					require "yaml"
+					if File.exists?(linkfile)
+						currentlinks = YAML::load_file(linkfile)
+					else
+						currentlinks = []
+					end
+					options[:link_widget_links].each{|link|
+						currentlinks.delete(link)
+					}
+					File.open(linkfile,"w") {|f| f << currentlinks.to_yaml }
 				end
-				options[:link_widget_links].each{|link|
-					currentlinks.delete(link)
-				}
-				File.open(linkfile,"w") {|f| f << currentlinks.to_yaml }
 			end
 		end
 	end
