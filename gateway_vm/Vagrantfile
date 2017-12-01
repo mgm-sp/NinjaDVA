@@ -3,6 +3,11 @@
 
 # ninjaDVA Gateway
 
+def provisionFile(config, from, to, options={mode: "775"})
+	config.vm.provision "file", source: from, destination: "/tmp/#{File.basename(from)}"
+	config.vm.provision "shell", inline: "install -m #{options[:mode]} /tmp/#{File.basename(from)} #{to}"
+end
+
 Vagrant.configure("2") do |config|
 	config.vm.define "gateway"
 
@@ -58,15 +63,8 @@ Vagrant.configure("2") do |config|
 	########### copy files to vm
 
 	# copy network interfaces definition and hosts file to vm
-	config.vm.provision "file", source: "./interfaces", destination: "/tmp/tmp_provision/interfaces"
-	config.vm.provision "file", source: "./dnsmasq.conf", destination: "/tmp/tmp_provision/dnsmasq.conf"
-
-	# move files to their destination
-	config.vm.provision "shell", inline: <<~END
-		cd /tmp/tmp_provision/
-		install -o root -g root interfaces /etc/network/interfaces
-		install -o root -g root dnsmasq.conf /etc/dnsmasq.d/dnsmasq.conf
-	END
+	provisionFile(config,"interfaces","/etc/network/interfaces")
+	provisionFile(config,"dnsmasq.conf","/etc/dnsmasq.d/dnsmasq.conf")
 
 	# reload the network configuration
 	config.vm.provision "shell", inline: <<~END
