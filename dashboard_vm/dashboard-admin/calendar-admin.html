@@ -118,6 +118,7 @@ $("#calendar").fullCalendar("option", {
 			'<p><label for="admcalurl">URL:</label><span><input id="admcalurl" type="url"></span></p>' +
 			'<p><label for="admcalcolor">Color:</label><span><input id="admcalcolor" type="color"><input type="checkbox" id="admcalusecolor"><label for="admcalusecolor">Custom</label></input></span></p>' +
 			'<p><button type="button" id="admcalsave">Save Event</button><button type="button" id="admcaldismiss">Dismiss</button></p>' +
+			'<p><button type="button" id="admcaldelete">Delete Event</button></p>' +
 			"</fieldset>" +
 			"</div>";
 		$("#admincalendar_content").append(sEventEditForm);
@@ -135,6 +136,14 @@ $("#calendar").fullCalendar("option", {
 		//set clickhandler for dismiss button
 		$("#admcaldismiss").click(function() {
 			$("#admcaleventedit").remove();
+		});
+
+		//set clickhandler for delete event button
+		$("#admcaldelete").click(function() {
+			$("#calendar").fullCalendar("removeEvents",oCalendarEvent._id);
+			$("#admcaleventedit").remove();
+			//enable save button
+			fnEnableSaveButton();
 		});
 
 		//set clickhandler for colorcheckbox
