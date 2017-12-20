@@ -1,0 +1,50 @@
+<div>
+	<h1>Admin Files</h1>
+	<p>Click on a file to add a link to Schedule Event or Favorite Links</p>
+	<ul id="admfileslist"></ul>
+</div>
+
+<style type="text/css">
+	#admfileslist {
+		list-style-type: square;
+		padding-left: 20px;
+		cursor: copy;
+	}
+</style>
+
+<script type='text/javascript'>
+// <![CDATA[
+/*********************************************************
+ * File admin JS --- lists all available files
+ *********************************************************
+ */
+//define clickhandler for files
+var fnClickHandler = function(e){
+	sFileName = $(this).text();
+	sFileURL = 'javascript:chooseMaterial("' + sFileName + '")';
+	$("#admcalurl").val(sFileURL);
+	//TODO: add the file-link to links admin too
+}
+
+//define list adder function
+var fnAddFilesToList = function(oJSON){
+	console.log(oJSON);
+	for (let sFile of oJSON){
+		$("#admfileslist").append("<li>"+sFile+"</li>");
+	}
+	$("#admfileslist li").click(fnClickHandler);
+};
+
+// define file getter function
+var fnGetFilesFromServer = function() {
+	sUrl = "http://dashboard.mgmsp-lab.com/admin/get_files.cgi";
+	oJSONObjects = $.getJSON(sUrl, fnAddFilesToList);
+};
+
+//trigger getting files when document ready
+$(document).ready(function() {
+	fnGetFilesFromServer();
+});
+
+// ]]>
+</script>

@@ -1,0 +1,32 @@
+<div>
+	<h1>Admin Layout</h1>
+	<button type="button" id="admsavelayout">Save User Layout to Server</button>
+</div>
+
+<script type='text/javascript'>
+// <![CDATA[
+/*********************************************************
+ * Layout admin JS --- saves user layout tot server
+ *********************************************************
+ */
+
+//define save to server function
+var fnSaveLayoutToServer = function() {
+	console.log("saving layout to server");
+	// create and send the save request
+	var oXhr = new XMLHttpRequest();
+	oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
+	var oFormData = new FormData();
+	var sUrl = "http://dashboard.mgmsp-lab.com/admin/update_layout.cgi";
+	oFormData.append("layout", localStorage.getItem("gridster-/user"));
+	oXhr.open("POST", sUrl);
+	oXhr.send(oFormData);
+};
+
+// set clickhandler for calendar save button
+$("#admsavelayout").click(function() {
+	fnSaveLayoutToServer();
+});
+
+// ]]>
+</script>
