@@ -1,7 +1,7 @@
 <div id='admincalendar_content'>
 	<h1>Admin Calendar</h1>
 	<button type="button" id="calendarsave" disabled>Save to Server</button>
-	<button type="button" id="calendarcancel" disabled>Cancel</button>
+	<button type="button" id="calendarcancel" disabled>Cancel</button><br>
 	<hr>
 	<button type="button" id="calendaraddevent">Add Event</button>
 </div>
@@ -84,12 +84,11 @@ $("#calendar").fullCalendar("option", {
 	eventDrop: fnCalendarEventHandler,
 	eventResize: fnCalendarEventHandler
 });
-
 //enable calendar edit mode
 $("#calendar").fullCalendar("option", { editable: true });
 
 //set selection granularity to 15 min
-$("#calendar").fullCalendar("option", { snapDuration: "00:15:00" });
+$("#calendar").fullCalendar("option", { snapDuration: "00:05:00"});
 
 // set clickhandler for calendar save button
 $("#calendarsave").click(function() {

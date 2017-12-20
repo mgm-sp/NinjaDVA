@@ -6,7 +6,12 @@ require "cgi"
 require "json"
 $cgi = CGI.new
 
-sJsonPlain = File.read("#{$conf.dbdir_absolute}/layout.json")
-sJson = JSON.parse(sJsonPlain).to_json()
+if File.exists?("#{$conf.dbdir_absolute}/layout.json")
+    sJsonPlain = File.read("#{$conf.dbdir_absolute}/layout.json")
+    sJson = JSON.parse(sJsonPlain).to_json()
+else
+    sJson = "[]"
+end
+
 
 $cgi.out({ "content-type" => "application/json" }){sJsonPlain}
