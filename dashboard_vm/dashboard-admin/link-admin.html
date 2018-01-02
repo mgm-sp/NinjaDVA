@@ -1,0 +1,171 @@
+<div>
+	<h1>Admin Links</h1>
+	<p>available VMs:</p>
+	<ul id="admlinkvmlist"></ul>
+	<p>Links:</p>
+	<ul id="admlinklinklist"></ul>
+	<hr/>
+	<p>
+		<button type="button" id="admlinkaddcustomlinks">+</button>
+		<button type="button" id="admlinksavetoserver">Save to Server</button>
+	</p>
+
+</div>
+
+
+<script type='text/javascript'>
+	// <![CDATA[
+	/*********************************************************
+	 * Link admin JS --- helps you manage the links
+	 *********************************************************
+	 */
+
+	//define save to server function
+	var fnSaveLinksToServer = function () {
+		//collecting link data
+		aLinks = [];
+		$("#admlinklinklist").children("li").each(function(){
+			oLink = {};
+			oLink.name = $(this).find(".admlinkname").val();
+			oLink.href = $(this).find(".admlinkurl").val();
+			oLink.active = $(this).find(".admlinkactive").is(":checked");
+			aLinks.push(oLink);
+		});
+
+		// create and send the save request
+		var oXhr = new XMLHttpRequest();
+		oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
+		var oFormData = new FormData();
+		var sUrl = "http://dashboard.mgmsp-lab.com/admin/update_links.cgi";
+		oFormData.append("links", JSON.stringify(aLinks)); //TODO: create the link object
+		oXhr.open("POST", sUrl);
+		oXhr.send(oFormData);
+	};
+
+
+	// define function that creates a adm link list item to be
+	// able to call it from different spots
+	let fnCreateAdmLinkListItem = function (oLink) {
+		sCheckedOption = oLink.active == true ? "checked" : "";
+		sListItem = '<li><input type="checkbox" class="admlinkactive" ' + sCheckedOption +
+			'><input type="text" class="admlinkname" value="' + oLink.name + '"><input type="text" class="admlinkurl" value="' +
+			oLink.href +
+			'"><button class="admlinkdel" type="button">X</button><button class="admlinkup" type="button">&#x25B2;</button><button class="admlinkdown" type="button">&#x25BC;</button></li>';
+		return sListItem;
+	}
+
+	// define a function that adds the handlers to all link list items
+	// you have to call this function whenever you add an item to the list
+	let fnSetAdmLinkListHandlers = function () {
+		// remove all old click handlers in advance
+		$(".admlinkdel").unbind("click");
+		$(".admlinkup").unbind("click");
+		$(".admlinkdown").unbind("click");
+
+
+		//set delete handler
+		$(".admlinkdel").click(function () {
+			$(this).parent().remove();
+		});
+
+		//set up handler
+		$(".admlinkup").click(function () {
+			// check that it is not the first element
+			oPrevElement = $(this).parent().prev();
+			if (oPrevElement.length > 0) {
+				//move item before parent element
+				$(this).parent().insertBefore(oPrevElement);
+			}
+		});
+		//set down handler
+		$(".admlinkdown").click(function () {
+			// check that it is not the last element
+			oNextElement = $(this).parent().next();
+			if (oNextElement.length > 0) {
+				//move item after parent element
+				$(this).parent().insertAfter(oNextElement);
+			}
+		});
+	};
+
+	//define list handler that adds links and vms to list
+	var fnAddLinksToList = function (oJson) {
+
+		// handle links
+		if (oJson.links) {
+			for (let oLink of oJson.links) {
+				sListItem = fnCreateAdmLinkListItem(oLink);
+
+				// add dom element to list
+				$("#admlinklinklist").append(sListItem);
+			}
+			//set link list item handlers
+			fnSetAdmLinkListHandlers();
+		}
+		//monkey fix -- TODO: find a better solution
+		// add myhomepage what is not part of available vms yaml
+		oMyHomepage = {
+			"hostname":"myhomepage",
+			"name":"My Homepage",
+			"href":"http://myhomepage.mgmsp-lab.com/"
+			};
+		oJson.vms.unshift(oMyHomepage);
+
+		// handle available vms
+		if (oJson.vms) {
+			for (let oVm of oJson.vms) {
+				sListItem = '<li><button type="button" class="admlinkvmadd">+</button><span class="admlinkvmname">' + oVm.name +
+					'</span><span style="display: none;" class="admlinkvmhref">' + oVm.href + '</span></li>'
+				// add dom element to list
+				$("#admlinkvmlist").append(sListItem);
+			}
+			//add handler for clicking plus
+			$(".admlinkvmadd").click(function () {
+				let oLink = {};
+				oLink.name = $(".admlinkvmname", $(this).parent()).text();
+				oLink.href = $(".admlinkvmhref", $(this).parent()).text();
+				oLink.active = true;
+				//create link list item
+				sListItem = fnCreateAdmLinkListItem(oLink);
+				//add link list item to list
+				$("#admlinklinklist").append(sListItem);
+				// set link list items handlers
+				fnSetAdmLinkListHandlers();
+			});
+
+		}
+	};
+
+	// define add new custom link button handler
+	$("#admlinkaddcustomlinks").click(function () {
+		oLink = {
+			"name": "",
+			"href": "",
+			"active": false
+		};
+		sListItem = fnCreateAdmLinkListItem(oLink);
+		// add empty list element
+		$("#admlinklinklist").append(sListItem);
+		// set link list items handlers
+		fnSetAdmLinkListHandlers();
+	});
+
+	// define file getter function
+	var fnGetLinksFromServer = function () {
+		sUrl = "http://dashboard.mgmsp-lab.com/admin/get_links.cgi";
+		oJSONObjects = $.getJSON(sUrl, fnAddLinksToList);
+	};
+
+	//define save to server button click handler
+	$("#admlinksavetoserver").click(function(){
+		fnSaveLinksToServer();
+	});
+
+	// fill lists
+	$(document).ready(function () {
+		fnGetLinksFromServer();
+	});
+
+
+	// ]]>
+</script>

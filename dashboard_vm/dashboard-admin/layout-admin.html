@@ -12,7 +12,6 @@
 
 //define save to server function
 var fnSaveLayoutToServer = function() {
-	console.log("saving layout to server");
 	// create and send the save request
 	var oXhr = new XMLHttpRequest();
 	oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
