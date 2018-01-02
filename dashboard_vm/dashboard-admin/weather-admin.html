@@ -1,0 +1,96 @@
+<div>
+	<h1>Admin Weather</h1>
+	<div id="admweatheredit">
+		<fieldset>
+			<p>
+				<label for="admweathertitle">Title:</label>
+				<span>
+					<input id="admweathertitle">
+				</span>
+			</p>
+			<p>
+				<label for="admweatherlocation">Location Code:</label>
+				<span>
+					<input id="admweatherlocation">
+				</span>
+			</p>
+			<p>
+				<label for="admweatherimageurl">Image-URL:</label>
+				<span>
+					<input id="admweatherimageurl">
+				</span>
+			</p>
+		</fieldset>
+	</div>
+	<button type="button" id="admweathersave">Save to Server</button>
+</div>
+<style type="text/css">
+	#admweatheredit fieldset {
+		border: none;
+		display: inline-block;
+		width: auto;
+	}
+
+	#admweatheredit fieldset span {
+		float: right;
+	}
+
+	#admweatheredit p {
+		margin-bottom: 10px;
+	}
+</style>
+
+<script type='text/javascript'>
+	// <![CDATA[
+	/*********************************************************
+	 * weather admin JS --- configure weather widget
+	 *********************************************************
+	 */
+
+
+	//define save to server handler
+	var fnSaveWeatherToServer = function () {
+		//collect the data
+		var oWeather = {}
+		oWeather.title = $("#admweathertitle").val();
+		oWeather.locationcode = $("#admweatherlocation").val();
+		sImageUrl = $("#admweatherimageurl").val();
+		if (sImageUrl) {
+			oWeather.imageurl = sImageUrl;
+		}
+
+		// create and send the save request
+		var oXhr = new XMLHttpRequest();
+		oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
+		var oFormData = new FormData();
+		var sUrl = "http://dashboard.mgmsp-lab.com/admin/update_weather.cgi";
+		oFormData.append("weather", JSON.stringify(oWeather));
+		oXhr.open("POST", sUrl);
+		oXhr.send(oFormData);
+	};
+
+	//define list adder function
+	var fnAddWeatherConfigToForm = function (oJSON) {
+		$("#admweathertitle").val(oJSON.title);
+		$("#admweatherlocation").val(oJSON.locationcode);
+		$("#admweatherimageurl").val((oJSON.hasOwnProperty("imageurl") ? oJSON.imageurl : ""));
+	};
+
+	// define weather config getter function
+	var fnGetWeatherFromServer = function () {
+		sUrl = "http://dashboard.mgmsp-lab.com/admin/get_weather.cgi";
+		oJSONObjects = $.getJSON(sUrl, fnAddWeatherConfigToForm);
+	};
+
+	//trigger getting weather config when document ready
+	$(document).ready(function () {
+		fnGetWeatherFromServer();
+	});
+
+	// add clickhandler fpr save to server button
+	$("#admweathersave").click(function(){
+		fnSaveWeatherToServer();
+	});
+
+	// ]]>
+</script>

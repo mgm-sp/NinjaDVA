@@ -54,17 +54,19 @@ Dir.glob("../dashboard-widgets/*.html").each{|htmlfile|
 }
 
 
+oWeather = JSON.parse(File.read("#{$conf.dbdir_absolute}/weather.json"))
+
 h << <<WEATHERWIDGET
 <!-- BEGIN WEATHER WIDGET -->
 <div id='weatherwidget' class='widget' data-row="4" data-col="2" data-sizex="2" data-sizey="1">
 <div>
-<h1>#{$conf.location}</h1>
+<h1>#{oWeather["title"]}</h1>
 WEATHERWIDGET
-if File.exists?("#{$conf.cloudfiles}/#{$conf.location}.jpg")
-	h << "<div id='weather_background' style=\"background-image: url('http://clonecloud.#{$conf.domain}/files/#{$conf.location}.jpg');\">"
+if oWeather.has_key?("imageurl")
+	h << "<div id='weather_background' style=\"background-image: url('#{oWeather["imageurl"]}');\">"
 end
 h << "<div id='weather'></div>"
-if File.exists?("#{$conf.cloudfiles}/#{$conf.location}.jpg")
+if oWeather.has_key?("imageurl")
 	h << "</div>"
 end
 h << "</div>"
@@ -73,7 +75,7 @@ h.add_script_file("jquery.simpleWeather.min.js")
 h.add_script <<JS
 function updateWeather (){
 	$.simpleWeather({
-		location: '#{$conf.location}',
+		location: '#{oWeather["locationcode"]}',
 		unit: 'c',
 		success: function(weather) {
 			html = '<h2><i class="icon-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h2>';
