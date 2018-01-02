@@ -176,15 +176,8 @@ h << <<LINK
 <ul id='fav' style='position: inline'>
 LINK
 
-if File.exists?("#{INSTALLDIR}/dashboard-widgets/available_favourite_links.yaml")
-	add_links = YAML::load_file("#{INSTALLDIR}/dashboard-widgets/available_favourite_links.yaml")
-	add_links.each{|linkhash|
-		linkhash[:href] = "http://#{linkhash[:hostname]}.#{$conf.domain}"
-	}
-	$conf.links += add_links
-end
-
 #get links from json
+$conf.links = [] # TODO: find a better solution to ignore the links defined in conf file
 if File.exists?("#{$conf.dbdir_absolute}/links.json")
 	add_links = []
 	json_links = JSON.parse(File.read("#{$conf.dbdir_absolute}/links.json"), :symbolize_names => true)
