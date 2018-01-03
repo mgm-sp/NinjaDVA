@@ -183,7 +183,7 @@ h << <<LINK
 LINK
 
 #get links from json
-$conf.links = [] # TODO: find a better solution to ignore the links defined in conf file
+links = []
 if File.exists?("#{$conf.dbdir_absolute}/links.json")
 	add_links = []
 	json_links = JSON.parse(File.read("#{$conf.dbdir_absolute}/links.json"), :symbolize_names => true)
@@ -192,10 +192,10 @@ if File.exists?("#{$conf.dbdir_absolute}/links.json")
 			add_links.push(linkhash)
 		end
 	}
-	$conf.links += add_links
+	links += add_links
 end
 
-$conf.links.each{|l|
+links.each{|l|
 	h << "<li><a href='#{l[:href]}'>"
 	unless l[:noicon]
 		h << "<img alt='#{l[:name][0]}' src='#{l[:icon] ? l[:icon] : l[:href]+"/favicon.ico"}' height='8' />&nbsp;"
@@ -240,7 +240,7 @@ h << <<FOOTER
 	<div> <a href="?ping">(c)</a> 2016 mgm security p<a id='toggleAdminInterface' href='javascript:toggleAdminInterface()'>a</a>rtners GmbH </div>
 	<div><ul id="icons">
 FOOTER
-$conf.links.each{|l|
+links.each{|l|
 	unless l[:noicon]
 		h << "<li><a href='#{l[:href]}' title='#{l[:name]}'>"
 		if l[:icon]
