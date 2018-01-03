@@ -1,0 +1,86 @@
+<div>
+	<h1>Admin Calendar Config</h1>
+	<div id="admcalconfedit">
+		<fieldset>
+			<p>
+				<label for="admcalconfdaystart">Day Start:</label>
+				<span>
+					<input id="admcalconfdaystart" type="time">
+				</span>
+			</p>
+			<p>
+				<label for="admcalconfslotduration">Slot Duration:</label>
+				<span>
+					<input id="admcalconfslotduration" type="time" step="1">
+				</span>
+			</p>
+		</fieldset>
+	</div>
+	<button type="button" id="admcalconfsave">Save to Server</button>
+</div>
+<style type="text/css">
+	#admcalconfedit fieldset {
+		border: none;
+		display: inline-block;
+		width: auto;
+	}
+
+	#admcalconfedit fieldset span {
+		float: right;
+	}
+
+	#admcalconfedit p {
+		margin-bottom: 10px;
+	}
+</style>
+
+<script type='text/javascript'>
+	// <![CDATA[
+	/*********************************************************
+	 * calendar config admin JS --- configure the
+	 * configuration of the calendar widget
+	 *********************************************************
+	 */
+
+
+	//define save to server handler
+	var fnSaveCalendarConfToServer = function () {
+		//collect the data
+		var oCalendarConf = {}
+		oCalendarConf.dayStart = $("#admcalconfdaystart").val();
+		oCalendarConf.slotDuration = $("#admcalconfslotduration").val();
+
+		// create and send the save request
+		var oXhr = new XMLHttpRequest();
+		oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
+		var oFormData = new FormData();
+		var sUrl = "http://dashboard.mgmsp-lab.com/admin/update_calendarconf.cgi";
+		oFormData.append("calendarconf", JSON.stringify(oCalendarConf));
+		oXhr.open("POST", sUrl);
+		oXhr.send(oFormData);
+	};
+
+	//define list adder function
+	var fnAddCalendarConfigToForm = function (oJSON) {
+		$("#admcalconfdaystart").val(oJSON.dayStart);
+		$("#admcalconfslotduration").val(oJSON.slotDuration);
+	};
+
+	// define calendar config getter function
+	var fnGetCalendarConfFromServer = function () {
+		sUrl = "http://dashboard.mgmsp-lab.com/admin/get_calendarconf.cgi";
+		oJSONObjects = $.getJSON(sUrl, fnAddCalendarConfigToForm);
+	};
+
+	//trigger getting calendar config when document ready
+	$(document).ready(function () {
+		fnGetCalendarConfFromServer();
+	});
+
+	// add clickhandler fpr save to server button
+	$("#admcalconfsave").click(function(){
+		fnSaveCalendarConfToServer();
+	});
+
+	// ]]>
+</script>

@@ -4,7 +4,7 @@ require_relative "../../config_defaults"
 require "cgi"
 require "json"
 
-sPathToJson = "#{$conf.dbdir_absolute}/weather.json"
+sPathToJson = "#{$conf.dbdir_absolute}/calendarconf.json"
 oResult = JSON[{}]
 
 if File.exists?(sPathToJson)

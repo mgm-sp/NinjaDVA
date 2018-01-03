@@ -110,6 +110,15 @@ h << <<CALENDARWIDGET
 <!-- BEGIN CALENDAR WIDGET -->
 CALENDARWIDGET
 
+
+if File.exists?("#{$conf.dbdir_absolute}/calendarconf.json")
+	oCalendarConf = JSON.parse(File.read("#{$conf.dbdir_absolute}/calendarconf.json"))
+else
+	# set default configuration if json is not existent
+	oCalendarConf = {"dayStart"=>"09:00", "slotDuration"=>"00:30:00"}
+end
+
+
 h << <<CALENDARWIDGET
 <div id='calendarwidget' class='widget' data-row="1" data-col="1" data-sizex="2" data-sizey="3">
 <div>
@@ -146,8 +155,8 @@ $(document).ready(function() {
 		editable: false,
 		eventLimit: true, // allow "more" link when too many events
 		nowIndicator: true,
-		scrollTime: "#{$conf.dayStart}",
-		slotDuration: '#{$conf.default_slot_duration}',
+		scrollTime: "#{oCalendarConf["dayStart"]}",
+		slotDuration: '#{oCalendarConf["slotDuration"]}',
 		events: "events.cgi"
 	});
 });
