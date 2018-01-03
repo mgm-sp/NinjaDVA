@@ -51,7 +51,8 @@
 			'><input type="text" class="admlinkname" value="' + oLink.name + '"><input type="text" class="admlinkurl" value="' +
 			oLink.href +
 			'"><button class="admlinkdel" type="button">X</button><button class="admlinkup" type="button">&#x25B2;</button><button class="admlinkdown" type="button">&#x25BC;</button></li>';
-		return sListItem;
+		// add dom element to list
+		$("#admlinklinklist").append(sListItem);
 	}
 
 	// define a function that adds the handlers to all link list items
@@ -94,10 +95,7 @@
 		// handle links
 		if (oJson.links) {
 			for (let oLink of oJson.links) {
-				sListItem = fnCreateAdmLinkListItem(oLink);
-
-				// add dom element to list
-				$("#admlinklinklist").append(sListItem);
+				fnCreateAdmLinkListItem(oLink);
 			}
 			//set link list item handlers
 			fnSetAdmLinkListHandlers();
@@ -126,9 +124,7 @@
 				oLink.href = $(".admlinkvmhref", $(this).parent()).text();
 				oLink.active = true;
 				//create link list item
-				sListItem = fnCreateAdmLinkListItem(oLink);
-				//add link list item to list
-				$("#admlinklinklist").append(sListItem);
+				fnCreateAdmLinkListItem(oLink);
 				// set link list items handlers
 				fnSetAdmLinkListHandlers();
 			});

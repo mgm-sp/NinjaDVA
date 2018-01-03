@@ -13,37 +13,87 @@
 </style>
 
 <script type='text/javascript'>
-// <![CDATA[
-/*********************************************************
- * File admin JS --- lists all available files
- *********************************************************
- */
-//define clickhandler for files
-var fnClickHandler = function(e){
-	sFileName = $(this).text();
-	sFileURL = 'javascript:chooseMaterial("' + sFileName + '")';
-	$("#admcalurl").val(sFileURL);
-	//TODO: add the file-link to links admin too
-}
-
-//define list adder function
-var fnAddFilesToList = function(oJSON){
-	for (let sFile of oJSON){
-		$("#admfileslist").append("<li>"+sFile+"</li>");
+	// <![CDATA[
+	/*********************************************************
+	 * File admin JS --- lists all available files
+	 *********************************************************
+	 */
+	//hacky shit ... TODO: search a better solution
+	let fnRemoteCreateAdmLinkListItem = function (oLink) {
+		sCheckedOption = oLink.active == true ? "checked" : "";
+		sListItem = '<li><input type="checkbox" class="admlinkactive" ' + sCheckedOption +
+			'><input type="text" class="admlinkname" value="' + oLink.name + '"><input type="text" class="admlinkurl" value="' +
+			oLink.href +
+			'"><button class="admlinkdel" type="button">X</button><button class="admlinkup" type="button">&#x25B2;</button><button class="admlinkdown" type="button">&#x25BC;</button></li>';
+		// add dom element to list
+		$("#admlinklinklist").append(sListItem);
 	}
-	$("#admfileslist li").click(fnClickHandler);
-};
 
-// define file getter function
-var fnGetFilesFromServer = function() {
-	sUrl = "http://dashboard.mgmsp-lab.com/admin/get_files.cgi";
-	oJSONObjects = $.getJSON(sUrl, fnAddFilesToList);
-};
+	// other hacky shit ... TODO: remove this before shipping
+	let fnRemoteSetAdmLinkListHandlers = function () {
+		// remove all old click handlers in advance
+		$(".admlinkdel").unbind("click");
+		$(".admlinkup").unbind("click");
+		$(".admlinkdown").unbind("click");
 
-//trigger getting files when document ready
-$(document).ready(function() {
-	fnGetFilesFromServer();
-});
 
-// ]]>
+		//set delete handler
+		$(".admlinkdel").click(function () {
+			$(this).parent().remove();
+		});
+
+		//set up handler
+		$(".admlinkup").click(function () {
+			// check that it is not the first element
+			oPrevElement = $(this).parent().prev();
+			if (oPrevElement.length > 0) {
+				//move item before parent element
+				$(this).parent().insertBefore(oPrevElement);
+			}
+		});
+		//set down handler
+		$(".admlinkdown").click(function () {
+			// check that it is not the last element
+			oNextElement = $(this).parent().next();
+			if (oNextElement.length > 0) {
+				//move item after parent element
+				$(this).parent().insertAfter(oNextElement);
+			}
+		});
+	};
+
+	//define clickhandler for files
+	var fnFilesClickHandler = function (e) {
+		sFileName = $(this).text();
+		sFileURL = 'javascript:chooseMaterial(&quot;' + sFileName + '&quot;)';
+		$("#admcalurl").val(sFileURL);
+		oLink = {
+			"name": sFileName,
+			"href": sFileURL
+		};
+		fnRemoteCreateAdmLinkListItem(oLink);
+		fnRemoteSetAdmLinkListHandlers();
+		//TODO: add the file-link to links admin too
+	}
+
+	//define list adder function
+	var fnAddFilesToList = function (oJSON) {
+		for (let sFile of oJSON) {
+			$("#admfileslist").append("<li>" + sFile + "</li>");
+		}
+		$("#admfileslist li").click(fnFilesClickHandler);
+	};
+
+	// define file getter function
+	var fnGetFilesFromServer = function () {
+		sUrl = "http://dashboard.mgmsp-lab.com/admin/get_files.cgi";
+		oJSONObjects = $.getJSON(sUrl, fnAddFilesToList);
+	};
+
+	//trigger getting files when document ready
+	$(document).ready(function () {
+		fnGetFilesFromServer();
+	});
+
+	// ]]>
 </script>
