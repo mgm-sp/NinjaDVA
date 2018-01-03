@@ -11,6 +11,6 @@ Dir.glob("../../dashboard-admin/*.html").each{|htmlfile|
 	out << "<div id='#{id}' class='widget adminwidget'>\n"
 	out << File.open(htmlfile).read
 	out << "\n</div>"
-	out << "<script type='text/javascript'>gridster.add_widget($('##{id}'), 2,2);</script>"
 }
+out << "<script type='text/javascript'>$('.adminwidget').each(function(){gridster.add_widget($(this), 2,2);});</script>"
 $cgi.out(){out}

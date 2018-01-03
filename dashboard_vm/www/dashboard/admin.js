@@ -11,6 +11,7 @@ var hideAdminInterface = function() {
     toggleAdminInterface = showAdminInterface;
     $(".adminwidget").each(function() {
         gridster.remove_widget($(this));
+        $(this).remove();
     });
     grid_layout_from_server(true);
 };
