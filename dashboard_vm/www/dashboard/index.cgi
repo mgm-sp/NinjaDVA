@@ -53,8 +53,12 @@ Dir.glob("../dashboard-widgets/*.html").each{|htmlfile|
 	h << File.open(htmlfile).read
 }
 
-
-oWeather = JSON.parse(File.read("#{$conf.dbdir_absolute}/weather.json"))
+if File.exists?("#{$conf.dbdir_absolute}/weather.json")
+	oWeather = JSON.parse(File.read("#{$conf.dbdir_absolute}/weather.json"))
+else
+	# set default configuration if weather was not defined yet
+	oWeather = {"title"=>"Weather not configured", "locationcode"=>"razupaltuff"}
+end
 
 h << <<WEATHERWIDGET
 <!-- BEGIN WEATHER WIDGET -->
