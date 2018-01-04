@@ -86,7 +86,7 @@
 
 	// define file getter function
 	var fnGetFilesFromServer = function () {
-		sUrl = "http://dashboard.mgmsp-lab.com/admin/get_files.cgi";
+		sUrl = "http://"+window.location.hostname+"/admin/get_files.cgi";
 		oJSONObjects = $.getJSON(sUrl, fnAddFilesToList);
 	};
 

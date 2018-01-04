@@ -16,7 +16,7 @@ var fnSaveLayoutToServer = function() {
 	var oXhr = new XMLHttpRequest();
 	oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
 	var oFormData = new FormData();
-	var sUrl = "http://dashboard.mgmsp-lab.com/admin/update_layout.cgi";
+	var sUrl = "http://"+window.location.hostname+"/admin/update_layout.cgi";
 	oFormData.append("layout", localStorage.getItem("gridster-/user"));
 	oXhr.open("POST", sUrl);
 	oXhr.send(oFormData);

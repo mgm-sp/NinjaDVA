@@ -36,8 +36,8 @@
 		var oXhr = new XMLHttpRequest();
 		oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
 		var oFormData = new FormData();
-		var sUrl = "http://dashboard.mgmsp-lab.com/admin/update_links.cgi";
-		oFormData.append("links", JSON.stringify(aLinks)); //TODO: create the link object
+		var sUrl = "http://"+window.location.hostname+"/admin/update_links.cgi";
+		oFormData.append("links", JSON.stringify(aLinks));
 		oXhr.open("POST", sUrl);
 		oXhr.send(oFormData);
 	};
@@ -148,7 +148,7 @@
 
 	// define file getter function
 	var fnGetLinksFromServer = function () {
-		sUrl = "http://dashboard.mgmsp-lab.com/admin/get_links.cgi";
+		sUrl = "http://"+window.location.hostname+"/admin/get_links.cgi";
 		oJSONObjects = $.getJSON(sUrl, fnAddLinksToList);
 	};
 

@@ -42,7 +42,6 @@
 	 *********************************************************
 	 */
 
-
 	//define save to server handler
 	var fnSaveCalendarConfToServer = function () {
 		//collect the data
@@ -54,7 +53,7 @@
 		var oXhr = new XMLHttpRequest();
 		oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
 		var oFormData = new FormData();
-		var sUrl = "http://dashboard.mgmsp-lab.com/admin/update_calendarconf.cgi";
+		var sUrl = "http://"+window.location.hostname+"/admin/update_calendarconf.cgi";
 		oFormData.append("calendarconf", JSON.stringify(oCalendarConf));
 		oXhr.open("POST", sUrl);
 		oXhr.send(oFormData);
@@ -68,7 +67,7 @@
 
 	// define calendar config getter function
 	var fnGetCalendarConfFromServer = function () {
-		sUrl = "http://dashboard.mgmsp-lab.com/admin/get_calendarconf.cgi";
+		sUrl = "http://"+window.location.hostname+"/admin/get_calendarconf.cgi";
 		oJSONObjects = $.getJSON(sUrl, fnAddCalendarConfigToForm);
 	};
 
