@@ -1,7 +1,8 @@
 <div>
 	<h1>Admin Files</h1>
-	<p>Click on a file to add a link to Schedule Event or Favorite Links</p>
+	<p>Click on a file to obtain the link and the file choose command. Click on the link you would like to use. It will be copied to clipboard automatically.</p>
 	<ul id="admfileslist"></ul>
+	<div id="admfileslistcopyarea"></div>
 </div>
 
 <style type="text/css">
@@ -9,6 +10,9 @@
 		list-style-type: square;
 		padding-left: 20px;
 		cursor: copy;
+	}
+	#admfileslistcopyarea input{
+		width: 90%;
 	}
 </style>
 
@@ -18,62 +22,29 @@
 	 * File admin JS --- lists all available files
 	 *********************************************************
 	 */
-	//hacky shit ... TODO: search a better solution
-	let fnRemoteCreateAdmLinkListItem = function (oLink) {
-		sCheckedOption = oLink.active == true ? "checked" : "";
-		sListItem = '<li><input type="checkbox" class="admlinkactive" ' + sCheckedOption +
-			'><input type="text" class="admlinkname" value="' + oLink.name + '"><input type="text" class="admlinkurl" value="' +
-			oLink.href +
-			'"><button class="admlinkdel" type="button">X</button><button class="admlinkup" type="button">&#x25B2;</button><button class="admlinkdown" type="button">&#x25BC;</button></li>';
-		// add dom element to list
-		$("#admlinklinklist").append(sListItem);
-	}
-
-	// other hacky shit ... TODO: remove this before shipping
-	let fnRemoteSetAdmLinkListHandlers = function () {
-		// remove all old click handlers in advance
-		$(".admlinkdel").unbind("click");
-		$(".admlinkup").unbind("click");
-		$(".admlinkdown").unbind("click");
-
-
-		//set delete handler
-		$(".admlinkdel").click(function () {
-			$(this).parent().remove();
-		});
-
-		//set up handler
-		$(".admlinkup").click(function () {
-			// check that it is not the first element
-			oPrevElement = $(this).parent().prev();
-			if (oPrevElement.length > 0) {
-				//move item before parent element
-				$(this).parent().insertBefore(oPrevElement);
-			}
-		});
-		//set down handler
-		$(".admlinkdown").click(function () {
-			// check that it is not the last element
-			oNextElement = $(this).parent().next();
-			if (oNextElement.length > 0) {
-				//move item after parent element
-				$(this).parent().insertAfter(oNextElement);
-			}
-		});
+	//define get domain name function
+	var fnGetDomainName = function(){
+		domain = window.location.host.match(/^[^\.]*\.(.*)$/);
+		if (domain) {
+			return domain[1];
+		} else {
+			throw new Error('Unable to parse domain name.');
+		}
 	};
 
 	//define clickhandler for files
 	var fnFilesClickHandler = function (e) {
 		sFileName = $(this).text();
-		sFileURL = 'javascript:chooseMaterial(&quot;' + sFileName + '&quot;)';
-		$("#admcalurl").val(sFileURL);
-		oLink = {
-			"name": sFileName,
-			"href": sFileURL
-		};
-		fnRemoteCreateAdmLinkListItem(oLink);
-		fnRemoteSetAdmLinkListHandlers();
-		//TODO: add the file-link to links admin too
+		sFileMaterialURL = 'javascript:chooseMaterial(&quot;' + sFileName + '&quot;)';
+		sFileUrl = 'http://clonecloud.'+fnGetDomainName()+'/files/' + sFileName;
+		sFileCopyCode = '<p><input value="'+sFileUrl+'" type="text" readonly></p>'+
+						'<p><input value="'+sFileMaterialURL+'" type="text" readonly></p>';
+
+		$("#admfileslistcopyarea").html(sFileCopyCode);
+		$("#admfileslistcopyarea input").click(function(){
+			$(this).select();
+			document.execCommand("copy");
+		});
 	}
 
 	//define list adder function
