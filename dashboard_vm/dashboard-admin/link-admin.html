@@ -31,7 +31,7 @@
 			oLink.active = $(this).find(".admlinkactive").is(":checked");
 			oLink.icon="";
 			//handle icon
-			rDomainMatch = oLink.href.match(/^((https?:\/\/)([\w.]*)).*$/);
+			rDomainMatch = oLink.href.match(/^((https?:\/\/)([\w.\-~]*)).*$/);
 			if(rDomainMatch){
 				oLink.icon=rDomainMatch[1] + "/favicon.ico";
 			}
