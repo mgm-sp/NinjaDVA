@@ -14,4 +14,4 @@ else
 end
 
 
-$cgi.out({ "content-type" => "application/json" }){sJsonPlain}
+$cgi.out({ "content-type" => "application/json" }){sJson}
