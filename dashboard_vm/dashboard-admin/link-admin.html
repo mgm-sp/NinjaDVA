@@ -54,7 +54,7 @@
 	let fnCreateAdmLinkListItem = function (oLink) {
 		sCheckedOption = oLink.active == true ? "checked" : "";
 		sListItem = '<li><input type="checkbox" class="admlinkactive" ' + sCheckedOption +
-			'><img src='' height='8' /<input type="text" class="admlinkname" value="' + oLink.name + '"><input type="text" class="admlinkurl" value="' +
+			'><input type="text" class="admlinkname" value="' + oLink.name + '"><input type="text" class="admlinkurl" value="' +
 			oLink.href +
 			'"><button class="admlinkdel" type="button">X</button><button class="admlinkup" type="button">&#x25B2;</button><button class="admlinkdown" type="button">&#x25BC;</button></li>';
 		// add dom element to list
