@@ -114,9 +114,12 @@ CALENDARWIDGET
 if File.exists?("#{$conf.dbdir_absolute}/calendarconf.json")
 	oCalendarConf = JSON.parse(File.read("#{$conf.dbdir_absolute}/calendarconf.json"))
 else
-	# set default configuration if json is not existent
-	oCalendarConf = {"dayStart"=>"09:00", "slotDuration"=>"00:30:00"}
+	oCalendarConf = {}
 end
+# set default configuration if json is not existent
+[["dayStart","09:00"],["slotDuration","00:30:00"]].each{|conf,value|
+	oCalendarConf[conf] = value if oCalendarConf[conf].to_s == ""
+}
 
 
 h << <<CALENDARWIDGET
