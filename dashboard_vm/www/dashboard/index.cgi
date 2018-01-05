@@ -206,9 +206,9 @@ end
 
 links.each{|l|
 	h << "<li><a href='#{l[:href]}'>"
-	unless l[:noicon]
-		h << "<img alt='#{l[:name][0]}' src='#{l[:icon] ? l[:icon] : l[:href]+"/favicon.ico"}' height='8' />&nbsp;"
-	end
+	# unless l[:noicon]
+	# 	h << "<img alt='#{l[:name][0]}' src='#{l[:icon] ? l[:icon] : l[:href]+"/favicon.ico"}' height='8' />&nbsp;"
+	# end
 	h << "#{l[:name]}</a></li>"
 }
 h << "</ul>"
