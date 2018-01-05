@@ -29,6 +29,12 @@
 			oLink.name = $(this).find(".admlinkname").val();
 			oLink.href = $(this).find(".admlinkurl").val();
 			oLink.active = $(this).find(".admlinkactive").is(":checked");
+			oLink.icon="";
+			//handle icon
+			rDomainMatch = oLink.href.match(/^((https?:\/\/)([\w.]*)).*$/);
+			if(rDomainMatch){
+				oLink.icon=rDomainMatch[1] + "/favicon.ico";
+			}
 			aLinks.push(oLink);
 		});
 
@@ -48,7 +54,7 @@
 	let fnCreateAdmLinkListItem = function (oLink) {
 		sCheckedOption = oLink.active == true ? "checked" : "";
 		sListItem = '<li><input type="checkbox" class="admlinkactive" ' + sCheckedOption +
-			'><input type="text" class="admlinkname" value="' + oLink.name + '"><input type="text" class="admlinkurl" value="' +
+			'><img src='' height='8' /<input type="text" class="admlinkname" value="' + oLink.name + '"><input type="text" class="admlinkurl" value="' +
 			oLink.href +
 			'"><button class="admlinkdel" type="button">X</button><button class="admlinkup" type="button">&#x25B2;</button><button class="admlinkdown" type="button">&#x25BC;</button></li>';
 		// add dom element to list

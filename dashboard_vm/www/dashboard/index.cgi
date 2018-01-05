@@ -206,9 +206,9 @@ end
 
 links.each{|l|
 	h << "<li><a href='#{l[:href]}'>"
-	# unless l[:noicon]
-	# 	h << "<img alt='#{l[:name][0]}' src='#{l[:icon] ? l[:icon] : l[:href]+"/favicon.ico"}' height='8' />&nbsp;"
-	# end
+	if l[:icon] != ""
+		h << "<img alt='#{l[:name][0]}' src='#{l[:icon]}' height='8' />&nbsp;"
+	end
 	h << "#{l[:name]}</a></li>"
 }
 h << "</ul>"
@@ -250,13 +250,9 @@ h << <<FOOTER
 	<div><ul id="icons">
 FOOTER
 links.each{|l|
-	unless l[:noicon]
+	if l[:icon] != ""
 		h << "<li><a href='#{l[:href]}' title='#{l[:name]}'>"
-		if l[:icon]
-			h << "<img alt='#{l[:name][0]}' src='#{l[:icon]}' />"
-		else
-			h << "<img alt='#{l[:name][0]}' src='#{l[:href]}/favicon.ico' height='8' />"
-		end
+		h << "<img alt='#{l[:name][0]}' src='#{l[:icon]}' />"
 		h << "</a></li>"
 	end
 }
