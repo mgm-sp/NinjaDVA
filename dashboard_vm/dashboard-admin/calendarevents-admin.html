@@ -3,7 +3,6 @@
 	<button type="button" id="calendarsave" disabled>Save to Server</button>
 	<button type="button" id="calendarcancel" disabled>Cancel</button><br>
 	<hr>
-	<button type="button" id="calendaraddevent">Add Event</button>
 </div>
 <script type='text/javascript'>
 // <![CDATA[
@@ -84,8 +83,87 @@ $("#calendar").fullCalendar("option", {
 	eventDrop: fnCalendarEventHandler,
 	eventResize: fnCalendarEventHandler
 });
+
+// set event handler for selecting a time
+// range in calendar to add an event
+var fnCalendarAddEvent = function(lStart, lEnd) {
+	//remove edit form if already rendered
+	if (document.getElementById("admcaleventedit")) {
+		$("#admcaleventedit").remove();
+	}
+
+	// define and render new edit form
+	var sEventEditForm =
+		'<div id="admcaleventedit">' +
+		"<fieldset>" +
+		"<h3>New Event</h3>" +
+		'<input type="hidden" id="admcalstart">' +
+		'<input type="hidden" id="admcalend">' +
+		'<p><label for="admcaltitle">Title:</label><span><input id="admcaltitle"></span></p>' +
+		'<p><label for="admcalurl">URL:</label><span><input id="admcalurl" type="url"></span></p>' +
+		'<p><label for="admcalcolor">Color:</label><span><input id="admcalcolor" type="color"><input type="checkbox" id="admcalusecolor"><label for="admcalusecolor">Custom</label></input></span></p>' +
+		'<p><button type="button" id="admcalsave">Save Event</button><button type="button" id="admcaldismiss">Dismiss</button></p>' +
+		"</fieldset>" +
+		"</div>";
+	$("#admincalendar_content").append(sEventEditForm);
+
+	//set event start and end in hidden form fields
+	$("#admcalstart").val(lStart);
+	$("#admcalend").val(lEnd);
+
+	//initially hide the color picker
+	$("#admcalcolor").hide();
+
+	//set clickhandler for colorcheckbox
+	$("#admcalusecolor").click(function() {
+		var bChecked = $("#admcalusecolor").prop("checked");
+		if (bChecked) {
+			$("#admcalcolor").show();
+		} else {
+			$("#admcalcolor").hide();
+		}
+	});
+
+	//set clickhandler for dismiss button
+	$("#admcaldismiss").click(function() {
+		$("#admcaleventedit").remove();
+	});
+
+	//set save button event handler
+	$("#admcalsave").click(function() {
+		//get values and change them in the original event
+		var oCalendarEvent = {};
+		oCalendarEvent.title = $("#admcaltitle").val();
+		oCalendarEvent.start = $("#admcalstart").val();
+		oCalendarEvent.end = $("#admcalend").val();
+		var sUrl = $("#admcalurl").val();
+		if (sUrl) {
+			oCalendarEvent.url = sUrl;
+		}
+
+		if ($("#admcalusecolor").prop("checked")) {
+			oCalendarEvent.backgroundColor = $("#admcalcolor").val();
+		} else {
+			oCalendarEvent.backgroundColor = "";
+		}
+		//update the event in the calendar
+		$("#calendar").fullCalendar("renderEvent", oCalendarEvent, true);
+
+		//remove edit form
+		$("#admcaleventedit").remove();
+
+		//enable save button
+		fnEnableSaveButton();
+	});
+};
+
 //enable calendar edit mode
-$("#calendar").fullCalendar("option", { editable: true });
+$("#calendar").fullCalendar("option", {
+	editable: true ,
+	selectable: true,
+	selectHelper: true,
+	select: fnCalendarAddEvent,
+});
 
 //set selection granularity to 15 min
 $("#calendar").fullCalendar("option", { snapDuration: "00:05:00"});
@@ -179,79 +257,6 @@ $("#calendar").fullCalendar("option", {
 		});
 		return false; // avoid opening the link if one is set on click
 	}
-});
-
-//set clickhandler for add-event button
-$("#calendaraddevent").click(function() {
-	//remove edit form if already rendered
-	if (document.getElementById("admcaleventedit")) {
-		$("#admcaleventedit").remove();
-	}
-
-	// define and render new edit form
-	var sEventEditForm =
-		'<div id="admcaleventedit">' +
-		"<fieldset>" +
-		"<h3>Add Event</h3>" +
-		'<p><label for="admcaltitle">Date:</label><span><input type="date" id="admcaldate"></span></p>' +
-		'<p><label for="admcaltitle">Title:</label><span><input id="admcaltitle"></span></p>' +
-		'<p><label for="admcalurl">URL:</label><span><input id="admcalurl" type="url"></span></p>' +
-		'<p><label for="admcalcolor">Color:</label><span><input id="admcalcolor" type="color"><input type="checkbox" id="admcalusecolor"><label for="admcalusecolor">Custom</label></input></span></p>' +
-		'<p><button type="button" id="admcalsave">Save Event</button><button type="button" id="admcaldismiss">Dismiss</button></p>' +
-		"</fieldset>" +
-		"</div>";
-	$("#admincalendar_content").append(sEventEditForm);
-
-	//set content of date input field
-	$("#admcaldate").val(
-			$("#calendar")
-			.fullCalendar("getDate")
-			.format("Y-M-D")
-			);
-
-	//initially hide the color picker
-	$("#admcalcolor").hide();
-
-	//set clickhandler for colorcheckbox
-	$("#admcalusecolor").click(function() {
-		var bChecked = $("#admcalusecolor").prop("checked");
-		if (bChecked) {
-			$("#admcalcolor").show();
-		} else {
-			$("#admcalcolor").hide();
-		}
-	});
-
-	//set clickhandler for dismiss button
-	$("#admcaldismiss").click(function() {
-		$("#admcaleventedit").remove();
-	});
-
-	//set save button event handler
-	$("#admcalsave").click(function() {
-		//get values and change them in the original event
-		var oCalendarEvent = {};
-		oCalendarEvent.title = $("#admcaltitle").val();
-		oCalendarEvent.start = $("#admcaldate").val();
-		var sUrl = $("#admcalurl").val();
-		if (sUrl) {
-			oCalendarEvent.url = sUrl;
-		}
-
-		if ($("#admcalusecolor").prop("checked")) {
-			oCalendarEvent.backgroundColor = $("#admcalcolor").val();
-		} else {
-			oCalendarEvent.backgroundColor = "";
-		}
-		//update the event in the calendar
-		$("#calendar").fullCalendar("renderEvent", oCalendarEvent, true);
-
-		//remove edit form
-		$("#admcaleventedit").remove();
-
-		//enable save button
-		fnEnableSaveButton();
-	});
 });
 // ]]>
 </script>
