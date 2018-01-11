@@ -226,9 +226,12 @@ LINK
 h << "</div>"
 h << "</div>"
 h.add_css("jquery.gridster.min.css")
+h.add_css("wickedpicker.min.css")
 
 h.add_head_script("jquery-2.2.3.min.js")
 h.add_head_script("jquery.gridster.min.js")
+h.add_head_script("wickedpicker.min.js")
+
 
 h.add_script_file("grid.js")
 h << <<CSS

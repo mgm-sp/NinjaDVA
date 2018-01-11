@@ -1,4 +1,4 @@
-<div>
+<div class="admlinkfieldset">
 	<h1>Admin Links</h1>
 	<p>available VMs:</p>
 	<ul id="admlinkvmlist"></ul>
@@ -9,9 +9,23 @@
 		<button type="button" id="admlinkaddcustomlinks">+</button>
 		<button type="button" id="admlinksavetoserver">Save to Server</button>
 	</p>
-
 </div>
 
+
+<style type="text/css">
+	.admlinkfieldset #admlinklinklist li{
+		width: 100%;
+	}
+	.admlinkfieldset #admlinklinklist .admlinkname{
+		width: 20%;
+		min-width: 40px;
+	}
+	.admlinkfieldset #admlinklinklist .admlinkurl{
+		width: 50%;
+		min-width: 60px;
+	}
+
+</style>
 
 <script type='text/javascript'>
 	// <![CDATA[

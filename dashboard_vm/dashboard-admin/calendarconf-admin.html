@@ -5,13 +5,13 @@
 			<p>
 				<label for="admcalconfdaystart">Day Start:</label>
 				<span>
-					<input id="admcalconfdaystart" type="time">
+					<input id="admcalconfdaystart">
 				</span>
 			</p>
 			<p>
 				<label for="admcalconfslotduration">Slot Duration:</label>
 				<span>
-					<input id="admcalconfslotduration" type="time" step="1">
+					<input id="admcalconfslotduration">
 				</span>
 			</p>
 		</fieldset>
@@ -23,6 +23,10 @@
 		border: none;
 		display: inline-block;
 		width: auto;
+	}
+
+	#admcalconfedit label{
+		margin-right: 10px;
 	}
 
 	#admcalconfedit fieldset span {
@@ -42,12 +46,16 @@
 	 *********************************************************
 	 */
 
+	// ###### NOTES #######
+	//$("#admcalconfdaystart").wickedpicker({twentyFour:true, now: "08:00"});
+	// $("#admcalconfdaystart").wickedpicker("time").replace(/ /g, "")
+
 	//define save to server handler
 	var fnSaveCalendarConfToServer = function () {
 		//collect the data
 		var oCalendarConf = {}
-		oCalendarConf.dayStart = $("#admcalconfdaystart").val();
-		oCalendarConf.slotDuration = $("#admcalconfslotduration").val();
+		oCalendarConf.dayStart = $("#admcalconfdaystart").val().replace(/ /g, "");
+		oCalendarConf.slotDuration = $("#admcalconfslotduration").val().replace(/ /g, "");
 
 		// create and send the save request
 		var oXhr = new XMLHttpRequest();
@@ -61,8 +69,13 @@
 
 	//define list adder function
 	var fnAddCalendarConfigToForm = function (oJSON) {
+		//backup solution
 		$("#admcalconfdaystart").val(oJSON.dayStart);
 		$("#admcalconfslotduration").val(oJSON.slotDuration);
+
+		//time picker solution
+		$("#admcalconfdaystart").wickedpicker({twentyFour:true, now: oJSON.dayStart});
+		$("#admcalconfslotduration").wickedpicker({twentyFour:true, now: oJSON.slotDuration, showSeconds: true});
 	};
 
 	// define calendar config getter function

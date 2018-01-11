@@ -321,21 +321,16 @@ td {
 	-webkit-filter: grayscale(0%); /* Webkit */
 }
 
-#admcaleventedit fieldset {
-   border: none;
-   display: inline-block;
-   width: auto;
+.adminwidget button{
+	/*background-color: #1770ba;*/
+	background-color: #c4c4c4;
+	border: none;
+	color: black;
+	padding: 3px 3px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 12px;
+	margin: 4px 2px;
+	cursor: pointer;
 }
-
-#admcaleventedit fieldset span{
-    float: right;
-}
-
-#admcaleventedit p {
- margin-bottom: 10px;
-}
-
-#admcaleventedit input[type="color" i]{
- height: 1.5em;
-}
-

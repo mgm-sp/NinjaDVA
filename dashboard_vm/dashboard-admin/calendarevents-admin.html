@@ -4,6 +4,31 @@
 	<button type="button" id="calendarcancel" disabled>Cancel</button><br>
 	<hr>
 </div>
+
+<style type="text/css">
+#admcaleventedit fieldset {
+	border: none;
+	display: inline-block;
+	width: auto;
+ }
+
+ #admcaleventedit fieldset span{
+	 float: right;
+ }
+
+ #admcaleventedit p {
+  margin-bottom: 10px;
+ }
+
+ #admcaleventedit input[type="color"]{
+  height: 1.5em;
+ }
+
+ #admincalendar_content label{
+	 margin-right: 10px;
+ }
+</style>
+
 <script type='text/javascript'>
 // <![CDATA[
 /*********************************************************
@@ -14,6 +39,7 @@
 var stopEdit = function (){
 	$("#calendar").fullCalendar("option", {
 		editable: false,
+		selectable: false,
 		eventClick: function(oCalendarEvent) {
 			return true;
 		}
