@@ -1,0 +1,82 @@
+<div>
+	<h1>Admin Default Slide</h1>
+	<div id="admdefaultslideedit">
+		<fieldset>
+			<p>
+				<label for="admdefaultslide">Defoult Slide:</label>
+				<span>
+					<input id="admdefaultslide">
+				</span>
+			</p>
+		</fieldset>
+	</div>
+	<button type="button" id="admdefaultslidesave">Save to Server</button>
+</div>
+<style type="text/css">
+	#admdefaultslideedit fieldset {
+		border: none;
+		display: inline-block;
+		width: auto;
+	}
+
+	#admdefaultslideedit label{
+		margin-right: 10px;
+	}
+
+	#admdefaultslideedit fieldset span {
+		float: right;
+	}
+
+	#admdefaultslideedit p {
+		margin-bottom: 10px;
+	}
+</style>
+
+<script type='text/javascript'>
+	// <![CDATA[
+	/*********************************************************
+	 * default slide conf admin JS --- configure the
+	 * default slide that is shown in the slideview
+	 *********************************************************
+	 */
+
+	//define save to server handler
+	var fnSaveDefaultSlideToServer = function () {
+		//collect the data
+		var oDefaultSlide = {"defaultSlide": $("#admdefaultslide").val()};
+
+		// create and send the save request
+		var oXhr = new XMLHttpRequest();
+		oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
+		var oFormData = new FormData();
+		var sUrl = "http://"+window.location.hostname+"/admin/update_defaultslide.cgi";
+		oFormData.append("defaultslide", JSON.stringify(oDefaultSlide));
+		oXhr.open("POST", sUrl);
+		oXhr.send(oFormData);
+	};
+
+	//define list adder function
+	var fnAddDefaultSlideToForm = function (oJSON) {
+		//backup solution
+		$("#admdefaultslide").val(oJSON.defaultSlide);
+
+	};
+
+	// define default slide getter function
+	var fnGetDefaultSlideFromServer = function () {
+		sUrl = "http://"+window.location.hostname+"/admin/get_defaultslide.cgi";
+		oJSONObjects = $.getJSON(sUrl, fnAddDefaultSlideToForm);
+	};
+
+	//trigger getting default slide when document ready
+	$(document).ready(function () {
+		fnGetDefaultSlideFromServer();
+	});
+
+	// add clickhandler fpr save to server button
+	$("#admdefaultslidesave").click(function(){
+		fnSaveDefaultSlideToServer();
+	});
+
+	// ]]>
+</script>

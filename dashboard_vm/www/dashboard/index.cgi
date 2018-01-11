@@ -174,11 +174,20 @@ function chooseMaterial(slide){
 	$("#slides iframe")[0].contentWindow.postMessage(slide,"*")
 }
 SCRIPT
+
+# get default slide
+if File.exists?("#{$conf.dbdir_absolute}/defaultslide.json")
+oDefaultSlide = JSON.parse(File.read("#{$conf.dbdir_absolute}/defaultslide.json"))
+else
+# set default configuration if defaultslide was not defined yet
+oDefaultSlide = {"defaultSlide"=>""}
+end
+
 h << <<SLIDES
 <div id='slides' class='widget' data-row="1" data-col="4" data-sizex="3" data-sizey="6">
 <div>
 <h1 style='height:5%; margin: 0'>Lecture Material</h1>
-<iframe style='border: none;width:100%; height:95%' src='http://clonecloud.#{$conf.domain}/view.cgi?default=#{$conf.default_slide}'></iframe>
+<iframe style='border: none;width:100%; height:95%' src='http://clonecloud.#{$conf.domain}/view.cgi?default=#{oDefaultSlide["defaultSlide"]}'></iframe>
 </div>
 </div>
 <!-- END SLIDES WIDGET -->

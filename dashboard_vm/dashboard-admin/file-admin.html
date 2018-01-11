@@ -37,7 +37,8 @@
 		sFileName = $(this).text();
 		sFileMaterialURL = 'javascript:chooseMaterial(&quot;' + sFileName + '&quot;)';
 		sFileUrl = 'http://clonecloud.'+fnGetDomainName()+'/files/' + sFileName;
-		sFileCopyCode = '<p><input value="'+sFileUrl+'" type="text" readonly></p>'+
+		sFileCopyCode = '<p><input value="'+sFileName+'" type="text" readonly></p>'+
+						'<p><input value="'+sFileUrl+'" type="text" readonly></p>'+
 						'<p><input value="'+sFileMaterialURL+'" type="text" readonly></p>';
 
 		$("#admfileslistcopyarea").html(sFileCopyCode);
