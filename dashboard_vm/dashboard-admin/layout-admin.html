@@ -1,6 +1,7 @@
 <div>
 	<h1>Admin Layout</h1>
-	<button type="button" id="admsavelayout">Save User Layout to Server</button>
+	<p><button type="button" id="admsavelayout">Save Layout to Server</button></p>
+	<p><button type="button" id="admleadfromserver">Load Layout from Server</button></p>
 </div>
 
 <script type='text/javascript'>
@@ -12,19 +13,55 @@
 
 //define save to server function
 var fnSaveLayoutToServer = function() {
+	// create payload
+	oLayout = {}
+	sUserConf = localStorage.getItem("gridster-/user");
+	sAdminConf = localStorage.getItem("gridster-/admin");
+	if(sUserConf){
+		oLayout.user = JSON.parse(sUserConf);
+	}
+	if(sAdminConf){
+		oLayout.admin = JSON.parse(sAdminConf);
+	}
+
 	// create and send the save request
 	var oXhr = new XMLHttpRequest();
 	oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
 	var oFormData = new FormData();
 	var sUrl = "http://"+window.location.hostname+"/admin/update_layout.cgi";
-	oFormData.append("layout", localStorage.getItem("gridster-/user"));
+	oFormData.append("layout", JSON.stringify(oLayout));
 	oXhr.open("POST", sUrl);
 	oXhr.send(oFormData);
 };
 
-// set clickhandler for calendar save button
+//load server layout to local storage
+var fnLoadServerLayoutToLocalStorage = function(){
+	$.ajax({
+        url: "http://" + window.location.hostname + "/grid_layout.cgi",
+        type: "get",
+        success: function(oGridLayout) {
+			if("user" in oGridLayout){
+				//save user to local storage
+				save_grid_layout_to_localstorage(sLocation = "/", sGrindStoreSuffix = "user", sCustomDesign = oGridLayout.user);
+			}
+			if("admin" in oGridLayout){
+				//save admin as string to local storage
+				save_grid_layout_to_localstorage(sLocation = "/", sGrindStoreSuffix = "admin", sCustomDesign = oGridLayout.admin);
+			}
+			// set current grid layout
+			grid_layout_from_server(true);
+        }
+    });
+}
+
+// set clickhandler for layout save button
 $("#admsavelayout").click(function() {
 	fnSaveLayoutToServer();
+});
+
+//set clickhandler for load layout button
+$("#admleadfromserver").click(function() {
+	fnLoadServerLayoutToLocalStorage();
 });
 
 // ]]>

@@ -44,7 +44,8 @@ function grid_layout_from_server(load_layout_from_localstorage) {
         url: "/grid_layout.cgi",
         type: "get",
         success: function(gridlayout) {
-            set_grid_layout(gridlayout);
+            //set user grid layout
+            set_grid_layout(gridlayout.user);
             if (load_layout_from_localstorage) {
                 grid_layout_from_localstorage();
             }
@@ -69,10 +70,13 @@ function get_current_grid_layout() {
 // this global variable should be in sync with the current state
 // if user or admin view is shown
 var grid_store_suffix = "user";
-function save_grid_layout_to_localstorage() {
+
+function save_grid_layout_to_localstorage(sLocation = null, sGrindStoreSuffix = null, sCustomDesign = null) {
     window.localStorage.setItem(
-        "gridster-" + document.location.pathname + grid_store_suffix,
-        JSON.stringify(get_current_grid_layout())
+        "gridster-" +
+            (sLocation ? sLocation : document.location.pathname) +
+            (sGrindStoreSuffix ? sGrindStoreSuffix : grid_store_suffix),
+        JSON.stringify(sCustomDesign ? sCustomDesign : get_current_grid_layout())
     );
     $(".gridnav").hide();
 }
