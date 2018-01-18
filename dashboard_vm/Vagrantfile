@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
 
 	# define commands that will be executed on the vm after the vm is
 	# up and running. This is the right place for software installation.
-	config.vm.provision "shell", inline: <<~END
+	config.vm.provision "shell", inline: <<-END
 			apt-get -y update
 			apt-get -y remove isc-dhcp-client
 			apt-get -y install apache2 ruby ruby-dev ruby-sqlite3 sqlite3 dhcpcd5 libfontconfig1 inotify-tools psmisc
@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
 	config.vm.provision "file", source: "./www", destination: "/tmp/vagrant_tmp/www"
 
 	# move files to their destination
-	config.vm.provision "shell", inline: <<~END
+	config.vm.provision "shell", inline: <<-END
 			cd /tmp/vagrant_tmp/
 			install -o root -g root interfaces /etc/network/interfaces
 			install -o root -g root hosts /etc/hosts
@@ -69,7 +69,7 @@ Vagrant.configure("2") do |config|
 
 
 	# reload the network configuration
-	config.vm.provision "shell", inline: <<~END
+	config.vm.provision "shell", inline: <<-END
 			ifdown eth1
 			ifup eth1
 			ifup eth1:0
@@ -80,7 +80,7 @@ Vagrant.configure("2") do |config|
 
 	# define commands that will be executed after the code was copied to
 	# the vm. This is the place where your server configuration can take place
-	config.vm.provision "shell", inline: <<~END
+	config.vm.provision "shell", inline: <<-END
 			chown www-data:www-data /var/www/clonecloud
 			service apache2 stop
 			a2enconf serve-cgi-bin

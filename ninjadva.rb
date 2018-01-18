@@ -14,12 +14,12 @@ class NinjaDVA
 		config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva"
 
 		# install ninjadva specific software
-		config.vm.provision "shell", inline: <<~END
+		config.vm.provision "shell", inline: <<-END
 			apt-get -y update
 			apt-get -y install curl
 		END
 		config.vm.provision "file", source: "#{options[:ninjadva_dir]}/ninjadva_service", destination: "/tmp/tmp_provision/ninjadva_service"
-		config.vm.provision "shell", inline: <<~END
+		config.vm.provision "shell", inline: <<-END
 			cd /tmp/tmp_provision/
 			cp -R ninjadva_service /usr/share/
 			chmod +x /usr/share/ninjadva_service/ninjasolver.sh
