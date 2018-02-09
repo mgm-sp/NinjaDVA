@@ -40,16 +40,11 @@ $conf.pepper = "Luiphoh3gooz9pai"
 $conf.default_userpw = "shohseib9Phi6euL"
 
 
-$conf.location = "Dresden, Germany"
-$conf.dayStart = "09:00"
 
-$conf.links = [
-	{ :href => "http://myhomepage.#{$conf.domain}", :name => "My Homepage" },
-]
 
 $conf.dashboard_grid_layout = '{"timewidget":{"col":"6","row":"1","sizex":"1","sizey":"1"},"customwidget":{"col":"3","row":"1","sizex":"3","sizey":"1"},"weatherwidget":{"col":"1","row":"5","sizex":"1","sizey":"2"},"calendarwidget":{"col":"1","row":"1","sizex":"2","sizey":"4"},"slides":{"col":"3","row":"2","sizex":"4","sizey":"5"},"linkwidget":{"col":"2","row":"5","sizex":"1","sizey":"2"}}'
 
-$conf.default_slot_duration = "00:30:00"
+
 
 require "yaml"
 $conf.exercises = Dir.glob("#{INSTALLDIR}/challenge-descriptions/*.yaml").sort_by{|f|
