@@ -60,11 +60,8 @@ else
 	puts "A default config was created. You may edit $YOURCONFIGDIR/config.rb"
 
 	examplecustomer = "example"
-	unless Dir.exists?("#{INSTALLDIR}/config/#{examplecustomer}")
-		Dir.mkdir("#{INSTALLDIR}/config/#{examplecustomer}")
-		FileUtils.cp("#{INSTALLDIR}/config_customer_sample.rb","#{INSTALLDIR}/config/#{examplecustomer}/config.rb")
-		puts "An example customer-specific config was created. You may edit $YOURCONFIGDIR/#{examplecustomer}/config.rb"
-	end
+	Dir.mkdir("#{INSTALLDIR}/config/#{examplecustomer}") unless Dir.exists?("#{INSTALLDIR}/config/#{examplecustomer}")
+		
 	unless File.exists?("#{INSTALLDIR}/config/htdigest")
 		require "digest"
 		user = "admin"
