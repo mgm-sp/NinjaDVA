@@ -1,5 +1,5 @@
 var gridster;
-$(function() {
+$(function () {
     //DOM Ready
     gridster = $("div.gridster")
         .gridster({
@@ -9,10 +9,10 @@ $(function() {
             avoid_overlapped_widgets: true,
             draggable: {
                 handle: "h1",
-                start: function() {
+                start: function () {
                     gridster.empty_cells_player_occupies();
                 },
-                stop: function() {
+                stop: function () {
                     $(".gridnav").show();
                 }
             },
@@ -23,9 +23,10 @@ $(function() {
             },
             resize: {
                 enabled: true,
-                stop: function() {
+                stop: function (e, ui, $widget) {
                     adjust_calendar();
                     $(".gridnav").show();
+                    $widget.resize();
                 },
                 resize: adjust_calendar
             }
@@ -43,7 +44,7 @@ function grid_layout_from_server(load_layout_from_localstorage) {
     $.ajax({
         url: "/grid_layout.cgi",
         type: "get",
-        success: function(gridlayout) {
+        success: function (gridlayout) {
             //set user grid layout
             set_grid_layout(gridlayout.user);
             if (load_layout_from_localstorage) {
@@ -56,7 +57,7 @@ function grid_layout_from_server(load_layout_from_localstorage) {
 
 function get_current_grid_layout() {
     var layout = {};
-    $(".widget").each(function(i, u) {
+    $(".widget").each(function (i, u) {
         layout[u.id] = {
             col: $(u).attr("data-col"),
             row: $(u).attr("data-row"),
@@ -74,8 +75,8 @@ var grid_store_suffix = "user";
 function save_grid_layout_to_localstorage(sLocation = null, sGrindStoreSuffix = null, sCustomDesign = null) {
     window.localStorage.setItem(
         "gridster-" +
-            (sLocation ? sLocation : document.location.pathname) +
-            (sGrindStoreSuffix ? sGrindStoreSuffix : grid_store_suffix),
+        (sLocation ? sLocation : document.location.pathname) +
+        (sGrindStoreSuffix ? sGrindStoreSuffix : grid_store_suffix),
         JSON.stringify(sCustomDesign ? sCustomDesign : get_current_grid_layout())
     );
     $(".gridnav").hide();
@@ -96,7 +97,7 @@ function grid_layout_from_localstorage() {
 }
 
 function set_grid_layout(gridlayout) {
-    $(".widget").each(function(i, u) {
+    $(".widget").each(function (i, u) {
         layout = gridlayout[u.id];
         if (layout) {
             gridster.move_widget($("#" + u.id), parseInt(layout["col"]), parseInt(layout["row"]));
@@ -107,7 +108,7 @@ function set_grid_layout(gridlayout) {
 }
 
 // zoom button for all widgets
-$(function() {
+$(function () {
     //DOM Ready
     var zoomButton =
         "<img class='zoomButton' style='cursor:pointer;height:2ex;width:2ex' src='expand-256.png' onclick='toggleMaximize()'>";
@@ -119,5 +120,9 @@ function toggleMaximize() {
     var c = "collapse-256.png";
     var i = $(".zoomButton");
     i.attr("src", i.attr("src") === e ? c : e);
-    $("div.widget:hover").toggleClass("fullscreen");
+    //call resize to trigger all resize handlers
+    var toggledWidget = $("div.widget:hover");
+    toggledWidget.toggleClass("fullscreen").one('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', function () {
+        toggledWidget.resize();
+    });
 }

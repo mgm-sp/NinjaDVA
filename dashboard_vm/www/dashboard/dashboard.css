@@ -17,6 +17,7 @@ div.widget {
 div.widget>div{
 	padding: 10px;
 	height: 100%;
+	height: calc(100% - 20px);
 }
 div.widget h1 {
 	margin-top: 0;
