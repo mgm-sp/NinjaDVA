@@ -1,0 +1,160 @@
+#!/usr/bin/env ruby
+
+require "json"
+require 'io/console'
+require "timeout"
+
+# usage
+usage = <<-END
+    usage:
+    #{$0} up -- start NinjaDVA components
+    #{$0} halt -- stop components
+    #{$0} harthalt -- hart kill all VirtualBoxes system wide
+END
+
+
+# print usage if no no arguments
+if ARGV.size == 0
+    puts usage
+	exit
+end
+# ---- define functions ------
+
+def start_vagrant(pathToVagrantfile)
+    return system("cd #{pathToVagrantfile}; vagrant up")
+end
+
+def stop_vagrant(pathToVagrantfile)
+    return system("cd #{pathToVagrantfile}; vagrant halt")
+end
+
+def poweroff_all_virtualboxes()
+    return system("vboxmanage list runningvms | sed -r 's/.*\\{(.*)\\}/\\1/' | xargs -L1 -I {} VBoxManage controlvm {} poweroff")
+end
+
+# --- begin of script ------
+
+# try to load config file
+configFile = "ninjadva.conf.json"
+vmSettingsConfig = {}
+if File.exists?(configFile)
+    vmSettingsConfig = JSON.parse(File.read(configFile))
+end
+
+# search for subdirectories having Vagrantfile
+vmsFound = Dir.glob("**/Vagrantfile").collect{|f| File.dirname(f)}
+
+#handle no vms found
+if vmsFound.length == 0
+    puts "No VMs found :/ ... exit"
+    exit
+end
+
+# handle no gateway vm found and exclude gateway from decision
+gatewayPos = vmsFound.index{|s| s=~ /gateway/}
+if not gatewayPos
+    puts "No gateway VM found :/ ... exit"
+    exit
+end
+gatewayPath = vmsFound.delete(vmsFound[gatewayPos])
+
+
+# merge vms found with vms in config
+vmStartDefinition = {}
+vmsFound.each{|e| vmStartDefinition[e] = false}
+# get subset of vms that can be found currently
+vmSettingsConfigExistSubset = vmSettingsConfig.select{|k,v| (vmStartDefinition.keys & vmSettingsConfig.keys).include?(k)}
+vmStartDefinition.merge!(vmSettingsConfigExistSubset)
+vmsCount = vmStartDefinition.keys.count
+
+    # ---- handle up ------
+if ARGV.first == "up"
+
+    puts "VMs with a [x] will be started (5 sec):"
+    loop do
+        # print current vm config
+        vmStartDefinition.each_with_index {|(k,v),i|
+            start = v ? "X" : " "
+            puts "[%s] %d  %s" % [start, i+1, k]
+        }
+
+        puts "Options: toggle VM start (1-%d), start chosen VMs (S), exit (x)" % [vmsCount]
+        print "Decision [Sx1-%d]: " % [vmsCount]
+        decision = nil
+        # get input with timeout
+        begin
+            Timeout::timeout (5) {
+                decision = STDIN.getch
+            }
+        rescue Timeout::Error
+            puts
+            puts "No input after 5 sec ... starting"
+            decision = "s"
+            break
+        end
+        puts decision
+
+        puts "----------------------------"
+        puts
+
+        decisionAsNumber = decision.to_i
+        if decision.downcase == "s" or decision == "\r"
+            puts "STARTING ..... *rödelrödel*...."
+            break
+        elsif decision.downcase == "x"
+            # exit script
+            puts "...exit"
+            exit
+        elsif decisionAsNumber.between?(1,vmsCount)
+            vmStartDefinition[vmStartDefinition.keys[decisionAsNumber-1]] = !vmStartDefinition[vmStartDefinition.keys[decisionAsNumber-1]]
+        else
+            puts "(!!!) WRONG INPUT [%s] :/" % [decision]
+            puts
+        end
+    end
+
+    # save new config
+    File.open(configFile,"w") do |f|
+        f.write(vmSettingsConfig.merge!(vmStartDefinition).to_json)
+    end
+
+    # start gateway
+    if not start_vagrant(gatewayPath)
+        stop_vagrant(gatewayPath)
+        puts "Failed to start gateway...exit"
+        exit
+    end
+
+    # start other VMs
+    vmStartDefinition.each{|k,v|
+        if v
+            if not start_vagrant(k)
+                stop_vagrant(k)
+                puts "Failed to start #{k}...exit"
+                exit
+            end
+        end
+    }
+# ------- handle halt ------
+elsif ARGV.first == "halt"
+    # stop other VMs
+    vmStartDefinition.each{|k,v|
+    if v
+        if not stop_vagrant(k)
+            puts "Failed to stop #{k}...exit"
+            exit
+        end
+    end
+    # stop gateway
+    if not stop_vagrant(gatewayPath)
+        puts "Failed to stop gateway...exit"
+        exit
+    end
+}
+elsif ARGV.first == "harthalt"
+    poweroff_all_virtualboxes()
+else
+    puts "Wrong arguments ..."
+    puts usage
+	exit
+end
