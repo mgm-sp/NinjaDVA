@@ -2,6 +2,10 @@
 # vi: set ft=ruby :
 
 # ninjaDVA Gateway
+require "timeout"
+require 'io/console'
+
+
 
 def provisionFile(config, from, to, options={mode: "775"})
 	config.vm.provision "file", source: from, destination: "/tmp/#{File.basename(from)}"
@@ -34,24 +38,36 @@ Vagrant.configure("2") do |config|
 		<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		END
-		decision_needed = true
-		while decision_needed
-			puts "Do you want to bridge a hardware network device to the VM? [y/N]"
-			decision_needed = STDIN.gets.chomp
-			if decision_needed.downcase == "y"
-				config.vm.network "public_network", auto_config: false, use_dhcp_assigned_default_route: false
-				# promiscuous mode für Interface 3
-				config.vm.provider :virtualbox do |vb|
-					vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+		decision = nil
+		loop do
+			puts "Do you want to bridge a hardware network device to the VM? (5 sec) [y/N]"
+			begin
+				Timeout::timeout (5) {
+					decision = STDIN.getch
+					puts decision
+				}
+				if decision.downcase == "n" or decision.downcase == "y" or decision == "\r"
+					break
 				end
-				decision_needed = false
-			elsif decision_needed.downcase == "n" || decision_needed.to_s.strip.empty?
-				config.vm.network "private_network", auto_config: false, virtualbox__intnet: "deadnetwork"
-				decision_needed = false
+			rescue Timeout::Error
+				puts "No input ... taking [n]"
+				decision = "n"
+				break
 			end
 		end
+		if decision.downcase == "y"
+			puts "...bridging device"
+			config.vm.network "public_network", auto_config: false, use_dhcp_assigned_default_route: false
+			# promiscuous mode für Interface 3
+			config.vm.provider :virtualbox do |vb|
+				vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+			end
+			decision_needed = false
+		else
+			config.vm.network "private_network", auto_config: false, virtualbox__intnet: "deadnetwork"
+			decision_needed = false
+		end
 	end
-
 
 	# define commands that will be executed on the vm after the vm is
 	# up and running. This is the right place for software installation.
