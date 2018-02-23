@@ -70,7 +70,7 @@ vmsCount = vmStartDefinition.keys.count
     # ---- handle up ------
 if ARGV.first == "up"
 
-    puts "VMs with a [x] will be started (2 sec):"
+    puts "VMs with a [x] will be started (5 sec):"
 
     firstLoop = true
     loop do
@@ -86,7 +86,7 @@ if ARGV.first == "up"
         # get input with timeout
         if firstLoop
             begin
-                Timeout::timeout (2) {
+                Timeout::timeout (5) {
                     decision = STDIN.getch
                     firstLoop = false
                 }
