@@ -117,7 +117,7 @@ else
 	oCalendarConf = {}
 end
 # set default configuration if json is not existent
-[["dayStart","09:00"],["slotDuration","00:30:00"]].each{|conf,value|
+[["dayStart","08:00"],["slotDuration","00:30:00"]].each{|conf,value|
 	oCalendarConf[conf] = value if oCalendarConf[conf].to_s == ""
 }
 

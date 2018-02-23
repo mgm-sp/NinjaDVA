@@ -50,8 +50,9 @@
 	var fnSaveCalendarConfToServer = function () {
 		//collect the data
 		var oCalendarConf = {}
+		//add values and trim whitespace
 		oCalendarConf.dayStart = $("#admcalconfdaystart").val().replace(/ /g, "");
-		oCalendarConf.slotDuration = $("#admcalconfslotduration").val().replace(/ /g, "");
+		oCalendarConf.slotDuration =  $("#admcalconfslotduration").val().replace(/ /g, "");
 
 		// create and send the save request
 		var oXhr = new XMLHttpRequest();
@@ -65,13 +66,17 @@
 
 	//define list adder function
 	var fnAddCalendarConfigToForm = function (oJSON) {
+
+		//handle slot duration with seconds
+		sSlotDuration = oJSON.slotDuration ? oJSON.slotDuration.slice(0,-3): "00:00";
+
 		//backup solution
 		$("#admcalconfdaystart").val(oJSON.dayStart);
-		$("#admcalconfslotduration").val(oJSON.slotDuration);
+		$("#admcalconfslotduration").val(sSlotDuration);
 
 		//time picker solution
-		$("#admcalconfdaystart").wickedpicker({twentyFour:true, now: oJSON.dayStart});
-		$("#admcalconfslotduration").wickedpicker({twentyFour:true, now: oJSON.slotDuration, showSeconds: true});
+		$("#admcalconfdaystart").wickedpicker({twentyFour:true, now: (oJSON.dayStart ? oJSON.dayStart : "00:00")});
+		$("#admcalconfslotduration").wickedpicker({twentyFour:true, now:  oJSON.slotDuration ? oJSON.slotDuration: "00:00"});
 	};
 
 	// define calendar config getter function
