@@ -107,6 +107,7 @@ if ARGV.first == "up"
         decisionAsNumber = decision.to_i
         if decision.downcase == "s" or decision == "\r"
             puts "....STARTING ..... *rödelrödel*....*klimper...*piep*..."
+            puts
             break
         elsif decision.downcase == "x"
             # exit script
