@@ -116,13 +116,8 @@ if ARGV.first == "up"
             vmStartDefinition[vmStartDefinition.keys[decisionAsNumber-1]] = !vmStartDefinition[vmStartDefinition.keys[decisionAsNumber-1]]
         else
             puts "(!!!) WRONG INPUT [%s] :/" % [decision]
-            puts "\033[3A"
             puts
         end
-
-        # go up to start of output
-        linesUp = 6+vmsCount
-        puts "\033[#{linesUp}A"
     end
 
     # save new config
