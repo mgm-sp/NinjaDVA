@@ -138,19 +138,22 @@ if ARGV.first == "up"
 # ------- handle halt ------
 elsif ARGV.first == "halt"
     # stop other VMs
+    puts "stopping VMs..."
     vmStartDefinition.each{|k,v|
-    if v
-        if not stop_vagrant(k)
-            puts "Failed to stop #{k}...exit"
-            exit
+        if v
+            if not stop_vagrant(k)
+                puts "Failed to stop #{k}...exit"
+                exit
+            end
         end
-    end
+    }
+    puts "stop gateway..."
     # stop gateway
     if not stop_vagrant(gatewayPath)
         puts "Failed to stop gateway...exit"
         exit
     end
-}
+
 elsif ARGV.first == "harthalt"
     poweroff_all_virtualboxes()
 else
