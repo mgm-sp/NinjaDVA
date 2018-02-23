@@ -70,7 +70,9 @@ vmsCount = vmStartDefinition.keys.count
     # ---- handle up ------
 if ARGV.first == "up"
 
-    puts "VMs with a [x] will be started (5 sec):"
+    puts "VMs with a [x] will be started (2 sec):"
+
+    firstLoop = true
     loop do
         # print current vm config
         vmStartDefinition.each_with_index {|(k,v),i|
@@ -82,15 +84,20 @@ if ARGV.first == "up"
         print "Decision [Sx1-%d]: " % [vmsCount]
         decision = nil
         # get input with timeout
-        begin
-            Timeout::timeout (5) {
-                decision = STDIN.getch
-            }
-        rescue Timeout::Error
-            puts
-            puts "No input after 5 sec ... starting"
-            decision = "s"
-            break
+        if firstLoop
+            begin
+                Timeout::timeout (2) {
+                    decision = STDIN.getch
+                    firstLoop = false
+                }
+            rescue Timeout::Error
+                puts
+                puts "No input after 5 sec ... starting"
+                decision = "s"
+                break
+            end
+        else
+            decision = STDIN.getch
         end
         puts decision
 
@@ -99,7 +106,7 @@ if ARGV.first == "up"
 
         decisionAsNumber = decision.to_i
         if decision.downcase == "s" or decision == "\r"
-            puts "STARTING ..... *rödelrödel*...."
+            puts "....STARTING ..... *rödelrödel*....*klimper...*piep*..."
             break
         elsif decision.downcase == "x"
             # exit script
@@ -111,6 +118,10 @@ if ARGV.first == "up"
             puts "(!!!) WRONG INPUT [%s] :/" % [decision]
             puts
         end
+
+        # go up to start of output
+        linesUp = 6+vmsCount
+        puts "\033[#{linesUp}A"
     end
 
     # save new config
@@ -119,6 +130,7 @@ if ARGV.first == "up"
     end
 
     # start gateway
+    puts "starting gateway ...."
     if not start_vagrant(gatewayPath)
         stop_vagrant(gatewayPath)
         puts "Failed to start gateway...exit"
@@ -128,6 +140,7 @@ if ARGV.first == "up"
     # start other VMs
     vmStartDefinition.each{|k,v|
         if v
+            puts "starting #{k} ...."
             if not start_vagrant(k)
                 stop_vagrant(k)
                 puts "Failed to start #{k}...exit"
@@ -138,9 +151,9 @@ if ARGV.first == "up"
 # ------- handle halt ------
 elsif ARGV.first == "halt"
     # stop other VMs
-    puts "stopping VMs..."
     vmStartDefinition.each{|k,v|
         if v
+            puts "stopping #{k} ..."
             if not stop_vagrant(k)
                 puts "Failed to stop #{k}...exit"
                 exit
