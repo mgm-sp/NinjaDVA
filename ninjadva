@@ -110,12 +110,13 @@ if ARGV.first == "up"
             break
         elsif decision.downcase == "x"
             # exit script
-            puts "...exit"
+            puts "...exit............................."
             exit
         elsif decisionAsNumber.between?(1,vmsCount)
             vmStartDefinition[vmStartDefinition.keys[decisionAsNumber-1]] = !vmStartDefinition[vmStartDefinition.keys[decisionAsNumber-1]]
         else
             puts "(!!!) WRONG INPUT [%s] :/" % [decision]
+            puts "\033[3A"
             puts
         end
 
