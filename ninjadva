@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "json"
+require "yaml"
 require 'io/console'
 require "timeout"
 
@@ -35,10 +35,10 @@ end
 # --- begin of script ------
 
 # try to load config file
-configFile = "ninjadva.conf.json"
+configFile = ".ninjadvarc.yaml"
 vmSettingsConfig = {}
 if File.exists?(configFile)
-    vmSettingsConfig = JSON.parse(File.read(configFile))
+    vmSettingsConfig = YAML.parse(File.read(configFile))
 end
 
 # search for subdirectories having Vagrantfile
@@ -123,7 +123,7 @@ if ARGV.first == "up"
 
     # save new config
     File.open(configFile,"w") do |f|
-        f.write(vmSettingsConfig.merge!(vmStartDefinition).to_json)
+        f.write(vmSettingsConfig.merge!(vmStartDefinition).to_yaml)
     end
 
     # start gateway
