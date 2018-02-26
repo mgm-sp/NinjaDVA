@@ -38,7 +38,7 @@ end
 configFile = ".ninjadvarc.yaml"
 vmSettingsConfig = {}
 if File.exists?(configFile)
-    vmSettingsConfig = YAML.parse(File.read(configFile))
+    vmSettingsConfig = YAML::load_file(configFile)
 end
 
 # search for subdirectories having Vagrantfile
