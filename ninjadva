@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "json"
+require "yaml"
 require 'io/console'
 require "timeout"
 
@@ -35,10 +35,10 @@ end
 # --- begin of script ------
 
 # try to load config file
-configFile = "ninjadva.conf.json"
+configFile = ".ninjadvarc.yaml"
 vmSettingsConfig = {}
 if File.exists?(configFile)
-    vmSettingsConfig = JSON.parse(File.read(configFile))
+    vmSettingsConfig = YAML::load_file(configFile)
 end
 
 # search for subdirectories having Vagrantfile
@@ -80,8 +80,8 @@ if ARGV.first == "up"
             puts "[%s] %d  %s" % [start, i+1, k]
         }
 
-        puts "Options: toggle VM start (1-%d), start chosen VMs (S), exit (x)" % [vmsCount]
-        print "Decision [Sx1-%d]: " % [vmsCount]
+        puts "Options: toggle VM start (1-%d), start chosen VMs (S), quit (q)" % [vmsCount]
+        print "Decision [Sq1-%d]: " % [vmsCount]
         decision = nil
         # get input with timeout
         if firstLoop
@@ -109,9 +109,9 @@ if ARGV.first == "up"
             puts "....STARTING ..... *rödelrödel*....*klimper...*piep*..."
             puts
             break
-        elsif decision.downcase == "x"
-            # exit script
-            puts "...exit............................."
+        elsif decision.downcase == "q"
+            # quit script
+            puts "...quit............................."
             exit
         elsif decisionAsNumber.between?(1,vmsCount)
             vmStartDefinition[vmStartDefinition.keys[decisionAsNumber-1]] = !vmStartDefinition[vmStartDefinition.keys[decisionAsNumber-1]]
@@ -123,7 +123,7 @@ if ARGV.first == "up"
 
     # save new config
     File.open(configFile,"w") do |f|
-        f.write(vmSettingsConfig.merge!(vmStartDefinition).to_json)
+        f.write(vmSettingsConfig.merge!(vmStartDefinition).to_yaml)
     end
 
     # start gateway
