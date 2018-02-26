@@ -1,53 +1,45 @@
 <div>
 	<h1>Admin Weather</h1>
 	<div id="admweatheredit">
-		<fieldset>
-			<p>
-				<label for="admweathertitle">Title:</label>
-				<span>
-					<input id="admweathertitle">
-				</span>
-			</p>
-			<p>
-				<label for="admweatherlocation">Location Code:</label>
-				<span>
-					<input id="admweatherlocation">
-				</span>
-			</p>
-			<p>
-				<label for="admweatherimageurl">Image-URL:</label>
-				<span>
-					<input id="admweatherimageurl">
-				</span>
-			</p>
-		</fieldset>
+		<div class="admweathereditrow">
+			<label for="admweathertitle">Title:</label>
+			<input id="admweathertitle">
+		</div>
+		<div class="admweathereditrow">
+			<label for="admweatherlocation">Location Code:</label>
+			<input id="admweatherlocation">
+		</div>
+		<div class="admweathereditrow">
+			<label for="admweatherimageurl">Image-URL:</label>
+			<input id="admweatherimageurl">
+		</div>
 	</div>
 	<button type="button" id="admweathersave">Save to Server</button>
 </div>
 <style type="text/css">
-	#admweatheredit fieldset {
-		border: none;
-		display: inline-block;
-		width: 90%;
+	#admweatheredit {
+		display: table;
+    	vertical-align: middle;
+    	border-spacing: 0 8px;
+    	width:100%;
+    	border: 0;
+	}
+	#admweatheredit > .admweathereditrow {
+		display: table-row;
+	}
+	#admweatheredit label, #admweatheredit input{
+	display: table-cell;
 	}
 
-	#admweatheredit fieldset span {
-		float: right;
-		width: 70%;
+	#admweatheredit label{
+		width: 1%;
+		white-space: nowrap;
+		padding-right: 13px;
 	}
 
-	#admweatheredit p {
-		margin-bottom: 10px;
-		width: 100%;
-	}
-
-	#admweatheredit label {
-		margin-right: 10px;
-	}
 	#admweatheredit input {
 		width: 100%;
 	}
-
 </style>
 
 <script type='text/javascript'>

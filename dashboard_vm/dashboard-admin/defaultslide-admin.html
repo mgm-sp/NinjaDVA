@@ -1,34 +1,38 @@
 <div>
 	<h1>Admin Default Slide</h1>
 	<div id="admdefaultslideedit">
-		<fieldset>
-			<p>
+			<div class = "admdefaultslideeditrow">
 				<label for="admdefaultslide">Default Slide:</label>
-				<span>
-					<input id="admdefaultslide">
-				</span>
-			</p>
-		</fieldset>
+				<input id="admdefaultslide">
+			</div>
 	</div>
 	<button type="button" id="admdefaultslidesave">Save to Server</button>
 </div>
 <style type="text/css">
-	#admdefaultslideedit fieldset {
-		border: none;
-		display: inline-block;
-		width: auto;
+	#admdefaultslideedit{
+		display: table;
+    	vertical-align: middle;
+    	border-spacing: 0 8px;
+    	width:100%;
+    	border: 0;
+	}
+
+	#admdefaultslideedit > .admdefaultslideeditrow{
+		display: table-row;
+	}
+
+	#admdefaultslideedit label, #admdefaultslideedit input{
+	display: table-cell;
 	}
 
 	#admdefaultslideedit label{
-		margin-right: 10px;
+		width: 1%;
+		white-space: nowrap;
+		padding-right: 13px;
 	}
 
-	#admdefaultslideedit fieldset span {
-		float: right;
-	}
-
-	#admdefaultslideedit p {
-		margin-bottom: 10px;
+	#admdefaultslideedit input {
+		width: 100%;
 	}
 </style>
 

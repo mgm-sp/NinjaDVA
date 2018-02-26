@@ -6,34 +6,31 @@
 </div>
 
 <style type="text/css">
-	#admcaleventedit fieldset {
-		border: none;
-		display: inline-block;
-		width: 90%;
+ #admcaleventedittable {
+		display: table;
+    	vertical-align: middle;
+    	border-spacing: 0 8px;
+    	width:100%;
+    	border: 0;
 	}
-	#admcaleventedit fieldset span{
-		float: right;
-		width: 70%;
+
+	#admcaleventedittable > .admcaleventedittablerow{
+		display: table-row;
 	}
-	#admcaleventedit p {
-		margin-bottom: 10px;
+
+	#admcaleventedittable .admcaleventedittablemin, #admcaleventedittable .admcaleventedittableflex{
+	display: table-cell;
+	}
+
+	#admcaleventedittable .admcaleventedittablemin{
+		width: 1%;
+		white-space: nowrap;
+		padding-right: 13px;
+	}
+
+	#admcaleventedittable .admcaleventedittableflex {
 		width: 100%;
 	}
-
- #admcaleventedit input[type="color"]{
-	 height: 1.5em;
-	 width: 1.5em;
- }
-#admcaleventedit input[type="checkbox"]{
-	width: auto;
-}
-
- #admincalendar_content label{
-	 margin-right: 10px;
- }
- #admcaleventedit input{
-	 width: 100%
- }
 </style>
 
 <script type='text/javascript'>
@@ -128,15 +125,15 @@ var fnCalendarAddEvent = function(lStart, lEnd) {
 	// define and render new edit form
 	var sEventEditForm =
 		'<div id="admcaleventedit">' +
-		"<fieldset>" +
 		"<h3>New Event</h3>" +
+		'<div id="admcaleventedittable">' +
 		'<input type="hidden" id="admcalstart">' +
 		'<input type="hidden" id="admcalend">' +
-		'<p><label for="admcaltitle">Title:</label><span><input id="admcaltitle"></span></p>' +
-		'<p><label for="admcalurl">URL:</label><span><input id="admcalurl" type="url"></span></p>' +
-		'<p><label for="admcalcolor">Color:</label><span><input id="admcalcolor" type="color"><input type="checkbox" id="admcalusecolor"><label for="admcalusecolor">Custom</label></input></span></p>' +
-		'<p><button type="button" id="admcalsave">Save Event</button><button type="button" id="admcaldismiss">Dismiss</button></p>' +
-		"</fieldset>" +
+		'<div class="admcaleventedittablerow"><label class="admcaleventedittablemin" for="admcaltitle">Title:</label><input class="admcaleventedittableflex" id="admcaltitle"></div>' +
+		'<div class="admcaleventedittablerow"><label class="admcaleventedittablemin" for="admcalurl">URL:</label><input class="admcaleventedittableflex" id="admcalurl" type="url"></div>' +
+		'<div class="admcaleventedittablerow"><label class="admcaleventedittablemin" for="admcalcolor">Color:</label><div class="admcaleventedittableflex"><input id="admcalcolor" type="color"><input type="checkbox" id="admcalusecolor"><label for="admcalusecolor">Custom</label></input></div></div>' +
+		'</div>' +
+		'<span><button type="button" id="admcalsave">Save Event</button><button type="button" id="admcaldismiss">Dismiss</button></span>' +
 		"</div>";
 	$("#admincalendar_content").append(sEventEditForm);
 

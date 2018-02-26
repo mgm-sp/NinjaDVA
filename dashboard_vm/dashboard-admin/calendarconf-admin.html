@@ -1,40 +1,42 @@
 <div>
 	<h1>Admin Calendar Config</h1>
 	<div id="admcalconfedit">
-		<fieldset>
-			<p>
+			<div class="admcalconfeditrow">
 				<label for="admcalconfdaystart">Day Start:</label>
-				<span>
-					<input id="admcalconfdaystart">
-				</span>
-			</p>
-			<p>
+				<input id="admcalconfdaystart">
+			</div>
+			<div class="admcalconfeditrow">
 				<label for="admcalconfslotduration">Slot Duration:</label>
-				<span>
-					<input id="admcalconfslotduration">
-				</span>
-			</p>
-		</fieldset>
+				<input id="admcalconfslotduration">
+			</div>
 	</div>
 	<button type="button" id="admcalconfsave">Save to Server</button>
 </div>
 <style type="text/css">
-	#admcalconfedit fieldset {
-		border: none;
-		display: inline-block;
-		width: auto;
+	#admcalconfedit {
+		display: table;
+    	vertical-align: middle;
+    	border-spacing: 0 8px;
+    	width:100%;
+    	border: 0;
+	}
+
+	#admcalconfedit > .admcalconfeditrow{
+		display: table-row;
+	}
+
+	#admcalconfedit label, #admcalconfedit input{
+	display: table-cell;
 	}
 
 	#admcalconfedit label{
-		margin-right: 10px;
+		width: 1%;
+		white-space: nowrap;
+		padding-right: 13px;
 	}
 
-	#admcalconfedit fieldset span {
-		float: right;
-	}
-
-	#admcalconfedit p {
-		margin-bottom: 10px;
+	#admcalconfedit input {
+		width: 100%;
 	}
 </style>
 
