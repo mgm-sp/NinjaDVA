@@ -2,7 +2,6 @@
 
 require "yaml"
 require 'io/console'
-require "timeout"
 
 # usage
 usage = <<-END
@@ -70,9 +69,8 @@ vmsCount = vmStartDefinition.keys.count
     # ---- handle up ------
 if ARGV.first == "up"
 
-    puts "VMs with a [x] will be started (5 sec):"
+    puts "VMs with a [x] will be started:"
 
-    firstLoop = true
     loop do
         # print current vm config
         vmStartDefinition.each_with_index {|(k,v),i|
@@ -82,31 +80,15 @@ if ARGV.first == "up"
 
         puts "Options: toggle VM start (1-%d), start chosen VMs (S), quit (q)" % [vmsCount]
         print "Decision [Sq1-%d]: " % [vmsCount]
-        decision = nil
-        # get input with timeout
-        if firstLoop
-            begin
-                Timeout::timeout (5) {
-                    decision = STDIN.getch
-                    firstLoop = false
-                }
-            rescue Timeout::Error
-                puts
-                puts "No input after 5 sec ... starting"
-                decision = "s"
-                break
-            end
-        else
-            decision = STDIN.getch
-        end
-        puts decision
+        # get input
+        decision = STDIN.gets.chomp
 
         puts "----------------------------"
         puts
 
         decisionAsNumber = decision.to_i
         if decision.downcase == "s" or decision == "\r"
-            puts "....STARTING ..... *rödelrödel*....*klimper...*piep*..."
+            puts "....STARTING ..... *roedelroedel*....*klimper*...*piep*..."
             puts
             break
         elsif decision.downcase == "q"
