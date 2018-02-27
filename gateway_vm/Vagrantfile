@@ -2,7 +2,6 @@
 # vi: set ft=ruby :
 
 # ninjaDVA Gateway
-require "timeout"
 require 'io/console'
 
 
@@ -40,18 +39,12 @@ Vagrant.configure("2") do |config|
 		END
 		decision = nil
 		loop do
-			puts "Do you want to bridge a hardware network device to the VM? (5 sec) [y/N]"
-			begin
-				Timeout::timeout (5) {
-					decision = STDIN.getch
-					puts decision
-				}
-				if decision.downcase == "n" or decision.downcase == "y" or decision == "\r"
-					break
-				end
-			rescue Timeout::Error
-				puts "No input ... taking [n]"
-				decision = "n"
+			puts "Do you want to bridge a hardware network device to the VM? [y/N]"
+			
+			decision = STDIN.getch
+			puts decision
+			
+			if decision.downcase == "n" or decision.downcase == "y" or decision == "\r"
 				break
 			end
 		end
@@ -62,10 +55,8 @@ Vagrant.configure("2") do |config|
 			config.vm.provider :virtualbox do |vb|
 				vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
 			end
-			decision_needed = false
 		else
 			config.vm.network "private_network", auto_config: false, virtualbox__intnet: "deadnetwork"
-			decision_needed = false
 		end
 	end
 
