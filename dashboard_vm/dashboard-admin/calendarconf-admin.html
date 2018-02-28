@@ -2,11 +2,11 @@
 	<h1>Admin Calendar Config</h1>
 	<div id="admcalconfedit">
 			<div class="admcalconfeditrow">
-				<label for="admcalconfdaystart">Day Start:</label>
+				<label for="admcalconfdaystart">Day Start (HH:MM):</label>
 				<input id="admcalconfdaystart">
 			</div>
 			<div class="admcalconfeditrow">
-				<label for="admcalconfslotduration">Slot Duration:</label>
+				<label for="admcalconfslotduration">Slot Duration (HH:MM):</label>
 				<input id="admcalconfslotduration">
 			</div>
 	</div>
@@ -69,16 +69,13 @@
 	//define list adder function
 	var fnAddCalendarConfigToForm = function (oJSON) {
 
-		//handle slot duration with seconds
-		sSlotDuration = oJSON.slotDuration ? oJSON.slotDuration.slice(0,-3): "00:00";
-
 		//backup solution
 		$("#admcalconfdaystart").val(oJSON.dayStart);
 		$("#admcalconfslotduration").val(sSlotDuration);
 
 		//time picker solution
-		$("#admcalconfdaystart").wickedpicker({twentyFour:true, now: (oJSON.dayStart ? oJSON.dayStart : "00:00")});
-		$("#admcalconfslotduration").wickedpicker({twentyFour:true, now:  oJSON.slotDuration ? oJSON.slotDuration: "00:00"});
+		$("#admcalconfdaystart").wickedpicker({twentyFour:true, now: (oJSON.dayStart ? oJSON.dayStart : "08:00")});
+		$("#admcalconfslotduration").wickedpicker({twentyFour:true, now:  oJSON.slotDuration ? oJSON.slotDuration: "00:30"});
 	};
 
 	// define calendar config getter function
