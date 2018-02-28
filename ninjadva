@@ -87,7 +87,7 @@ if ARGV.first == "up"
         puts
 
         decisionAsNumber = decision.to_i
-        if decision.downcase == "s" or decision == "\r"
+        if decision.downcase == "s" or decision == ""
             puts "....STARTING ..... *roedelroedel*....*klimper*...*piep*..."
             puts
             break
