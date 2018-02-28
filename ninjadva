@@ -159,14 +159,16 @@ if ARGV.first == "up"
     }
 # ------- handle halt ------
 elsif ARGV.first == "halt"
+    # get running vagrant vms matching subfolders we can find
+    vmRunning = get_running_vms()
+    vmRunningMatched = vmRunning & vmFoundCleaned
+
     # stop other VMs
-    vmStartDefinition.each{|k,v|
-        if v
-            puts "stopping #{k} ..."
-            if not stop_vagrant(k)
-                puts "Failed to stop #{k}...exit"
-                exit
-            end
+    vmRunningMatched.each{|k|
+        puts "stopping #{k} ..."
+        if not stop_vagrant(k)
+            puts "Failed to stop #{k}...exit"
+            exit
         end
     }
     puts "stop gateway..."
