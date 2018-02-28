@@ -8,6 +8,7 @@ usage = <<-END
     usage:
     #{$0} up -- start NinjaDVA components
     #{$0} halt -- stop components
+    #{$0} status --- show running components
     #{$0} harthalt -- hart kill all VirtualBoxes system wide
 END
 
@@ -31,6 +32,28 @@ def poweroff_all_virtualboxes()
     return system("vboxmanage list runningvms | sed -r 's/.*\\{(.*)\\}/\\1/' | xargs -L1 -I {} VBoxManage controlvm {} poweroff")
 end
 
+def get_running_vms()
+    runningVmsRequest = `vboxmanage list runningvms`.split(/\n+/)
+    runningVms = []
+    runningVmsRequest.each{|e|
+        runningVagrantVm = e.split("\"")[1].scan(/^(.*)_(.*)_[0-9]+_[0-9]+$/).flatten[0]
+        # avoid adding vms not named in vagrant style
+        if runningVagrantVm
+            runningVms.push(runningVagrantVm)
+        end
+    }
+    return runningVms
+end
+
+def get_last_subdirectory(longPath)
+    # TODO: will this work under windows?!
+    return longPath.split("/").last
+end
+
+def get_gateway_position(arrayOfVmPaths)
+    return arrayOfVmPaths.index{|s| s=~ /gateway/}
+end
+
 # --- begin of script ------
 
 # try to load config file
@@ -50,7 +73,7 @@ if vmsFound.length == 0
 end
 
 # handle no gateway vm found and exclude gateway from decision
-gatewayPos = vmsFound.index{|s| s=~ /gateway/}
+gatewayPos = get_gateway_position(vmsFound)
 if not gatewayPos
     puts "No gateway VM found :/ ... exit"
     exit
@@ -65,8 +88,14 @@ vmsFound.each{|e| vmStartDefinition[e] = false}
 vmSettingsConfigExistSubset = vmSettingsConfig.select{|k,v| (vmStartDefinition.keys & vmSettingsConfig.keys).include?(k)}
 vmStartDefinition.merge!(vmSettingsConfigExistSubset)
 vmsCount = vmStartDefinition.keys.count
+# get vm directories cleaned, only the last sub-directory
+vmFoundCleaned = []
+vmStartDefinition.keys.each{|e|
+    vmFoundCleaned.push(get_last_subdirectory(e))
+}
 
-    # ---- handle up ------
+
+# ---- handle up ------
 if ARGV.first == "up"
 
     puts "VMs with a [x] will be started:"
@@ -148,6 +177,25 @@ elsif ARGV.first == "halt"
 
 elsif ARGV.first == "harthalt"
     poweroff_all_virtualboxes()
+
+elsif ARGV.first == "status"
+    # get running vagrant vms matching subfolders we can find
+    vmRunning = get_running_vms()
+    vmRunningMatched = get_running_vms() & vmFoundCleaned
+
+    gatewayPos = get_gateway_position(vmRunning)
+    if not gatewayPos
+        puts "Gateway is not running."
+        puts "Run #{$0} up to start NinjaDVA."
+        exit
+    end
+
+    # print current vm config
+    puts "Running VMs are marked with [x]:"
+    vmStartDefinition.each {|k,v|
+        running = vmRunningMatched.include?(get_last_subdirectory(k))? "X" : " "
+        puts "[%s] %s" % [running, k]
+    }
 else
     puts "Wrong arguments ..."
     puts usage
