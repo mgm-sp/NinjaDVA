@@ -8,7 +8,8 @@ usage = <<-END
     usage:
     #{$0} up -- start NinjaDVA components
     #{$0} halt -- stop components
-    #{$0} status --- show running components
+    #{$0} status -- show running components
+    #{$0} change -- stop or start additional components
     #{$0} harthalt -- hart kill all VirtualBoxes system wide
 END
 
@@ -181,7 +182,7 @@ elsif ARGV.first == "harthalt"
 elsif ARGV.first == "status"
     # get running vagrant vms matching subfolders we can find
     vmRunning = get_running_vms()
-    vmRunningMatched = get_running_vms() & vmFoundCleaned
+    vmRunningMatched = vmRunning & vmFoundCleaned
 
     gatewayPos = get_gateway_position(vmRunning)
     if not gatewayPos
@@ -196,6 +197,96 @@ elsif ARGV.first == "status"
         running = vmRunningMatched.include?(get_last_subdirectory(k))? "X" : " "
         puts "[%s] %s" % [running, k]
     }
+elsif ARGV.first == "change"
+     # get running vagrant vms matching subfolders we can find
+     vmRunning = get_running_vms()
+     vmRunningMatched = vmRunning & vmFoundCleaned
+
+     gatewayPos = get_gateway_position(vmRunning)
+     if not gatewayPos
+         puts "Gateway is not running."
+         puts "Run #{$0} up to start NinjaDVA."
+         exit
+     end
+    puts "Mark mark or unmark components with [X] to start or stop them:"
+    vmChangeDefinition = vmStartDefinition.clone
+    # update run status
+    vmChangeDefinition.each{|k,v|
+        vmChangeDefinition[k]=vmRunningMatched.include?(get_last_subdirectory(k))
+    }
+    # safe current state
+    vmStateBefore = vmChangeDefinition.clone
+
+    loop do
+        # print current vm config
+        vmChangeDefinition.each_with_index {|(k,v),i|
+            start = v ? "X" : " "
+            puts "[%s] %d  %s" % [start, i+1, k]
+        }
+
+        puts "Options: toggle VM start (1-%d), run change (C), quit (q)" % [vmsCount]
+        print "Decision [Cq1-%d]: " % [vmsCount]
+        # get input
+        decision = STDIN.gets.chomp
+
+        puts "----------------------------"
+        puts
+
+        decisionAsNumber = decision.to_i
+        if decision.downcase == "c" or decision == ""
+            puts "....CHANGING ..... *roedelroedel*....*klimper*...*piep*..."
+            puts
+            break
+        elsif decision.downcase == "q"
+            # quit script
+            puts "...quit............................."
+            exit
+        elsif decisionAsNumber.between?(1,vmsCount)
+            vmChangeDefinition[vmChangeDefinition.keys[decisionAsNumber-1]] = !vmChangeDefinition[vmChangeDefinition.keys[decisionAsNumber-1]]
+            print vmChangeDefinition
+            puts
+        else
+            puts "(!!!) WRONG INPUT [%s] :/" % [decision]
+            puts
+        end
+    end
+
+    # get list of VMs to stop
+    vmsToHalt = []
+    vmChangeDefinition.each{|k,v|
+        # add vms that were running and should be stopped now
+        if vmStateBefore[k] == true and v == false
+            vmsToHalt.push(k)
+        end
+    }
+
+    # get list of vms to start
+    vmsToStart = []
+    vmChangeDefinition.each{|k,v|
+        # add vms that were running and should be stopped now
+        if vmStateBefore[k] == false and v == true
+            vmsToStart.push(k)
+        end
+    }
+
+    # handle stops
+    vmsToHalt.each{|k|
+        puts "stopping #{k} ..."
+        if not stop_vagrant(k)
+            puts "Failed to stop #{k}...exit"
+            exit
+        end
+    }
+
+    # handle starts
+    vmsToStart.each{|k|
+        puts "starting #{k} ..."
+        if not start_vagrant(k)
+            puts "Failed to start #{k}...exit"
+            exit
+        end
+    }
+
 else
     puts "Wrong arguments ..."
     puts usage
