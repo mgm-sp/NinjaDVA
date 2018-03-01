@@ -88,9 +88,8 @@ vmSettingsConfigExistSubset = vmSettingsConfig.select{|k,v| (vmStartDefinition.k
 vmStartDefinition.merge!(vmSettingsConfigExistSubset)
 vmsCount = vmStartDefinition.keys.count
 # get vm directories cleaned, only the last sub-directory
-vmFoundCleaned = []
-vmStartDefinition.keys.each{|e|
-	vmFoundCleaned.push(File.basename(e))
+vmFoundCleaned = vmStartDefinition.keys.collect{|e|
+	File.basename(e)
 }
 
 
