@@ -6,10 +6,10 @@ require "yaml"
 usage = <<-END
 	usage:
 	#{$0} up -- start NinjaDVA components
-	#{$0} halt -- stop components
+	#{$0} halt -- shutdown all components
+	#{$0} poweroff -- poweroff all VirtualBoxes system wide (no soft shutdown!)
 	#{$0} status -- show running components
 	#{$0} change -- stop or start additional components
-	#{$0} harthalt -- hart kill all VirtualBoxes system wide
 END
 
 # print usage if no no arguments
@@ -154,7 +154,7 @@ when "halt"# {{{
 		end
 	}
 # }}}
-when "harthalt"# {{{
+when "poweroff"# {{{
 	poweroff_all_virtualboxes()
 # }}}
 when "status"# {{{
