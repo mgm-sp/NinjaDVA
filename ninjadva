@@ -48,11 +48,6 @@ def get_running_vms()
 	return runningVms
 end
 
-def get_gateway_position(arrayOfVmPaths)
-	gatewayPos = arrayOfVmPaths.index(GatewayPath)
-	raise "No gateway VM" unless gatewayPos
-	return gatewayPos
-end
 # }}}
 # --- begin of script ------
 
@@ -73,13 +68,10 @@ if vmsFound.length == 0
 end
 
 # handle no gateway vm found and exclude gateway from decision
-begin
-	gatewayPos = get_gateway_position(vmsFound)
-rescue
+unless vmsFound.delete(GatewayPath)
 	puts "No gateway VM found :/ ... exit"
 	exit
 end
-vmsFound.delete(GatewayPath)
 
 
 # merge vms found with vms in config
@@ -171,9 +163,7 @@ when "status"# {{{
 	vmRunning = get_running_vms()
 	vmRunningMatched = vmRunning & vmFoundCleaned
 
-	begin
-		gatewayPos = get_gateway_position(vmRunning)
-	rescue
+	unless vmRunning.include?(GatewayPath)
 		puts "Gateway is not running."
 		puts "Run #{$0} up to start NinjaDVA."
 		exit
@@ -191,9 +181,7 @@ when "change"# {{{
 	vmRunning = get_running_vms()
 	vmRunningMatched = vmRunning & vmFoundCleaned
 
-	begin
-		gatewayPos = get_gateway_position(vmRunning)
-	rescue
+	unless vmRunning.include?(GatewayPath)
 		puts "Gateway is not running."
 		puts "Run #{$0} up to start NinjaDVA."
 		exit
