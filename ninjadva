@@ -188,17 +188,17 @@ when "status"# {{{
 	}
 # }}}
 when "change"# {{{
-	 # get running vagrant vms matching subfolders we can find
-	 vmRunning = get_running_vms()
-	 vmRunningMatched = vmRunning & vmFoundCleaned
+	# get running vagrant vms matching subfolders we can find
+	vmRunning = get_running_vms()
+	vmRunningMatched = vmRunning & vmFoundCleaned
 
-	 begin
-		 gatewayPos = get_gateway_position(vmRunning)
-	 rescue
-		 puts "Gateway is not running."
-		 puts "Run #{$0} up to start NinjaDVA."
-		 exit
-	 end
+	begin
+		gatewayPos = get_gateway_position(vmRunning)
+	rescue
+		puts "Gateway is not running."
+		puts "Run #{$0} up to start NinjaDVA."
+		exit
+	end
 	puts "Mark mark or unmark components with [X] to start or stop them:"
 	vmChangeDefinition = vmStartDefinition.clone
 	# update run status
