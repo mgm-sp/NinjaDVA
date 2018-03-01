@@ -19,6 +19,9 @@ if ARGV.size == 0
 	puts usage
 	exit
 end
+
+GatewayPath = "gateway_vm"
+
 # ---- define functions ------
 
 def start_vagrant(pathToVagrantfile)
@@ -47,7 +50,7 @@ def get_running_vms()
 end
 
 def get_gateway_position(arrayOfVmPaths)
-	gatewayPos = arrayOfVmPaths.index{|s| s== "gateway_vm"}
+	gatewayPos = arrayOfVmPaths.index(GatewayPath)
 	raise "No gateway VM" unless gatewayPos
 	return gatewayPos
 end
@@ -77,7 +80,7 @@ rescue
 	puts "No gateway VM found :/ ... exit"
 	exit
 end
-gatewayPath = vmsFound.delete(vmsFound[gatewayPos])
+vmsFound.delete(GatewayPath)
 
 
 # merge vms found with vms in config
@@ -136,7 +139,7 @@ when "up" # {{{
 	end
 
 	# start gateway and others
-	vmStartDefinition + {gatewayPath => true}.each{|k,v|
+	vmStartDefinition + {GatewayPath => true}.each{|k,v|
 		if v
 			puts "starting #{k} ...."
 			if not start_vagrant(k)
@@ -153,7 +156,7 @@ when "halt"# {{{
 	vmRunningMatched = vmRunning & vmFoundCleaned
 
 	# stop VMs, gateway last
-	(vmRunningMatched+[gatewayPath]).each{|k|
+	(vmRunningMatched+[GatewayPath]).each{|k|
 		puts "stopping #{k} ..."
 		if not stop_vagrant(k)
 			puts "Failed to stop #{k}...exit"
