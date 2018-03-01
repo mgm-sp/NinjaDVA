@@ -94,7 +94,7 @@ vmStartDefinition.keys.each{|e|
 case ARGV.first # process subcommands
 when "up" # {{{
 
-	puts "VMs with a [x] will be started:"
+	puts "VMs with a [X] will be started:"
 
 	loop do
 		# print current vm config
@@ -189,7 +189,7 @@ when "status"# {{{
 	end
 
 	# print current vm config
-	puts "Running VMs are marked with [x]:"
+	puts "Running VMs are marked with [X]:"
 	vmStartDefinition.each {|k,v|
 		running = vmRunningMatched.include?(File.basename(k))? "X" : " "
 		puts "[%s] %s" % [running, k]
