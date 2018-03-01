@@ -129,7 +129,7 @@ when "up" # {{{
 	end
 
 	# start gateway and others
-	vmStartDefinition + {GatewayPath => true}.each{|k,v|
+	vmStartDefinition.merge({GatewayPath => true}).each{|k,v|
 		if v
 			puts "starting #{k} ...."
 			if not start_vagrant(k)
