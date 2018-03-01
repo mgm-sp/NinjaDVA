@@ -135,16 +135,8 @@ when "up" # {{{
 		f.write(vmSettingsConfig.merge!(vmStartDefinition).to_yaml)
 	end
 
-	# start gateway
-	puts "starting gateway ...."
-	if not start_vagrant(gatewayPath)
-		stop_vagrant(gatewayPath)
-		puts "Failed to start gateway...exit"
-		exit
-	end
-
-	# start other VMs
-	vmStartDefinition.each{|k,v|
+	# start gateway and others
+	vmStartDefinition + {gatewayPath => true}.each{|k,v|
 		if v
 			puts "starting #{k} ...."
 			if not start_vagrant(k)
@@ -160,20 +152,14 @@ when "halt"# {{{
 	vmRunning = get_running_vms()
 	vmRunningMatched = vmRunning & vmFoundCleaned
 
-	# stop other VMs
-	vmRunningMatched.each{|k|
+	# stop VMs, gateway last
+	(vmRunningMatched+[gatewayPath]).each{|k|
 		puts "stopping #{k} ..."
 		if not stop_vagrant(k)
 			puts "Failed to stop #{k}...exit"
 			exit
 		end
 	}
-	puts "stop gateway..."
-	# stop gateway
-	if not stop_vagrant(gatewayPath)
-		puts "Failed to stop gateway...exit"
-		exit
-	end
 # }}}
 when "harthalt"# {{{
 	poweroff_all_virtualboxes()
