@@ -91,9 +91,8 @@ vmStartDefinition.keys.each{|e|
 }
 
 
-# ---- handle up ------
-case ARGV.first
-when "up"
+case ARGV.first # process subcommands
+when "up" # {{{
 
 	puts "VMs with a [x] will be started:"
 
@@ -153,8 +152,8 @@ when "up"
 			end
 		end
 	}
-# ------- handle halt ------
-when "halt"
+# }}}
+when "halt"# {{{
 	# get running vagrant vms matching subfolders we can find
 	vmRunning = get_running_vms()
 	vmRunningMatched = vmRunning & vmFoundCleaned
@@ -173,11 +172,11 @@ when "halt"
 		puts "Failed to stop gateway...exit"
 		exit
 	end
-
-when "harthalt"
+# }}}
+when "harthalt"# {{{
 	poweroff_all_virtualboxes()
-
-when "status"
+# }}}
+when "status"# {{{
 	# get running vagrant vms matching subfolders we can find
 	vmRunning = get_running_vms()
 	vmRunningMatched = vmRunning & vmFoundCleaned
@@ -195,7 +194,8 @@ when "status"
 		running = vmRunningMatched.include?(File.basename(k))? "X" : " "
 		puts "[%s] %s" % [running, k]
 	}
-when "change"
+# }}}
+when "change"# {{{
 	 # get running vagrant vms matching subfolders we can find
 	 vmRunning = get_running_vms()
 	 vmRunningMatched = vmRunning & vmFoundCleaned
@@ -283,7 +283,7 @@ when "change"
 			exit
 		end
 	}
-
+# }}}
 else
 	puts "Wrong arguments ..."
 	puts usage
