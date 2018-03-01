@@ -245,7 +245,6 @@ elsif ARGV.first == "change"
             exit
         elsif decisionAsNumber.between?(1,vmsCount)
             vmChangeDefinition[vmChangeDefinition.keys[decisionAsNumber-1]] = !vmChangeDefinition[vmChangeDefinition.keys[decisionAsNumber-1]]
-            print vmChangeDefinition
             puts
         else
             puts "(!!!) WRONG INPUT [%s] :/" % [decision]
