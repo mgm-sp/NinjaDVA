@@ -47,7 +47,9 @@ def get_running_vms()
 end
 
 def get_gateway_position(arrayOfVmPaths)
-	return arrayOfVmPaths.index{|s| s== "gateway_vm"}
+	gatewayPos = arrayOfVmPaths.index{|s| s== "gateway_vm"}
+	raise "No gateway VM" unless gatewayPos
+	return gatewayPos
 end
 
 # --- begin of script ------
@@ -69,8 +71,9 @@ if vmsFound.length == 0
 end
 
 # handle no gateway vm found and exclude gateway from decision
-gatewayPos = get_gateway_position(vmsFound)
-if not gatewayPos
+begin
+	gatewayPos = get_gateway_position(vmsFound)
+rescue
 	puts "No gateway VM found :/ ... exit"
 	exit
 end
@@ -181,8 +184,9 @@ when "status"# {{{
 	vmRunning = get_running_vms()
 	vmRunningMatched = vmRunning & vmFoundCleaned
 
-	gatewayPos = get_gateway_position(vmRunning)
-	if not gatewayPos
+	begin
+		gatewayPos = get_gateway_position(vmRunning)
+	rescue
 		puts "Gateway is not running."
 		puts "Run #{$0} up to start NinjaDVA."
 		exit
@@ -200,8 +204,9 @@ when "change"# {{{
 	 vmRunning = get_running_vms()
 	 vmRunningMatched = vmRunning & vmFoundCleaned
 
-	 gatewayPos = get_gateway_position(vmRunning)
-	 if not gatewayPos
+	 begin
+		 gatewayPos = get_gateway_position(vmRunning)
+	 rescue
 		 puts "Gateway is not running."
 		 puts "Run #{$0} up to start NinjaDVA."
 		 exit
