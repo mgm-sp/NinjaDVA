@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require "yaml"
-require 'io/console'
 
 # usage# {{{
 usage = <<-END
