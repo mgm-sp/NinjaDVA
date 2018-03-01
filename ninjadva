@@ -47,8 +47,7 @@ def get_running_vms()
 end
 
 def get_last_subdirectory(longPath)
-    # TODO: will this work under windows?!
-    return longPath.split("/").last
+    return File.basename(longPath)
 end
 
 def get_gateway_position(arrayOfVmPaths)
