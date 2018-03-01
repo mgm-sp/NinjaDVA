@@ -46,10 +46,6 @@ def get_running_vms()
 	return runningVms
 end
 
-def get_last_subdirectory(longPath)
-	return File.basename(longPath)
-end
-
 def get_gateway_position(arrayOfVmPaths)
 	return arrayOfVmPaths.index{|s| s== "gateway_vm"}
 end
@@ -91,7 +87,7 @@ vmsCount = vmStartDefinition.keys.count
 # get vm directories cleaned, only the last sub-directory
 vmFoundCleaned = []
 vmStartDefinition.keys.each{|e|
-	vmFoundCleaned.push(get_last_subdirectory(e))
+	vmFoundCleaned.push(File.basename(e))
 }
 
 
@@ -196,7 +192,7 @@ when "status"
 	# print current vm config
 	puts "Running VMs are marked with [x]:"
 	vmStartDefinition.each {|k,v|
-		running = vmRunningMatched.include?(get_last_subdirectory(k))? "X" : " "
+		running = vmRunningMatched.include?(File.basename(k))? "X" : " "
 		puts "[%s] %s" % [running, k]
 	}
 when "change"
@@ -214,7 +210,7 @@ when "change"
 	vmChangeDefinition = vmStartDefinition.clone
 	# update run status
 	vmChangeDefinition.each{|k,v|
-		vmChangeDefinition[k]=vmRunningMatched.include?(get_last_subdirectory(k))
+		vmChangeDefinition[k]=vmRunningMatched.include?(File.basename(k))
 	}
 	# safe current state
 	vmStateBefore = vmChangeDefinition.clone
