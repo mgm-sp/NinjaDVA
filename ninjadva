@@ -96,7 +96,8 @@ vmStartDefinition.keys.each{|e|
 
 
 # ---- handle up ------
-if ARGV.first == "up"
+case ARGV.first
+when "up"
 
 	puts "VMs with a [x] will be started:"
 
@@ -157,7 +158,7 @@ if ARGV.first == "up"
 		end
 	}
 # ------- handle halt ------
-elsif ARGV.first == "halt"
+when "halt"
 	# get running vagrant vms matching subfolders we can find
 	vmRunning = get_running_vms()
 	vmRunningMatched = vmRunning & vmFoundCleaned
@@ -177,10 +178,10 @@ elsif ARGV.first == "halt"
 		exit
 	end
 
-elsif ARGV.first == "harthalt"
+when "harthalt"
 	poweroff_all_virtualboxes()
 
-elsif ARGV.first == "status"
+when "status"
 	# get running vagrant vms matching subfolders we can find
 	vmRunning = get_running_vms()
 	vmRunningMatched = vmRunning & vmFoundCleaned
@@ -198,7 +199,7 @@ elsif ARGV.first == "status"
 		running = vmRunningMatched.include?(get_last_subdirectory(k))? "X" : " "
 		puts "[%s] %s" % [running, k]
 	}
-elsif ARGV.first == "change"
+when "change"
 	 # get running vagrant vms matching subfolders we can find
 	 vmRunning = get_running_vms()
 	 vmRunningMatched = vmRunning & vmFoundCleaned
