@@ -51,7 +51,7 @@ def get_last_subdirectory(longPath)
 end
 
 def get_gateway_position(arrayOfVmPaths)
-	return arrayOfVmPaths.index{|s| s=~ /gateway/}
+	return arrayOfVmPaths.index{|s| s== "gateway_vm"}
 end
 
 # --- begin of script ------
