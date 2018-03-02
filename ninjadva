@@ -152,20 +152,18 @@ when "halt"# {{{
 	vmRunning = get_running_vms()
 	vmRunningMatched = vmRunning & vmFoundCleaned
 
-	unless vmRunning.include?(GatewayPath)
-		puts "Gateway is not running."
-		puts "Run #{$0} up to start NinjaDVA."
-		exit
-	end
+	# move gateway to last position
+	vmRunningMatched+=[GatewayPath] if vmRunning.include?(GatewayPath)
 
-	# stop VMs, gateway last
-	(vmRunningMatched+[GatewayPath]).each{|k|
+	# stop VMs
+	vmRunningMatched.each{|k|
 		puts "stopping #{k} ..."
 		if not stop_vagrant(k)
 			puts "Failed to stop #{k}...exit"
 			exit
 		end
 	}
+	# }}}
 when "status"# {{{
 	# get running vagrant vms matching subfolders we can find
 	vmRunning = get_running_vms()
