@@ -18,6 +18,7 @@ if ARGV.size == 0
 end
 # }}}
 GatewayPath = "gateway_vm"
+ExampleVMPath = "your_vulnerable_vm"
 
 # ---- define functions ------# {{{
 
@@ -71,6 +72,8 @@ unless vmsFound.delete(GatewayPath)
 	exit
 end
 
+# Do not pay attention to example VM
+vmsFound.delete(ExampleVMPath)
 
 # merge vms found with vms in config
 vmStartDefinition = {}
