@@ -7,7 +7,6 @@ usage = <<-END
 	usage:
 	#{$0} up -- start NinjaDVA components
 	#{$0} halt -- shutdown all components
-	#{$0} poweroff -- poweroff all VirtualBoxes system wide (no soft shutdown!)
 	#{$0} status -- show running components
 	#{$0} change -- stop or start additional components
 END
@@ -128,8 +127,16 @@ when "up" # {{{
 		f.write(vmSettingsConfig.merge!(vmStartDefinition).to_yaml)
 	end
 
-	# start gateway and others
-	vmStartDefinition.merge({GatewayPath => true}).each{|k,v|
+	# start gateway
+	puts "starting #{GatewayPath} ...."
+	if not start_vagrant(GatewayPath)
+		stop_vagrant(GatewayPath)
+		puts "Failed to start #{GatewayPath}...exit"
+		exit
+	end
+
+	# start other VMs
+	vmStartDefinition.each{|k,v|
 		if v
 			puts "starting #{k} ...."
 			if not start_vagrant(k)
@@ -145,6 +152,12 @@ when "halt"# {{{
 	vmRunning = get_running_vms()
 	vmRunningMatched = vmRunning & vmFoundCleaned
 
+	unless vmRunning.include?(GatewayPath)
+		puts "Gateway is not running."
+		puts "Run #{$0} up to start NinjaDVA."
+		exit
+	end
+
 	# stop VMs, gateway last
 	(vmRunningMatched+[GatewayPath]).each{|k|
 		puts "stopping #{k} ..."
@@ -153,10 +166,6 @@ when "halt"# {{{
 			exit
 		end
 	}
-# }}}
-when "poweroff"# {{{
-	poweroff_all_virtualboxes()
-# }}}
 when "status"# {{{
 	# get running vagrant vms matching subfolders we can find
 	vmRunning = get_running_vms()
@@ -185,7 +194,7 @@ when "change"# {{{
 		puts "Run #{$0} up to start NinjaDVA."
 		exit
 	end
-	puts "Mark mark or unmark components with [X] to start or stop them:"
+	puts "Mark or unmark components with [X] to start or stop them:"
 	vmChangeDefinition = vmStartDefinition.clone
 	# update run status
 	vmChangeDefinition.each{|k,v|
@@ -258,6 +267,7 @@ when "change"# {{{
 	vmsToStart.each{|k|
 		puts "starting #{k} ..."
 		if not start_vagrant(k)
+			stop_vagrant(k)
 			puts "Failed to start #{k}...exit"
 			exit
 		end
