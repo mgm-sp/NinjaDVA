@@ -127,23 +127,15 @@ when "up" # {{{
 		f.write(vmSettingsConfig.merge!(vmStartDefinition).to_yaml)
 	end
 
-	# start gateway
-	puts "starting #{GatewayPath} ...."
-	if not start_vagrant(GatewayPath)
-		stop_vagrant(GatewayPath)
-		puts "Failed to start #{GatewayPath}...exit"
-		exit
-	end
-
-	# start other VMs
-	vmStartDefinition.each{|k,v|
-		if v
-			puts "starting #{k} ...."
-			if not start_vagrant(k)
-				stop_vagrant(k)
-				puts "Failed to start #{k}...exit"
-				exit
-			end
+	# start VMs, Gateway first
+	([GatewayPath] + vmStartDefinition.to_a.collect{|a,b|
+		a if b
+	}.compact).each{|vm|
+		puts "starting #{vm} ...."
+		if not start_vagrant(vm)
+			stop_vagrant(vm)
+			puts "Failed to start #{vm}...exit"
+			exit
 		end
 	}
 # }}}
