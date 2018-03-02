@@ -71,7 +71,7 @@
 
 		//backup solution
 		$("#admcalconfdaystart").val(oJSON.dayStart);
-		$("#admcalconfslotduration").val(sSlotDuration);
+		$("#admcalconfslotduration").val(oJSON.slotDuration);
 
 		//time picker solution
 		$("#admcalconfdaystart").wickedpicker({twentyFour:true, now: (oJSON.dayStart ? oJSON.dayStart : "08:00")});
