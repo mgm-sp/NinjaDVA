@@ -219,14 +219,14 @@ $("#calendar").fullCalendar("option", {
 		//define and render new edit form
 		var sEventEditForm =
 			'<div id="admcaleventedit">' +
-			"<fieldset>" +
-			"<p><h3>Edit Event</h3></p>" +
-			'<p><label for="admcaltitle">Title:</label><span><input id="admcaltitle"></span></p>' +
-			'<p><label for="admcalurl">URL:</label><span><input id="admcalurl" type="url"></span></p>' +
-			'<p><label for="admcalcolor">Color:</label><span><input id="admcalcolor" type="color"><input type="checkbox" id="admcalusecolor"><label for="admcalusecolor">Custom</label></input></span></p>' +
-			'<p><button type="button" id="admcalsave">Save Event</button><button type="button" id="admcaldismiss">Dismiss</button></p>' +
-			'<p><button type="button" id="admcaldelete">Delete Event</button></p>' +
-			"</fieldset>" +
+			"<h3>Edit Event</h3>" +
+			'<div id="admcaleventedittable">' +
+			'<div class="admcaleventedittablerow"><label class="admcaleventedittablemin" for="admcaltitle">Title:</label><input class="admcaleventedittableflex" id="admcaltitle"></div>' +
+			'<div class="admcaleventedittablerow"><label class="admcaleventedittablemin" for="admcalurl">URL:</label><input class="admcaleventedittableflex" id="admcalurl" type="url"></div>' +
+			'<div class="admcaleventedittablerow"><label class="admcaleventedittablemin" for="admcalcolor">Color:</label><div class="admcaleventedittableflex"><input id="admcalcolor" type="color"><input type="checkbox" id="admcalusecolor"><label for="admcalusecolor">Custom</label></input></div></div>' +
+			'</div>' +
+			'<span> <button type="button" id="admcalsave">Save Event</button><button type="button" id="admcaldismiss">Dismiss</button></span>' +
+			'<span><button type="button" id="admcaldelete">Delete Event</button></span>' +
 			"</div>";
 		$("#admincalendar_content").append(sEventEditForm);
 
