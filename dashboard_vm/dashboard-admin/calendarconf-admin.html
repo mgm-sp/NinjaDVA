@@ -69,13 +69,16 @@
 	//define list adder function
 	var fnAddCalendarConfigToForm = function (oJSON) {
 
+		let sDayStart = oJSON.dayStart ? oJSON.dayStart : "08:00";
+		let sSlotDuration = oJSON.slotDuration ? oJSON.slotDuration: "00:30"
+
 		//backup solution
-		$("#admcalconfdaystart").val(oJSON.dayStart);
-		$("#admcalconfslotduration").val(oJSON.slotDuration);
+		$("#admcalconfdaystart").val(sDayStart);
+		$("#admcalconfslotduration").val(sSlotDuration);
 
 		//time picker solution
-		$("#admcalconfdaystart").wickedpicker({twentyFour:true, now: (oJSON.dayStart ? oJSON.dayStart : "08:00")});
-		$("#admcalconfslotduration").wickedpicker({twentyFour:true, now:  oJSON.slotDuration ? oJSON.slotDuration: "00:30"});
+		$("#admcalconfdaystart").wickedpicker({twentyFour:true, now: sDayStart});
+		$("#admcalconfslotduration").wickedpicker({twentyFour:true, now:  sSlotDuration});
 	};
 
 	// define calendar config getter function
