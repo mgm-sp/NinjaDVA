@@ -2,17 +2,14 @@
 
 **NinjaDVA** is not just another Damn Vulnerable Application. Its a mobile training environment for web application security. With its build-in vulnerabilities, it is the prefect environment to teach web application security while consolidating your knowledge through practical exercises.  With **NinjaDVA** you have found your all in one solution for your security trainings.
 
-TODO: find better text!?
-
 ## Features
 
  * dashboard showing schedule, slides and links
  * single instance for multiple participants
  * administrative back-end allowing to observe the progress of the participants
  * participants can use their own notebooks (no custom software needed)
- * TODO: add more features
 
- ## Requirements
+## Requirements
  * the latest version of `vagrant`
  * vagrant plugin: `vagrant-triggers` (installation via `vagrant plugin install vagrant-triggers`)
 
