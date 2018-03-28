@@ -99,8 +99,6 @@ Vagrant.configure("2") do |config|
 
     .......your VM configuration .............
 
-	#----------------- NinjaDVA specific configuration -------------------------------
-
 	if File.exists?("../ninjadva.rb")
 		require "../ninjadva"
 		NinjaDVA.new(config)
