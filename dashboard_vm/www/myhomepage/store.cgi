@@ -16,9 +16,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$con
 		File.open("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml","w"){|f|
 			f << homepage.to_yaml
 		}
-		h.header["status"] = "REDIRECT"
-		h.header["Cache-Control"] = "no-cache"
-		h.header["Location"] = "/edit.cgi?url=#{$cgi["url"]}&password=#{$cgi["password"]}"
+		h.header["status"] = "OK"
 
 		pid = Process.fork
 		if pid.nil?
@@ -29,14 +27,14 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$con
 		end
 
 	else # wrong PW
-		h.header["status"] = "REDIRECT"
-		h.header["Cache-Control"] = "no-cache"
-		h.header["Location"] = "/"
+		h.header["status"] = "FORBIDDEN"
+		#h.header["Cache-Control"] = "no-cache"
+		#h.header["Location"] = "/"
 	end
 else # url does not exist
-	h.header["status"] = "REDIRECT"
-	h.header["Cache-Control"] = "no-cache"
-	h.header["Location"] = "/"
+	h.header["status"] = "NOT_FOUND"
+	#h.header["Cache-Control"] = "no-cache"
+	#h.header["Location"] = "/"
 end
 
 

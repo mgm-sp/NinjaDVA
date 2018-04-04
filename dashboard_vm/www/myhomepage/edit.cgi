@@ -12,7 +12,10 @@ h.add_script_file("jquery-2.2.3.min.js")
 
 h.add_script <<~JS
 $( document ).ready(function() {
+	//define globals
 	var currentLog = {}
+
+	//define callbacks
 	var fnUpdateLogTable = function(){
 		$.getJSON("getlog.cgi", {"url": "#{$cgi["url"]}", "password": "#{$cgi["password"]}"}, function(result){
 			if (JSON.stringify(currentLog) !== JSON.stringify(result)){
@@ -25,8 +28,33 @@ $( document ).ready(function() {
 			}
 		});
 	};
+
+	var fnSaveFormData = function(){
+		//disable save button
+		$("#submitButton").prop( "disabled", true );
+		//save codemirror data to textarea
+		editorCode.save();
+		editorHeader.save();
+		//get data from form
+		let data = $("#codeForm").serialize();
+		//submit
+		$.post('store.cgi', data);
+	};
+
+	//fire first update
 	fnUpdateLogTable();
+
+	//set events/triggers
 	setInterval(fnUpdateLogTable, 2000);
+	$("#submitButton").click(fnSaveFormData);
+	$(document).keydown(function(event) {
+		if (!(event.which == 83 && (event.ctrlKey || event.metaKey))) return true;
+		fnSaveFormData();
+		event.preventDefault();
+		return false;
+	});
+	editorCode.on("change", function(){$("#submitButton").removeAttr("disabled");});
+	editorHeader.on("change", function(){$("#submitButton").removeAttr("disabled");});
 });
 JS
 
@@ -42,7 +70,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$con
 		LINK
 
 		h << <<~EDIT
-			<form style='margin-top:2ex; height: 100%' method='post' action='store.cgi'>
+			<form id='codeForm' style='margin-top:2ex; height: 100%'>
 			<div>
 		EDIT
 		h << <<~EDIT
@@ -50,7 +78,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$con
 				<input type='hidden' name='url' value='#{$cgi["url"]}' />
 				<input type='hidden' name='password' value='#{$cgi["password"]}' />
 				<textarea id='codeeditor' name='contents' style='width: 100%; height:100%'>#{CGI.escapeHTML(homepage[:contents])}</textarea>
-				<input type='submit' value='Save' />
+				<button type="button" id='submitButton' value='Save' disabled>Save (CTRL+S)</button>
 			</div>
 			</form>
 		EDIT
@@ -61,7 +89,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$con
 		h.add_script_file("codemirror/xml.js")
 		h.add_script_file("codemirror/htmlmixed.js")
 		h.add_script <<~JS
-			var editor = CodeMirror.fromTextArea(document.getElementById("codeeditor"), {
+			var editorCode = CodeMirror.fromTextArea(document.getElementById("codeeditor"), {
 				mode:  {
 					name: "htmlmixed",
 					scriptTypes: [
@@ -74,7 +102,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$con
 		JS
 		h.add_script_file("codemirror/http.js")
 		h.add_script <<~JS
-			var editor = CodeMirror.fromTextArea(document.getElementById("headereditor"), {
+			var editorHeader = CodeMirror.fromTextArea(document.getElementById("headereditor"), {
 				mode:  {
 					name: "http",
 				},
