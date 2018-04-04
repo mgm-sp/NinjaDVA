@@ -8,6 +8,27 @@ $cgi = CGI.new
 h = HTML.new("My Homepage")
 h.add_css("codemirror/codemirror.css") # needs to be loaded before other css
 h.add_css("myhomepage.css")
+h.add_script_file("jquery-2.2.3.min.js")
+
+h.add_script <<~JS
+$( document ).ready(function() {
+	var currentLog = {}
+	var fnUpdateLogTable = function(){
+		$.getJSON("getlog.cgi", {"url": "#{$cgi["url"]}", "password": "#{$cgi["password"]}"}, function(result){
+			if (JSON.stringify(currentLog) !== JSON.stringify(result)){
+				currentLog = result;
+				$("#logtable > tbody > tr").slice(1).remove();
+				result.forEach((e)=>{
+					sTableLine = `<tr><td>${e["ADDR"]}</td><td>${e["TIME"]}</td><td>${e["METHOD"]}</td><td>${e["URI"]}</td><td>${e["USER_AGENT"]}</td><td>${(e["REFERER"] ? e["REFERER"] : "")}</td></tr>`;
+					$("#logtable > tbody > tr:first").after(sTableLine);
+				});
+			}
+		});
+	};
+	fnUpdateLogTable();
+	setInterval(fnUpdateLogTable, 2000);
+});
+JS
 
 if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml")
 
@@ -64,19 +85,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$con
 		h << "<h1>Access Log</h1>"
 		require "csv"
 		fields = ["ADDR","TIME","METHOD","URI","USER_AGENT","REFERER"]
-		h << "<table class='requestlog'><tr>#{fields.collect{|e| "<th>#{e}</th>"}.join("")}</tr>"
-		CSV.read("#{$conf.myhomepagedb}/#{$cgi["url"]}_access.log",{headers:true}).reverse_each{|log|
-			h << "<tr>"
-			fields.each{|elem|
-				s = log[elem].to_s
-				if elem == "URI"|| elem == "REFERER"
-					s = CGI.unescape(s)
-				end
-				h << "<td>#{CGI.escapeHTML(s)}</td>"
-			}
-			h << "</tr>"
-		}
-		h << "</table>"
+		h << "<table id='logtable' class='requestlog'><tr>#{fields.collect{|e| "<th>#{e}</th>"}.join("")}</tr></table>"
 
 	else
 		h.header["status"] = "REDIRECT"
