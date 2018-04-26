@@ -25,14 +25,15 @@ class Configuration < OpenStruct
 	def set_db_dir(dir)
 		self.dbdir = "config/#{dir}/db/"
 	end
+	def remote_solution_handler_url
+		"http://dashboard.#{$conf.domain}/solve_srv.cgi"
+	end
 end
 
 $conf = Configuration.new
 INSTALLDIR = "/var/www/"
 
 $conf.domain = "mgmsp-lab.com"
-# url where the remote solve handler listens
-$conf.remote_solution_handler_url = "http://dashboard.#{$conf.domain}/solve_srv.cgi"
 
 $conf.dbdir = "db"
 
