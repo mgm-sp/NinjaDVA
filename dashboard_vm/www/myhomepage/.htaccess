@@ -4,7 +4,7 @@ RewriteEngine On
 #RewriteRule ^(.*)$ /view.cgi?url=$1
 
 #RewriteRule ^(\w+)(?<!favicon\.ico|\.cgi|\.js|\.css)$ /view.cgi?url=$1
-RewriteRule ^(\w+)$ /view.cgi?url=$1
+RewriteRule ^([\w_-]+)$ /view.cgi?url=$1
 
 Options +ExecCGI
 AddHandler cgi-script .cgi
