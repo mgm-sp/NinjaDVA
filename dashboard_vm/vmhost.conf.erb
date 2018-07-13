@@ -1,16 +1,16 @@
-<%# encoding: UTF-8 %>
-<%
-DOMAIN = "mgmsp-lab.com"
-INSTALLDIR = "/var/www"
+<%# encoding: UTF-8 %><%
+	require "yaml"
+	domain = "mgmsp-lab.com"
+	domain = YAML::load_file("../.ninjadvarc.yaml")["domain"] if File.exists?("../.ninjadvarc.yaml")
+	installdir = "/var/www"
 
-["dashboard","myhomepage", "clonecloud"].each{|server|
-%>
-<VirtualHost *:80>
+	["dashboard","myhomepage", "clonecloud"].each{|server|
+%><VirtualHost *:80>
 	ServerAdmin webmaster@localhost
-	DocumentRoot <%=INSTALLDIR%>/<%=server%>
-	ServerName <%=server%>.<%=DOMAIN%>
+	DocumentRoot <%=installdir%>/<%=server%>
+	ServerName <%=server%>.<%=domain%>
 
-	<Directory "<%=INSTALLDIR%>/<%=server%>">
+	<Directory "<%=installdir%>/<%=server%>">
 		AllowOverride All
 	</Directory>
 
