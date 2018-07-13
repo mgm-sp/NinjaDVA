@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require "yaml"
+require "fileutils"
+
+Dir.mkdir("config") unless Dir.exists?("config")
+
+unless File.exists?("config/config.rb")
+	FileUtils.cp("www/config_sample.rb","config/config.rb")
+	if File.exists?("../.ninjadvarc.yaml")
+		ninjadva_config = YAML::load_file("../.ninjadvarc.yaml")
+		File.open("config/config.rb","a"){|conffile|
+			conffile << "$conf.domain = \"#{ninjadva_config["domain"]}\"\n"
+		}
+	end
+	puts "A default config was created. You may edit config/config.rb"
+end
+
+
+unless File.exists?("config/htdigest")
+	INSTALLDIR=File.expand_path(".")
+	$ignore_db_error=true
+	require_relative "www/config_defaults.rb"
+	require "digest"
+	user = "admin"
+	realm = "Restricted Area"
+	File.open("config/htdigest","w"){|f|
+		f << "#{user}:#{realm}:#{Digest::MD5.hexdigest("#{user}:#{realm}:#{$conf.default_userpw}")}\n"
+	}
+	puts "A default password file was created at config/htdigest with the default password in config.rb!"
+	puts "You need this Password for the admin interface."
+	puts "url: http://dashboard.#{$conf.domain}/admin"
+	puts "user: admin"
+	puts "pass: #{$conf.default_userpw}"
+end
