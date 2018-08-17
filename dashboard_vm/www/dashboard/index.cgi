@@ -143,14 +143,14 @@ $(document).ready(function() {
 			right: 'agendaDay,agendaTwoDays,agendaThreeDays,listWeek'
 		},
 		views: {
-        agendaTwoDays: {
-            type: 'agenda',
-            duration: { days: 2 },
-        },
-        agendaThreeDays: {
-            type: 'agenda',
-            duration: { days: 3 },
-        }
+				agendaTwoDays: {
+						type: 'agenda',
+						duration: { days: 2 },
+				},
+				agendaThreeDays: {
+						type: 'agenda',
+						duration: { days: 3 },
+				}
 		},
 		height: 250,
 		defaultView: 'agendaDay',
