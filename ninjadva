@@ -79,7 +79,7 @@ vmsFound.delete(ExampleVMPath)
 vmStartDefinition = {}
 vmsFound.each{|e| vmStartDefinition[e] = false}
 # get subset of vms that can be found currently
-vmSettingsConfigExistSubset = vmSettingsConfig.select{|k,v| (vmStartDefinition.keys & vmSettingsConfig.keys).include?(k)}
+vmSettingsConfigExistSubset = vmSettingsConfig["launch"].select{|k,v| (vmStartDefinition.keys & vmSettingsConfig["launch"].keys).include?(k)}
 vmStartDefinition.merge!(vmSettingsConfigExistSubset)
 vmsCount = vmStartDefinition.keys.count
 # get vm directories cleaned, only the last sub-directory
@@ -134,7 +134,8 @@ when "up" # {{{
 
 	# save new config
 	File.open(configFile,"w") do |f|
-		f.write(vmSettingsConfig.merge!(vmStartDefinition).to_yaml)
+		vmSettingsConfig["launch"].merge!(vmStartDefinition)
+		f.write(vmSettingsConfig.to_yaml)
 	end
 
 	# start VMs, Gateway first

@@ -1,0 +1,13 @@
+<%
+	require "yaml"
+	domain = "mgmsp-lab.com"
+	domain = YAML::load_file("../.ninjadvarc.yaml")["domain"] if File.exists?("../.ninjadvarc.yaml")
+%>
+127.0.0.1 localhost
+127.0.0.1 dashboard dashboard.<%=domain%>
+127.0.0.1 myhomepage myhomepage.<%=domain%>
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters

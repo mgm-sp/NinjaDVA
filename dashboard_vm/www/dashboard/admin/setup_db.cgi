@@ -4,6 +4,8 @@
 out = ""
 
 require "sqlite3"
+
+$ignore_db_error = true
 require_relative "../../config_defaults"
 
 require "argon2"
@@ -16,6 +18,8 @@ unless Dir.exists?($conf.dbdir_absolute)
 chown = []
 
 [
+	File.dirname($conf.dbdir_absolute),
+	$conf.dbdir_absolute,
 	File.dirname($conf.userdb),
 	$conf.myhomepagedb,
 	$conf.cloudfiles

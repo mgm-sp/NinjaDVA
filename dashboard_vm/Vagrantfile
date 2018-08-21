@@ -43,28 +43,37 @@ Vagrant.configure("2") do |config|
 
 	########### copy files to vm
 
-	# copy network interfaces definition and hosts file to vm
+	# generate config
+	require "erb"
+	["vmhost.conf","hosts"].each{|erb_config|
+		File.open("tmp_#{erb_config}_tmp","w"){|tmpfile| tmpfile << ERB.new(File.read("#{erb_config}.erb")).result }
+	}
+
+	# copy hosts file and interfaces to vm
+	config.vm.provision "file", source: "./tmp_hosts_tmp", destination: "/tmp/vagrant_tmp/hosts"
 	config.vm.provision "file", source: "./interfaces", destination: "/tmp/vagrant_tmp/interfaces"
-	config.vm.provision "file", source: "./hosts", destination: "/tmp/vagrant_tmp/hosts"
+
 
 	# copy apache vm definition and server code to vm
-	config.vm.provision "file", source: "./vmhost.conf", destination: "/tmp/vagrant_tmp/vmhost.conf"
+	config.vm.provision "file", source: "./tmp_vmhost.conf_tmp", destination: "/tmp/vagrant_tmp/vmhost.conf"
 	config.vm.provision "file", source: "./www", destination: "/tmp/vagrant_tmp/www"
 
 	# move files to their destination
 	config.vm.provision "shell", inline: <<-END
-			cd /tmp/vagrant_tmp/
-			install -o root -g root interfaces /etc/network/interfaces
-			install -o root -g root hosts /etc/hosts
-			install -o root -g root	vmhost.conf /etc/apache2/sites-available/vmhost.conf
-			cp -R www/* /var/www/
-			find /var/www -iname "*.cgi"|xargs chmod a+x
-			chown -R root:root /var/www/
-			rm -rf *
+		cd /tmp/vagrant_tmp/
+		install -o root -g root interfaces /etc/network/interfaces
+		install -o root -g root hosts /etc/hosts
+		install -o root -g root vmhost.conf /etc/apache2/sites-available/vmhost.conf
+		cp -R www/* /var/www/
+		find /var/www -iname "*.cgi"|xargs chmod a+x
+		chown -R root:root /var/www/
+		rm -rf *
 	END
 
+	config.trigger.before [:up] do |trigger|
+		load "setup-config" # generate initial config dir
+	end
 	# shared folders
-	Dir.mkdir("config") unless Dir.exists?("config")
 	config.vm.synced_folder "./config", "/var/www/config", mount_options: ["dmode=777,fmode=666"]
 	config.vm.synced_folder "./challenge-descriptions", "/var/www/challenge-descriptions"
 	config.vm.synced_folder "./dashboard-widgets", "/var/www/dashboard-widgets/"
@@ -73,28 +82,29 @@ Vagrant.configure("2") do |config|
 
 	# reload the network configuration
 	config.vm.provision "shell", inline: <<-END
-			ifdown eth1
-			ifup eth1
-			ifup eth1:0
-			ifup eth1:1
-			echo -e "\n# avoid nic1 providing a dns server\ninterface eth0\nnooption 6" >> /etc/dhcpcd.conf
+		ifdown eth1
+		ifup eth1
+		ifup eth1:0
+		ifup eth1:1
+		echo -e "\n# avoid nic1 providing a dns server\ninterface eth0\nnooption 6" >> /etc/dhcpcd.conf
 	END
 
 
 	# define commands that will be executed after the code was copied to
 	# the vm. This is the place where your server configuration can take place
 	config.vm.provision "shell", inline: <<-END
-			chown www-data:www-data /var/www/clonecloud
-			service apache2 stop
-			a2enconf serve-cgi-bin
-			a2dismod mpm_event
-			a2enmod mpm_prefork
-			a2enmod cgi
-			a2enmod headers
-			a2enmod rewrite
-			a2enmod auth_digest
-			a2ensite vmhost
-			a2dissite 000-default
-			service apache2 start
+		chown www-data:www-data /var/www/clonecloud
+		service apache2 stop
+		a2enconf serve-cgi-bin
+		a2dismod mpm_event
+		a2enmod mpm_prefork
+		a2enmod cgi
+		a2enmod headers
+		a2enmod rewrite
+		a2enmod auth_digest
+		a2ensite vmhost
+		a2dissite 000-default
+		service apache2 start
+		wget -O - http://dashboard/admin/setup_db.cgi
 	END
 end
