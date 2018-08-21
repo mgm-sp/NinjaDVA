@@ -1,7 +1,10 @@
 <%
 	require "yaml"
 	domain = "mgmsp-lab.com"
-	domain = YAML::load_file("../.ninjadvarc.yaml")["domain"] if File.exists?("../.ninjadvarc.yaml")
+	if File.exists?("../.ninjadvarc.yaml")
+		ninjadva_config = YAML::load_file("../.ninjadvarc.yaml")
+		domain = ninjadva_config["domain"] if ninjadva_config["domain"]
+	end
 %>
 127.0.0.1 localhost
 127.0.0.1 dashboard dashboard.<%=domain%>
