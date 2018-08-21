@@ -70,9 +70,45 @@ Vagrant.configure("2") do |config|
 		rm -rf *
 	END
 
-	config.trigger.before [:up] do |trigger|
-		load "setup-config" # generate initial config dir
+	config.trigger.after :provision do |trigger|
+		# generate initial config dir
+		require "yaml"
+		require "fileutils"
+
+		Dir.mkdir("config") unless Dir.exists?("config")
+
+		unless File.exists?("config/config.rb")
+			FileUtils.cp("www/config_sample.rb","config/config.rb")
+			if File.exists?("../.ninjadvarc.yaml")
+				ninjadva_config = YAML::load_file("../.ninjadvarc.yaml")
+				if ninjadva_config["domain"]
+					File.open("config/config.rb","a"){|conffile|
+						conffile << "$conf.domain = \"#{ninjadva_config["domain"]}\"\n"
+					}
+				end
+			end
+			puts "A default config was created. You may edit config/config.rb"
+		end
+
+
+		unless File.exists?("config/htdigest")
+			INSTALLDIR=File.expand_path(".")
+			$ignore_db_error=true
+			require_relative "www/config_defaults.rb"
+			require "digest"
+			user = "admin"
+			realm = "Restricted Area"
+			File.open("config/htdigest","w"){|f|
+				f << "#{user}:#{realm}:#{Digest::MD5.hexdigest("#{user}:#{realm}:#{$conf.default_userpw}")}\n"
+			}
+			puts "A default password file was created at config/htdigest with the default password in config.rb!"
+			puts "You need this Password for the admin interface."
+			puts "url: http://dashboard.#{$conf.domain}/admin"
+			puts "user: admin"
+			puts "pass: #{$conf.default_userpw}"
+		end
 	end
+
 	# shared folders
 	config.vm.synced_folder "./config", "/var/www/config", mount_options: ["dmode=777,fmode=666"]
 	config.vm.synced_folder "./challenge-descriptions", "/var/www/challenge-descriptions"
