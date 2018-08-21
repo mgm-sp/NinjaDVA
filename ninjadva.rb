@@ -15,8 +15,10 @@ class NinjaDVA
 
 		# install ninjadva specific software
 		config.vm.provision "shell", inline: <<-END
-			apt-get -y update
-			apt-get -y install curl
+			if [ -x /usr/bin/apt-get ];then
+				apt-get -y update
+				apt-get -y install curl
+			fi
 		END
 		config.vm.provision "file", source: "#{options[:ninjadva_dir]}/ninjadva_service", destination: "/tmp/tmp_provision/ninjadva_service"
 		config.vm.provision "shell", inline: <<-END
