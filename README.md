@@ -150,7 +150,7 @@ ninjasolver -r http://dashboard.mgmsp-lab.com/solve_srv.cgi -i 172.23.42.137 -c 
 ```
 
 ## Advanced Configuration
-TODO: 
+TODO:
  * how to change password
  * how to change customer
  * how to change domain

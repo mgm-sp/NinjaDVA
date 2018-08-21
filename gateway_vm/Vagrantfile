@@ -42,10 +42,10 @@ Vagrant.configure("2") do |config|
 		decision = nil
 		loop do
 			puts "Do you want to bridge a hardware network device to the VM? [y/N]"
-			
+
 			decision = STDIN.getch
 			puts decision
-			
+
 			if decision.downcase == "n" or decision.downcase == "y" or decision == "\r"
 				break
 			end
