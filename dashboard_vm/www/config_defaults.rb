@@ -60,7 +60,7 @@ end
 unless Dir.exists?($conf.dbdir_absolute) || $ignore_db_error
 	puts "Content-Type: text/html"
 	puts
-	puts "DB does not exist, you need to run <a href='http://dashboard.#{$conf.domain}/admin/setup_db.cgi'>dashboard/admin/setup_db.cgi</a>.<br/>"
+	puts "DB does not exist, you need to run <a href='/admin/setup_db.cgi'>/admin/setup_db.cgi</a>.<br/>"
 	puts "You need the password from $YOURCONFIGDIR/config.rb for the first access to setup_db.cgi (username: admin)!"
 	exit
 end
