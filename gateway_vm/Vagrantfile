@@ -70,10 +70,15 @@ Vagrant.configure("2") do |config|
 	END
 
 	########### copy files to vm
+	# generate config
+	require "erb"
+	["dnsmasq.conf"].each{|erb_config|
+		File.open("tmp_#{erb_config}_tmp","w"){|tmpfile| tmpfile << ERB.new(File.read("#{erb_config}.erb")).result }
+	}
 
 	# copy network interfaces definition and hosts file to vm
 	provisionFile(config,"interfaces","/etc/network/interfaces")
-	provisionFile(config,"dnsmasq.conf","/etc/dnsmasq.d/dnsmasq.conf")
+	provisionFile(config,"tmp_dnsmasq.conf_tmp","/etc/dnsmasq.d/dnsmasq.conf")
 
 	# reload the network configuration
 	config.vm.provision "shell", inline: <<-END
