@@ -10,6 +10,24 @@ class NinjaDVA
 		options[:dashboard_admin_widgets_dir] ||= "./ninjadva/dashboard-admin/"
 		options[:link_widget_links] ||= [{ hostname: config.vm.hostname, name: config.vm.hostname }]
 
+		if File.exists?("#{options[:ninjadva_dir]}/.ninjadvarc.yaml")
+			ninjadvarc = YAML::load_file("#{options[:ninjadva_dir]}/.ninjadvarc.yaml")
+			options[:ssh_key] ||= ninjadvarc["ssh_key"] if ninjadvarc["ssh_key"]
+		end
+
+		if options[:ssh_key]
+			keyfile = "$HOME/.ssh/authorized_keys"
+			config.vm.provision "shell", inline: <<-SHELL
+				mkdir -p $(dirname #{keyfile})
+				touch #{keyfile}
+				grep --quiet '#{options[:ssh_key]}' #{keyfile}
+				if [ "$?" = 1 ];then
+					echo #{options[:ssh_key]} >> #{keyfile}
+					chmod go-rw #{keyfile}
+				fi
+			SHELL
+		end
+
 		# add a interface to the vm that is in the same internal network like the gateway vm
 		config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva"
 
