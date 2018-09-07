@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "yaml"
+require 'fileutils'
 
 # usage# {{{
 usage = <<-END
@@ -9,6 +10,10 @@ usage = <<-END
 	#{$0} halt -- shutdown all components
 	#{$0} status -- show running components
 	#{$0} change -- stop or start additional components
+	#{$0} register <vm_name> <challenge_dir> <widget_dir> <adminwidget_dir> -- register a VM
+	#{$0} deregister <vm_name> <challenge_dir> <widget_dir> <adminwidget_dir> -- deregister a VM
+	#{$0} addlink <link_name> <link-url> -- add a link (to dashboard)
+	#{$0} rmlink <link_name> <link-url> -- remove a link (from dashboard)
 END
 
 # print usage if no no arguments
@@ -19,6 +24,9 @@ end
 # }}}
 GatewayPath = "gateway_vm"
 ExampleVMPath = "your_vulnerable_vm"
+
+#require to be in same path were ninjadva is located
+Dir.chdir(File.dirname(File.absolute_path($0)))
 
 # ---- define functions ------# {{{
 
@@ -261,7 +269,44 @@ when "change"# {{{
 			exit
 		end
 	}
-# }}}
+	# }}}
+	when "register"# {{{
+		FileUtils.cp(Dir.glob("#{ARGV[1]}/#{ARGV[2]}/*.yaml"), "dashboard_vm/challenge-descriptions")
+		FileUtils.cp(Dir.glob("#{ARGV[1]}/#{ARGV[3]}/*.html"), "dashboard_vm/dashboard-widgets")
+		FileUtils.cp(Dir.glob("#{ARGV[1]}/#{ARGV[4]}/*.html"), "dashboard_vm/dashboard-admin")
+		#}}}
+	when "deregister"# {{{
+		[
+			["#{ARGV[2]}/*.yaml","challenge-descriptions"],
+			["#{ARGV[3]}/*.html","dashboard-widgets"],
+			["#{ARGV[4]}/*.html","dashboard-admin"]
+		].each{|a|
+			Dir.glob("#{ARGV[1]}/#{a[0]}").each{|file|
+				file_basename = File.basename(file)
+				path_to_dashboard_file = "dashboard_vm/#{a[1]}/#{file_basename}"
+				FileUtils.rm(path_to_dashboard_file) if File.exist?(path_to_dashboard_file)
+			}
+		}
+		# }}}
+	when "addlink"# {{{
+		linkfile = "dashboard_vm/dashboard-widgets/available_favourite_links.yaml"
+		if File.exists?(linkfile)
+			currentlinks = YAML::load_file(linkfile)
+		else
+			currentlinks = []
+		end
+		currentlinks << { hostname: ARGV[1] , name: ARGV[2]  }
+		currentlinks.uniq!
+		File.open(linkfile,"w") {|f| f << currentlinks.to_yaml }
+	# }}}
+	when "rmlink"# {{{
+		linkfile = "dashboard_vm/dashboard-widgets/available_favourite_links.yaml"
+		if File.exists?(linkfile)
+			currentlinks = YAML::load_file(linkfile)
+			currentlinks.delete({ hostname: ARGV[1] , name: ARGV[2]  })
+			File.open(linkfile,"w") {|f| f << currentlinks.to_yaml }
+		end
+		# }}}
 else
 	puts "Wrong arguments ..."
 	puts usage
