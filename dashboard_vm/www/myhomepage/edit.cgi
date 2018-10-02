@@ -65,7 +65,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$con
 	if homepage[:password] == $cgi["password"]
 		h << <<~LINK
 			<div>
-				The link to your <a href='#{$cgi["url"]}'>homepage</a>: <input value='//#{$cgi.server_name}/#{$cgi["url"]}' type='text' readonly='readonly' style='width: 50%' />
+				The link to your <a href='#{$cgi["url"]}'>homepage</a>: <input value='#{$cgi.server_name}/#{$cgi["url"]}' type='text' readonly='readonly' style='width: 50%' />
 			</div>
 		LINK
 
