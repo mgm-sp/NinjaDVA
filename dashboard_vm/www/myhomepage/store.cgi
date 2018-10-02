@@ -21,7 +21,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$con
 		pid = Process.fork
 		if pid.nil?
 			Process.daemon(nochdir=true)
-			system("./admin/myhomepage.js #{$conf.domain} susi #{$conf.default_userpw} #{$cgi["url"]}")
+			system("./admin/myhomepage.js", $conf.domain, "susi", $conf.default_userpw, $cgi["url"])
 		else
 			Process.detach(pid)
 		end

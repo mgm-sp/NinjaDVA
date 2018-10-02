@@ -64,6 +64,7 @@ vmSettingsConfig = {}
 if File.exists?(configFile)
 	vmSettingsConfig = YAML::load_file(configFile)
 end
+vmSettingsConfig["launch"] ||= {}
 
 # search for subdirectories having Vagrantfile
 vmsFound = Dir.glob("**/Vagrantfile").collect{|f| File.dirname(f)}
