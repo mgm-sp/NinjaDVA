@@ -97,6 +97,9 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$con
 						{matches: /(text|application)\\/(x-)?vb(a|script)/i, mode: "vbscript"}
 					]
 				},
+				tabSize: 2,
+				indentUnit: 2,
+				indentWithTabs: true,
 				lineNumbers: true,
 			});
 		JS
