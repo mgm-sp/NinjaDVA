@@ -23,13 +23,15 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/
 		contents = <<~CONTENTS
 			<!DOCTYPE html>
 			<html lang="en">
-				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-				<title>#{url}</title>
-				<script type='text/javascript' src='jquery-2.2.3.min.js'></script>
-			<body>
-			<h1>Welcome</h1>
-			<img style='width:10em;' src='construction.svg' alt='Under Construction' />
-			</body>
+				<head>
+					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+					<title>#{url}</title>
+					<script type='text/javascript' src='jquery-2.2.3.min.js'></script>
+				</head>
+				<body>
+					<h1>Welcome</h1>
+					<img style='width:10em;' src='construction.svg' alt='Under Construction' />
+				</body>
 			</html>
 		CONTENTS
 		homepage = {
