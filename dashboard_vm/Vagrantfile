@@ -22,7 +22,6 @@ Vagrant.configure("2") do |config|
 	end
 
 	# add a interface to the vm that is in the same internal networke like the gateway
-	#config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "broken"
 	config.vm.network "private_network", auto_config: false, virtualbox__intnet: "ninjadva"
 
 	# define commands that will be executed on the vm after the vm is
