@@ -1,10 +1,5 @@
 RewriteEngine On
-#RewriteCond %{REQUEST_URL} !\.(cgi|js|css)$
-#RewriteCond %{REQUEST_URL} !^$ 
-#RewriteRule ^(.*)$ /view.cgi?url=$1
-
-#RewriteRule ^(\w+)(?<!favicon\.ico|\.cgi|\.js|\.css)$ /view.cgi?url=$1
-RewriteRule ^([\w_-]+)$ /view.cgi?url=$1
+RewriteRule ^([\w_-]+)$ /view.cgi
 
 Options +ExecCGI
 AddHandler cgi-script .cgi

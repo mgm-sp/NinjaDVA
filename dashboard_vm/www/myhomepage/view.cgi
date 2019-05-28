@@ -4,11 +4,11 @@ require_relative "../config_defaults"
 require_relative "html"
 require "cgi"
 $cgi = CGI.new
-
-if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml")
+file = ENV["REQUEST_URI"].gsub(/\A\/([\w\-_]+).*\Z/,"\\1")
+if File.exists?("#{$conf.myhomepagedb}/#{file}.yaml")
 
 	require "yaml"
-	page = YAML::load_file("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml")
+	page = YAML::load_file("#{$conf.myhomepagedb}/#{file}.yaml")
 
 	puts page[:header].lines[0].gsub(/^HTTP\/.* (\d\d\d).*$/,'Status: \1')
 	puts page[:header].lines[1..-1].join.strip
@@ -16,7 +16,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$con
 	puts page[:contents]
 
 	require "csv"
-	File.open("#{$conf.myhomepagedb}/#{$cgi["url"]}_access.log","a"){|f|
+	File.open("#{$conf.myhomepagedb}/#{file}_access.log","a"){|f|
 		f << [$cgi.remote_addr,ENV["REQUEST_METHOD"],ENV["REQUEST_URI"],$cgi.user_agent,Time.now,ENV["HTTP_REFERER"]].to_csv
 	}
 
