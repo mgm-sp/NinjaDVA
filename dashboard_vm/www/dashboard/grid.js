@@ -46,7 +46,11 @@ function grid_layout_from_server(load_layout_from_localstorage) {
         type: "get",
         success: function (gridlayout) {
             //set user grid layout
-            set_grid_layout(gridlayout.user);
+            if (grid_store_suffix === "user") {
+              set_grid_layout(gridlayout.user);
+            } else {
+              set_grid_layout(gridlayout.admin);
+            }
             if (load_layout_from_localstorage) {
                 grid_layout_from_localstorage();
             }

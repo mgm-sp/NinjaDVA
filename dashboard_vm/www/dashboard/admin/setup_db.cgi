@@ -28,6 +28,10 @@ chown = []
 	chown << dir
 }
 
+chown << "#{$conf.dbdir_absolute}/layout.json"
+File.open("#{$conf.dbdir_absolute}/layout.json","w"){|f|
+	f << '{"user":{"mailwidget":{"col":"3","row":"6","sizex":"4","sizey":"1"},"weatherwidget":{"col":"1","row":"5","sizex":"1","sizey":"2"},"calendarwidget":{"col":"1","row":"1","sizex":"2","sizey":"4"},"slides":{"col":"3","row":"1","sizex":"4","sizey":"5"},"linkwidget":{"col":"2","row":"5","sizex":"1","sizey":"2"}},"admin":{"mailwidget":{"col":"2","row":"10","sizex":"1","sizey":"1"},"weatherwidget":{"col":"1","row":"8","sizex":"1","sizey":"2"},"calendarwidget":{"col":"1","row":"1","sizex":"2","sizey":"4"},"slides":{"col":"1","row":"5","sizex":"2","sizey":"3"},"linkwidget":{"col":"2","row":"8","sizex":"1","sizey":"2"},"admin_widget-layout":{"col":"3","row":"9","sizex":"2","sizey":"2"},"admin_defaultslide-admin":{"col":"3","row":"8","sizex":"2","sizey":"1"},"admin_file-admin":{"col":"5","row":"1","sizex":"2","sizey":"4"},"admin_layout-admin":{"col":"5","row":"9","sizex":"2","sizey":"2"},"admin_weather-admin":{"col":"5","row":"5","sizex":"2","sizey":"2"},"admin_calendarconf-admin":{"col":"5","row":"7","sizex":"2","sizey":"2"},"admin_calendarevents-admin":{"col":"3","row":"1","sizex":"2","sizey":"3"},"admin_link-admin":{"col":"3","row":"4","sizex":"2","sizey":"4"}}}'
+}
 
 require "digest"
 user = "admin"
