@@ -75,20 +75,22 @@ if oWeather.has_key?("imageurl")
 end
 h << "</div>"
 h << "</div>"
-h.add_script_file("jquery.simpleWeather.min.js")
 h.add_script <<JS
+function unix2human(unixtime){
+	var date = new Date(unixtime*1000);
+	return date.getHours()+':'+("0"+date.getMinutes()).substr(-2);
+}
 function updateWeather (){
-	$.simpleWeather({
-		location: '#{oWeather["locationcode"]}',
-		unit: 'c',
-		success: function(weather) {
-			html = '<h2><i class="icon-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h2>';
-			html = '<h2><i class="icon-'+weather.code+'"></i>'+weather.temp+'&deg;'+weather.units.temp+'<img style="vertical-align:middle; display:inline-block; height:3em; margin-left: 0.3em" src="'+weather.forecast[0].image+'"></img></h2>';
+	$.ajax({
+		url: "https://api.openweathermap.org/data/2.5/weather?q=#{oWeather["locationcode"]}&APPID=5d969b625e6133c5ad26588ff570566b&units=metric",
+		type: "get",
+		success: function(result) {
+			html = '<h2>'+Math.round(result.main.temp)+'&deg;C <img style="vertical-align:middle; display:inline-block; height:3em; margin-left: 0.3em" src="http://openweathermap.org/img/w/' + result.weather[0].icon + '.png"></img></h2>';
 
 			html += '<ul>';
-			html += '<li>'+weather.city+', '+weather.region+'</li>';
-			html += '<li class="currently">'+weather.currently+'</li>';
-			html += '<li>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</li>';
+			html += '<li>'+result.weather[0].description+'</li>';
+			html += '<li>Wind: '+result.wind.deg+'&deg; '+Math.round(result.wind.speed)+'&nbsp;m/s</li>';
+			html += '<li>Sun: '+unix2human(result.sys.sunrise)+'-'+unix2human(result.sys.sunset)+'</li>';
 			html += '</ul>';
 
 			$("#weather").html(html);
