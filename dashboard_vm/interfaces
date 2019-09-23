@@ -21,7 +21,7 @@ iface eth1:0 inet dhcp
   client dashboard
   hostname dashboard
 
-auto eth1:1
-iface eth1:1 inet dhcp
-  hostname myhomepage
-  client myhomepage
+#auto eth1:1
+#iface eth1:1 inet dhcp
+#  hostname myhomepage
+#  client myhomepage
