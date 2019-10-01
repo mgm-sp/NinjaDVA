@@ -13,13 +13,13 @@ $session = CGI::Session.new($cgi,{"session_path" =>  "/"})
 
 h = HTML.new("Solves")
 
-h.add_css("//myhomepage.#{$conf.domain}/codemirror/codemirror.css") # needs to be loaded before other css
-h.add_head_script("//myhomepage.#{$conf.domain}/codemirror/codemirror.js")
-h.add_head_script("//myhomepage.#{$conf.domain}/codemirror/css.js")
-h.add_head_script("//myhomepage.#{$conf.domain}/codemirror/javascript.js")
-h.add_head_script("//myhomepage.#{$conf.domain}/codemirror/vbscript.js")
-h.add_head_script("//myhomepage.#{$conf.domain}/codemirror/xml.js")
-h.add_head_script("//myhomepage.#{$conf.domain}/codemirror/htmlmixed.js")
+h.add_css("codemirror/codemirror.css") # needs to be loaded before other css
+h.add_head_script("codemirror/codemirror.js")
+h.add_head_script("codemirror/css.js")
+h.add_head_script("codemirror/javascript.js")
+h.add_head_script("codemirror/vbscript.js")
+h.add_head_script("codemirror/xml.js")
+h.add_head_script("codemirror/htmlmixed.js")
 h.add_script_file("sql.js")
 h.add_css("solves.css")
 h.add_css("../jquery.gridster.min.css")
