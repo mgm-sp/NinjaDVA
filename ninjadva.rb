@@ -55,7 +55,11 @@ class NinjaDVA
 
 		# add an interface to the vm that is in the same internal network like the gateway vm
 		unless options[:ignore_network_config]
-			config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva"
+			if options[:mac]
+				config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva", mac: options[:mac]
+			else
+				config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva"
+			end
 		end
 
 		# install ninjadva specific software
