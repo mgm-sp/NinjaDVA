@@ -15,8 +15,8 @@ interface=eth2
 no-hosts
 
 domain=<%=domain%>
-# .33 - .62 for servers
-dhcp-range=eth1,172.23.42.33,172.23.42.62,255.255.255.192,24h
+# .33 - .61 for servers
+dhcp-range=eth1,172.23.42.33,172.23.42.61,255.255.255.192,24h
 
 # .140 - .254 for participants
 dhcp-range=eth2,172.23.42.140,172.23.42.254,255.255.255.128,24h
@@ -31,7 +31,7 @@ address=/gateway/172.23.42.129
 address=/gateway.<%=domain%>/172.23.42.129
 
 
-dhcp-host=myhomepage,172.23.42.63
+dhcp-host=08:00:27:a5:a5:a5,172.23.42.62
 
-address=/example.org/172.23.42.63
-address=/attacker.org/172.23.42.63
+address=/example.org/172.23.42.62
+address=/attacker.org/172.23.42.62
