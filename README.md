@@ -11,7 +11,6 @@
 
 ## Requirements
  * the latest version of `vagrant`
- * vagrant plugin: `vagrant-triggers` (installation via `vagrant plugin install vagrant-triggers`)
 
 ## Structure
 The **NinjaDVA** suite consists of several components. All components are running on a hypervisor computer having Internet access and a switch or access-point attached.
