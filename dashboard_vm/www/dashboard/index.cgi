@@ -85,7 +85,7 @@ function updateWeather (){
 		url: "https://api.openweathermap.org/data/2.5/weather?q=#{oWeather["locationcode"]}&APPID=5d969b625e6133c5ad26588ff570566b&units=metric",
 		type: "get",
 		success: function(result) {
-			html = '<h2>'+Math.round(result.main.temp)+'&deg;C <img style="vertical-align:middle; display:inline-block; height:3em; margin-left: 0.3em" src="http://openweathermap.org/img/w/' + result.weather[0].icon + '.png"></img></h2>';
+			var html = '<h2>'+Math.round(result.main.temp)+'&deg;C <img style="vertical-align:middle; display:inline-block; height:3em; margin-left: 0.3em" src="http://openweathermap.org/img/w/' + result.weather[0].icon + '.png"></img></h2>';
 
 			html += '<ul>';
 			html += '<li>'+result.weather[0].description+'</li>';
