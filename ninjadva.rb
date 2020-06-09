@@ -39,6 +39,9 @@ class NinjaDVA
 			options[:ssh_key] ||= ninjadvarc["ssh_key"] if ninjadvarc["ssh_key"]
 			options[:verbose] ||= ninjadvarc["verbose"] if ninjadvarc["verbose"]
 		end
+		config.vm.provider "virtualbox" do |vb|
+			vb.name = "NinjaDVA_#{ninjadvarc["domain"]}_#{config.vm.hostname}"
+		end
 
 		if options[:ssh_key]
 			keyfile = "$HOME/.ssh/authorized_keys"
@@ -56,9 +59,9 @@ class NinjaDVA
 		# add an interface to the vm that is in the same internal network like the gateway vm
 		unless options[:ignore_network_config]
 			if options[:mac]
-				config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva", mac: options[:mac]
+				config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva_#{ninjadvarc["domain"]}", mac: options[:mac]
 			else
-				config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva"
+				config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva_#{ninjadvarc["domain"]}"
 			end
 		end
 

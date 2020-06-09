@@ -14,6 +14,15 @@ end
 Vagrant.configure("2") do |config|
 	config.vm.define "gateway"
 
+	if File.exists?("../.ninjadvarc.yaml")
+		require "yaml"
+		ninjadvarc = YAML::load_file("../.ninjadvarc.yaml")
+	else
+		ninjadvarc = {
+			"domain" => "mgmsp-lab.com"
+		}
+	end
+
 	# deactivate the standard shared folder
 	config.vm.synced_folder ".", "/vagrant", disabled:true
 
@@ -27,9 +36,13 @@ Vagrant.configure("2") do |config|
 	config.vm.hostname = "gateway"
 	ENV['LC_ALL']="en_US.UTF-8"
 
+	config.vm.provider "virtualbox" do |vb|
+		vb.name = "NinjaDVA_#{ninjadvarc["domain"]}_gateway"
+	end
+
 
 	# Interface 2, VirtualBox internal network
-	config.vm.network "private_network", auto_config: false, virtualbox__intnet: "ninjadva"
+	config.vm.network "private_network", auto_config: false, virtualbox__intnet: "ninjadva_#{ninjadvarc["domain"]}"
 
 	# Interface 3, bridged device
 	if ARGV[0] == "up"  || ARGV[0] == "reload"
