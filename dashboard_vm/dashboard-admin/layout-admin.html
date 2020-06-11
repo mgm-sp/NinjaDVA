@@ -28,7 +28,7 @@ var fnSaveLayoutToServer = function() {
 	var oXhr = new XMLHttpRequest();
 	oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
 	var oFormData = new FormData();
-	var sUrl = "http://"+window.location.hostname+"/admin/update_layout.cgi";
+	var sUrl = "//"+window.location.hostname+"/admin/update_layout.cgi";
 	oFormData.append("layout", JSON.stringify(oLayout));
 	oXhr.open("POST", sUrl);
 	oXhr.send(oFormData);
@@ -37,7 +37,7 @@ var fnSaveLayoutToServer = function() {
 //load server layout to local storage
 var fnLoadServerLayoutToLocalStorage = function(){
 	$.ajax({
-        url: "http://" + window.location.hostname + "/grid_layout.cgi",
+        url: "//" + window.location.hostname + "/grid_layout.cgi",
         type: "get",
         success: function(oGridLayout) {
 			if("user" in oGridLayout){

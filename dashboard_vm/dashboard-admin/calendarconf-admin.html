@@ -60,7 +60,7 @@
 		var oXhr = new XMLHttpRequest();
 		oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
 		var oFormData = new FormData();
-		var sUrl = "http://"+window.location.hostname+"/admin/update_calendarconf.cgi";
+		var sUrl = "//"+window.location.hostname+"/admin/update_calendarconf.cgi";
 		oFormData.append("calendarconf", JSON.stringify(oCalendarConf));
 		oXhr.open("POST", sUrl);
 		oXhr.send(oFormData);
@@ -83,7 +83,7 @@
 
 	// define calendar config getter function
 	var fnGetCalendarConfFromServer = function () {
-		sUrl = "http://"+window.location.hostname+"/admin/get_calendarconf.cgi";
+		sUrl = "//"+window.location.hostname+"/admin/get_calendarconf.cgi";
 		oJSONObjects = $.getJSON(sUrl, fnAddCalendarConfigToForm);
 	};
 

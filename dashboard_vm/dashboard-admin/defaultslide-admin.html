@@ -53,7 +53,7 @@
 		var oXhr = new XMLHttpRequest();
 		oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
 		var oFormData = new FormData();
-		var sUrl = "http://"+window.location.hostname+"/admin/update_defaultslide.cgi";
+		var sUrl = "//"+window.location.hostname+"/admin/update_defaultslide.cgi";
 		oFormData.append("defaultslide", JSON.stringify(oDefaultSlide));
 		oXhr.open("POST", sUrl);
 		oXhr.send(oFormData);
@@ -68,7 +68,7 @@
 
 	// define default slide getter function
 	var fnGetDefaultSlideFromServer = function () {
-		sUrl = "http://"+window.location.hostname+"/admin/get_defaultslide.cgi";
+		sUrl = "//"+window.location.hostname+"/admin/get_defaultslide.cgi";
 		oJSONObjects = $.getJSON(sUrl, fnAddDefaultSlideToForm);
 	};
 

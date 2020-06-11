@@ -65,7 +65,7 @@
 		var oXhr = new XMLHttpRequest();
 		oXhr.withCredentials = true; // is necessary because of the digest authentication currently used
 		var oFormData = new FormData();
-		var sUrl = "http://"+window.location.hostname+"/admin/update_weather.cgi";
+		var sUrl = "//"+window.location.hostname+"/admin/update_weather.cgi";
 		oFormData.append("weather", JSON.stringify(oWeather));
 		oXhr.open("POST", sUrl);
 		oXhr.send(oFormData);
@@ -80,7 +80,7 @@
 
 	// define weather config getter function
 	var fnGetWeatherFromServer = function () {
-		sUrl = "http://"+window.location.hostname+"/admin/get_weather.cgi";
+		sUrl = "//"+window.location.hostname+"/admin/get_weather.cgi";
 		oJSONObjects = $.getJSON(sUrl, fnAddWeatherConfigToForm);
 	};
 

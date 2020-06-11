@@ -36,7 +36,7 @@
 	var fnFilesClickHandler = function (e) {
 		sFileName = $(this).text();
 		sFileMaterialURL = 'javascript:chooseMaterial(&quot;' + sFileName + '&quot;)';
-		sFileUrl = 'http://clonecloud.'+fnGetDomainName()+'/files/' + sFileName;
+		sFileUrl = '//clonecloud.'+fnGetDomainName()+'/files/' + sFileName;
 		sFileCopyCode = '<p><input value="'+sFileName+'" type="text" readonly></p>'+
 						'<p><input value="'+sFileUrl+'" type="text" readonly></p>'+
 						'<p><input value="'+sFileMaterialURL+'" type="text" readonly></p>';
@@ -58,7 +58,7 @@
 
 	// define file getter function
 	var fnGetFilesFromServer = function () {
-		sUrl = "http://"+window.location.hostname+"/admin/get_files.cgi";
+		sUrl = "//"+window.location.hostname+"/admin/get_files.cgi";
 		oJSONObjects = $.getJSON(sUrl, fnAddFilesToList);
 	};
 
