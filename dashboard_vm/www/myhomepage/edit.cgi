@@ -11,12 +11,13 @@ h.add_css("myhomepage.css")
 h.add_script_file("jquery-2.2.3.min.js")
 
 h.add_script <<~JS
+var fnUpdateLogTable;
 $( document ).ready(function() {
 	//define globals
 	var currentLog = {}
 
 	//define callbacks
-	var fnUpdateLogTable = function(){
+	fnUpdateLogTable = function(){
 		$.getJSON("getlog.cgi", {"url": "#{$cgi["url"]}", "password": "#{$cgi["password"]}"}, function(result){
 			if (JSON.stringify(currentLog) !== JSON.stringify(result)){
 				currentLog = result;
@@ -40,12 +41,8 @@ $( document ).ready(function() {
 		//submit
 		$.post('store.cgi', data);
 	};
-
-	//fire first update
 	fnUpdateLogTable();
 
-	//set events/triggers
-	setInterval(fnUpdateLogTable, 2000);
 	$("#submitButton").click(fnSaveFormData);
 	$(document).keydown(function(event) {
 		if (!(event.which == 83 && (event.ctrlKey || event.metaKey))) return true;
@@ -113,7 +110,7 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]*\Z/ && File.exists?("#{$con
 			});
 		JS
 
-		h << "<h1>Access Log</h1>"
+		h << "<h1>Access Log</h1><button type='button' onclick='fnUpdateLogTable()' >refresh log</button><br/>"
 		require "csv"
 		fields = ["ADDR","TIME","METHOD","URI","USER_AGENT","REFERER"]
 		h << "<table id='logtable' class='requestlog'><tr>#{fields.collect{|e| "<th>#{e}</th>"}.join("")}</tr></table>"
