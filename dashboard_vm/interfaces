@@ -16,8 +16,8 @@ iface eth1 inet dhcp
   hostname clonecloud
 
 
-auto eth1:0
-iface eth1:0 inet dhcp
+auto eth2
+iface eth2 inet dhcp
   client dashboard
   hostname dashboard
 
