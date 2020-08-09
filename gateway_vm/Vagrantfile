@@ -18,10 +18,9 @@ Vagrant.configure("2") do |config|
 		require "yaml"
 		ninjadvarc = YAML::load_file("../.ninjadvarc.yaml")
 	else
-		ninjadvarc = {
-			"domain" => "mgmsp-lab.com"
-		}
+		ninjadvarc = {}
 	end
+	ninjadvarc["domain"] ||= "mgmsp-lab.com"
 
 	# deactivate the standard shared folder
 	config.vm.synced_folder ".", "/vagrant", disabled:true
