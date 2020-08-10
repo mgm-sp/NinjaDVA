@@ -12,16 +12,9 @@ iface eth0 inet dhcp
 allow-hotplug eth1
 auto eth1
 iface eth1 inet dhcp
-  client clonecloud
-  hostname clonecloud
-
 
 auto eth2
 iface eth2 inet dhcp
-  client dashboard
-  hostname dashboard
 
-#auto eth1:1
-#iface eth1:1 inet dhcp
-#  hostname myhomepage
-#  client myhomepage
+auto eth3
+iface eth3 inet dhcp
