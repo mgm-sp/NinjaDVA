@@ -18,14 +18,6 @@ if $cgi.include?("url") && $cgi["url"] =~ /\A[\w-]+\Z/ && File.exists?("#{$conf.
 		}
 		h.header["status"] = "OK"
 
-		pid = Process.fork
-		if pid.nil?
-			Process.daemon(nochdir=true)
-			system("./admin/myhomepage.js", $conf.domain, "susi", $conf.default_userpw, $cgi["url"])
-		else
-			Process.detach(pid)
-		end
-
 	else # wrong PW
 		h.header["status"] = "FORBIDDEN"
 		#h.header["Cache-Control"] = "no-cache"
