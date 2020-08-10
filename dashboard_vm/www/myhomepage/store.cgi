@@ -6,7 +6,7 @@ require "cgi"
 $cgi = CGI.new
 h = HTML.new("My Homepage")
 
-if $cgi.include?("url") && $cgi["url"] =~ /\A[\w\-_]+\Z/ && File.exists?("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml")
+if $cgi.include?("url") && $cgi["url"] =~ /\A[\w-]+\Z/ && File.exists?("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml")
 
 	require "yaml"
 	homepage = YAML::load_file("#{$conf.myhomepagedb}/#{$cgi["url"]}.yaml")
