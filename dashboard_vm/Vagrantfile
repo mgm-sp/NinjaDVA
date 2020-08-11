@@ -48,10 +48,6 @@ Vagrant.configure("2") do |config|
 			apt-get -y update
 			apt-get -y remove isc-dhcp-client
 			apt-get -y install apache2 ruby ruby-dev ruby-sqlite3 sqlite3 dhcpcd5 libfontconfig1 libffi-dev inotify-tools psmisc build-essential
-			i=1
-			for h in dashboard clonecloud myhomepage
-			do printf "interface eth%s\nhostname %s\n\n" $i $h; i=$((i+1)) |tee -a /etc/dhcpcd.conf
-			done
 			killall dhclient
 			gem install argon2
 			cd /tmp
@@ -139,11 +135,15 @@ Vagrant.configure("2") do |config|
 
 	# reload the network configuration
 	config.vm.provision "shell", inline: <<-END
-		ifdown eth1
-		ifup eth1
-		ifdown eth2
-		ifup eth2
 		echo -e "\n# avoid nic1 providing a dns server\ninterface eth0\nnooption 6" >> /etc/dhcpcd.conf
+		i=1
+		for h in dashboard clonecloud myhomepage
+		do
+			printf "interface eth%s\nhostname %s\n\n" $i $h >> /etc/dhcpcd.conf
+			ifdown eth$i
+			ifup eth$i
+			i=$((i+1))
+		done
 	END
 
 
