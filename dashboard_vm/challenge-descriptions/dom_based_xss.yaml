@@ -3,7 +3,7 @@
  Verschaffe dir mittels Dom-based Cross-Site Scripting Zugang zum CloneCloud Account (http://clonecloud.#PENTESTLAB-DOMAIN#) eines anderen Users.
  Nutze dazu eine Schwachstelle aus, die du in der Kommunikation zwischen dem Dashboard (http://dashboard.#PENTESTLAB-DOMAIN#) und der Cloud findest.
 
- Hinweis: Es gibt neugierige User, die sich alle Homepages auf http://myhomepage.#PENTESTLAB-DOMAIN# anschauen.
+ Hinweis: Schicke den Link zu deiner Webseite an Susi.
  Die Lösung steht in einer Datei in der Cloud.
 :category: "XSS"
 :name: "Steal the Session ID - Part 2"
