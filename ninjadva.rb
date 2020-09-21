@@ -63,6 +63,16 @@ class NinjaDVA
 			else
 				config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "ninjadva_#{ninjadvarc["domain"]}"
 			end
+			# change default gw to our own gateway (not the hypervisor)
+			config.vm.provision "shell", run: "always", inline: <<-END
+				if [ -x /bin/ip ];then
+					ip route del default
+					ip route add default via 172.23.42.1
+				elif [ -x /sbin/ifconfig ];then
+					route del default
+					route add default gw 172.23.42.1
+				fi
+			END
 		end
 
 		# install ninjadva specific software
