@@ -92,13 +92,14 @@ vmsCount = vmStartDefinition.keys.count
 vmFoundCleaned = vmStartDefinition.keys.collect{|e|
 	File.basename(e)
 }
-# get running vagrant vms matching subfolders we can find
-vmRunning = get_running_vms()
-vmRunningMatched = vmRunning & vmFoundCleaned
 
 
 case ARGV.first # process subcommands
 when "up" # {{{
+	# get running vagrant vms matching subfolders we can find
+	vmRunning = get_running_vms()
+	vmRunningMatched = vmRunning & vmFoundCleaned
+
 	if vmRunning.include?(GatewayPath)
 		puts "Gateway is running already."
 		puts "USe #{$0} change to start/stop further components."
@@ -157,6 +158,10 @@ when "up" # {{{
 	}
 # }}}
 when "halt"# {{{
+	# get running vagrant vms matching subfolders we can find
+	vmRunning = get_running_vms()
+	vmRunningMatched = vmRunning & vmFoundCleaned
+
 	# move gateway to last position
 	vmRunningMatched+=[GatewayPath] if vmRunning.include?(GatewayPath)
 
@@ -170,6 +175,10 @@ when "halt"# {{{
 	}
 	# }}}
 when "status"# {{{
+	# get running vagrant vms matching subfolders we can find
+	vmRunning = get_running_vms()
+	vmRunningMatched = vmRunning & vmFoundCleaned
+
 	unless vmRunning.include?(GatewayPath)
 		puts "Gateway is not running."
 		puts "Run #{$0} up to start NinjaDVA."
@@ -184,6 +193,10 @@ when "status"# {{{
 	}
 # }}}
 when "change"# {{{
+	# get running vagrant vms matching subfolders we can find
+	vmRunning = get_running_vms()
+	vmRunningMatched = vmRunning & vmFoundCleaned
+
 	unless vmRunning.include?(GatewayPath)
 		puts "Gateway is not running."
 		puts "Run #{$0} up to start NinjaDVA."
