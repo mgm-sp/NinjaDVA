@@ -38,10 +38,6 @@ def stop_vagrant(pathToVagrantfile)
 	return system("cd #{pathToVagrantfile}; vagrant halt")
 end
 
-def poweroff_all_virtualboxes()
-	return system("vboxmanage list runningvms | sed -r 's/.*\\{(.*)\\}/\\1/' | xargs -L1 -I {} VBoxManage controlvm {} poweroff")
-end
-
 def get_running_vms()
 	runningVmsRequest = `vboxmanage list runningvms`.split(/\n+/)
 	runningVms = []
