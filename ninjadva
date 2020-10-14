@@ -39,10 +39,11 @@ def stop_vagrant(pathToVagrantfile)
 end
 
 def get_running_vms()
-	runningVmsRequest = `vboxmanage list runningvms`.split(/\n+/)
+	mypath = File.realpath(File.dirname($0))
+	runningVmsRequest = `vagrant global-status`.split(/\n+/)
 	runningVms = []
 	runningVmsRequest.each{|e|
-		runningVagrantVm = e.split("\"")[1].scan(/^(.*)_(.*)_[0-9]+_[0-9]+$/).flatten[0]
+		runningVagrantVm = e.scan(/^.*running +#{mypath}\/(.*)$/).flatten[0].to_s.strip
 		# avoid adding vms not named in vagrant style
 		if runningVagrantVm
 			runningVms.push(runningVagrantVm)
