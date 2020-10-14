@@ -48,12 +48,17 @@ class NinjaDVA
 			config.vm.provision "shell", inline: <<-SHELL
 				mkdir -p $(dirname #{keyfile})
 				touch #{keyfile}
-				grep --quiet '#{options[:ssh_key]}' #{keyfile}
-				if [ "$?" = 1 ];then
-					echo #{options[:ssh_key]} >> #{keyfile}
-					chmod go-rw #{keyfile}
-				fi
 			SHELL
+			keys = options[:ssh_key].class == Array ? options[:ssh_key] : [options[:ssh_key]]
+			keys.compact.each{|key|
+				config.vm.provision "shell", inline: <<-SHELL
+					grep --quiet '#{key}' #{keyfile}
+					if [ "$?" = 1 ];then
+						echo #{key} >> #{keyfile}
+						chmod go-rw #{keyfile}
+					fi
+				SHELL
+			}
 		end
 
 		# add an interface to the vm that is in the same internal network like the gateway vm
